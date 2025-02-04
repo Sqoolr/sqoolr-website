@@ -11,7 +11,7 @@ const Pricing = () => {
           className="max-w-4xl mx-auto"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-sqoolr-navy mb-8 text-center">
-            Pricing
+            Pricing Plans
           </h1>
 
           <div className="bg-white rounded-xl shadow-lg p-8 mb-12">
@@ -19,7 +19,7 @@ const Pricing = () => {
               Coming Soon
             </h2>
             <p className="text-gray-600 mb-6">
-              We believe in providing excellent value while keeping things affordable for schools of all sizes. Our pricing will be announced closer to launch—sign up for the waitlist to be the first to know.
+              We're finalizing our pricing plans to ensure they provide the best value for schools of all sizes. Join our waitlist to be the first to know when pricing is announced.
             </p>
             <button className="bg-sqoolr-mint text-[#243665] px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">
               Join Waitlist
