@@ -24,18 +24,18 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/features"
-                  className="text-gray-300 hover:text-sqoolr-mint transition-colors"
-                >
-                  Features
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/about"
                   className="text-gray-300 hover:text-sqoolr-mint transition-colors"
                 >
                   About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/privacy-policy"
+                  className="text-gray-300 hover:text-sqoolr-mint transition-colors"
+                >
+                  Privacy Policy
                 </Link>
               </li>
             </ul>

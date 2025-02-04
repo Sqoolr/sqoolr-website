@@ -8,8 +8,8 @@ const Home = () => {
       <section className="min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-white to-sqoolr-light relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=2000"
-            alt="Hero background"
+            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=2000"
+            alt="School management and education"
             className="w-full h-full object-cover opacity-10"
           />
         </div>
