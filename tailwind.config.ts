@@ -18,6 +18,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["Montserrat", "sans-serif"],
+      },
       colors: {
         sqoolr: {
           mint: "#8BD8BD",
