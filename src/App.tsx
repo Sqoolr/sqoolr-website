@@ -9,6 +9,12 @@ import Home from "./pages/Home";
 import Features from "./pages/Features";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
+import Demo from "./pages/Demo";
+import Partnerships from "./pages/Partnerships";
+import Community from "./pages/Community";
+import FAQ from "./pages/FAQ";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +32,12 @@ const App = () => {
                 <Route path="/features" element={<Features />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/demo" element={<Demo />} />
+                <Route path="/partnerships" element={<Partnerships />} />
+                <Route path="/community" element={<Community />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/pricing" element={<Pricing />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

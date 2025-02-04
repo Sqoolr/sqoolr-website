@@ -5,8 +5,15 @@ const Home = () => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-white to-sqoolr-light">
-        <div className="container mx-auto px-6 py-24">
+      <section className="min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-white to-sqoolr-light relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=2000"
+            alt="Hero background"
+            className="w-full h-full object-cover opacity-10"
+          />
+        </div>
+        <div className="container mx-auto px-6 py-24 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -17,13 +24,16 @@ const Home = () => {
               Revolutionizing School Management,{" "}
               <span className="text-sqoolr-mint">One Click at a Time</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-600 mb-4">
               Sqoolr is the all-in-one solution to streamline school
               administration, attendance tracking, and student management.
             </p>
+            <p className="text-2xl text-sqoolr-navy font-semibold mb-8">
+              Enabling better learning outcomes
+            </p>
             <Link
               to="/contact"
-              className="inline-block bg-sqoolr-mint text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105"
+              className="inline-block bg-sqoolr-mint text-[#243665] px-8 py-4 rounded-full text-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105"
             >
               Join the Waitlist
             </Link>

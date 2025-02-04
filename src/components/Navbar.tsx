@@ -17,7 +17,13 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Features", path: "/features" },
+    { name: "Demo", path: "/demo" },
+    { name: "Blog", path: "/blog" },
     { name: "About", path: "/about" },
+    { name: "Community", path: "/community" },
+    { name: "Partnerships", path: "/partnerships" },
+    { name: "FAQ", path: "/faq" },
+    { name: "Pricing", path: "/pricing" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -37,7 +43,7 @@ const Navbar = () => {
           >
             Sqoolr
           </Link>
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden lg:flex space-x-6">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -54,7 +60,7 @@ const Navbar = () => {
           </div>
           <Link
             to="/contact"
-            className="bg-sqoolr-mint text-white px-6 py-2 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105"
+            className="bg-sqoolr-mint text-[#243665] px-6 py-2 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105"
           >
             Join Waitlist
           </Link>
