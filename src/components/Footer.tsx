@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { X, Facebook, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -79,31 +79,27 @@ const Footer = () => {
             <div className="flex space-x-4">
               <a
                 href="#"
-                className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-                aria-label="Instagram"
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center hover:opacity-90 transition-opacity"
               >
-                <Instagram size={24} />
+                <Instagram size={20} className="text-white" />
               </a>
               <a
                 href="#"
-                className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-                aria-label="Facebook"
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center hover:opacity-90 transition-opacity"
               >
-                <Facebook size={24} />
+                <Facebook size={20} className="text-white" />
               </a>
               <a
                 href="#"
-                className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-                aria-label="LinkedIn"
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center hover:opacity-90 transition-opacity"
               >
-                <Linkedin size={24} />
+                <Linkedin size={20} className="text-white" />
               </a>
               <a
                 href="#"
-                className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-                aria-label="X (formerly Twitter)"
+                className="w-10 h-10 rounded-full bg-black flex items-center justify-center hover:opacity-90 transition-opacity"
               >
-                <X size={24} />
+                <Twitter size={20} className="text-white" />
               </a>
             </div>
           </div>
