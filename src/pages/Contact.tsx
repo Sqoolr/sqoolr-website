@@ -1,8 +1,7 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, X } from "lucide-react";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -213,9 +212,7 @@ const Contact = () => {
               className="space-y-8"
             >
               <div className="bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text
-
--2xl font-semibold text-sqoolr-navy mb-4">
+                <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">
                   Contact Information
                 </h2>
                 <p className="text-gray-600 mb-4">
@@ -231,9 +228,9 @@ const Contact = () => {
                   <a
                     href="#"
                     className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-                    aria-label="Twitter"
+                    aria-label="X (formerly Twitter)"
                   >
-                    <Twitter size={24} />
+                    <X size={24} />
                   </a>
                   <a
                     href="#"
