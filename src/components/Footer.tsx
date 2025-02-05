@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -8,7 +9,7 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-2xl font-bold">Sqoolr</h3>
             <p className="text-gray-300">
-              Revolutionizing school management, one click at a time.
+              Enabling Better Learning Outcomes
             </p>
           </div>
           <div>
@@ -38,12 +39,20 @@ const Footer = () => {
                   Privacy Policy
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/terms-of-service"
+                  className="text-gray-300 hover:text-sqoolr-mint transition-colors"
+                >
+                  Terms of Service
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2">
-              <li className="text-gray-300">support@sqoolr.com</li>
+              <li className="text-gray-300">hello@sqoolr.ng</li>
             </ul>
           </div>
           <div>
@@ -51,15 +60,27 @@ const Footer = () => {
             <div className="flex space-x-4">
               <a
                 href="#"
-                className="text-gray-300 hover:text-sqoolr-mint transition-colors"
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center hover:opacity-90 transition-opacity"
               >
-                Twitter
+                <Instagram size={20} className="text-white" />
               </a>
               <a
                 href="#"
-                className="text-gray-300 hover:text-sqoolr-mint transition-colors"
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center hover:opacity-90 transition-opacity"
               >
-                LinkedIn
+                <Facebook size={20} className="text-white" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center hover:opacity-90 transition-opacity"
+              >
+                <Linkedin size={20} className="text-white" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-black flex items-center justify-center hover:opacity-90 transition-opacity"
+              >
+                <Twitter size={20} className="text-white" />
               </a>
             </div>
           </div>

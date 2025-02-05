@@ -1,18 +1,26 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const Home = () => {
+  const [tagline, setTagline] = useState("Better Learning Outcomes");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTagline((current) =>
+        current === "Better Learning Outcomes"
+          ? "Efficient School Management"
+          : "Better Learning Outcomes"
+      );
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="w-full">
       {/* Hero Section */}
       <section className="min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-white to-sqoolr-light relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=2000"
-            alt="School management and education"
-            className="w-full h-full object-cover opacity-10"
-          />
-        </div>
         <div className="container mx-auto px-6 py-24 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -21,15 +29,14 @@ const Home = () => {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="text-4xl md:text-6xl font-bold text-sqoolr-navy mb-6">
-              Revolutionizing School Management,{" "}
-              <span className="text-sqoolr-mint">One Click at a Time</span>
+              Enabling{" "}
+              <span className="text-sqoolr-mint transition-all duration-500">
+                {tagline}
+              </span>
             </h1>
-            <p className="text-xl text-gray-600 mb-4">
+            <p className="text-xl text-gray-600 mb-8">
               Sqoolr is the all-in-one solution to streamline school
               administration, attendance tracking, and student management.
-            </p>
-            <p className="text-2xl text-sqoolr-navy font-semibold mb-8">
-              Enabling better learning outcomes
             </p>
             <Link
               to="/contact"
@@ -59,7 +66,7 @@ const Home = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -140,6 +147,16 @@ const features = [
     title: "Class Management",
     description:
       "Plan, organize, and manage classes effortlessly, from schedules to attendance, in real time.",
+  },
+  {
+    title: "Finance Management",
+    description:
+      "Efficiently manage school finances, including fees collection, expenses tracking, and financial reporting.",
+  },
+  {
+    title: "Attendance Tracking",
+    description:
+      "Automated attendance tracking system for both students and staff with real-time reporting and analytics.",
   },
 ];
 
