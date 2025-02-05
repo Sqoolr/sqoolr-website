@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -27,18 +28,20 @@ const Navbar = () => {
 
   const mainNavLinks = [
     { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Pricing", path: "/pricing" },
     { 
-      name: "About", 
-      path: "/about", 
+      name: "Partnerships", 
+      path: "/partnerships", 
       dropdownItems: [
-        { name: "About Sqoolr", path: "/about" },
-        { name: "Partnerships", path: "/partnerships" },
-        { name: "Community", path: "/community" },
+        { name: "Partner School", path: "/partnerships/school" },
+        { name: "Technology Partners", path: "/partnerships/tech" },
+        { name: "Ambassador Program", path: "/partnerships/ambassador" },
+        { name: "Investor & Corporate", path: "/partnerships/investor" },
       ]
     },
-    { name: "Pricing", path: "/pricing" },
-    { name: "FAQ", path: "/faq" },
     { name: "Contact", path: "/contact" },
+    { name: "Help Centre", path: "/help" },
   ];
 
   return (
@@ -68,15 +71,15 @@ const Navbar = () => {
                 {mainNavLinks.map((link) => (
                   <NavigationMenuItem key={link.path}>
                     {link.dropdownItems ? (
-                      <NavigationMenuTrigger className="font-bold text-sqoolr-navy hover:text-sqoolr-mint">
+                      <NavigationMenuTrigger className="text-lg font-bold text-sqoolr-navy hover:text-sqoolr-mint">
                         {link.name}
                         <NavigationMenuContent>
-                          <div className="p-4 w-48">
+                          <div className="p-4 w-64">
                             {link.dropdownItems.map((item) => (
                               <Link
                                 key={item.path}
                                 to={item.path}
-                                className="block py-2 px-4 hover:bg-gray-100 rounded-md"
+                                className="block py-2 px-4 hover:bg-sqoolr-mint hover:text-sqoolr-navy rounded-md transition-colors"
                               >
                                 {item.name}
                               </Link>
@@ -87,7 +90,7 @@ const Navbar = () => {
                     ) : (
                       <Link
                         to={link.path}
-                        className={`font-bold transition-colors hover:text-sqoolr-mint ${
+                        className={`text-lg font-bold transition-colors hover:text-sqoolr-mint ${
                           location.pathname === link.path
                             ? "text-sqoolr-mint"
                             : "text-sqoolr-navy"
@@ -110,20 +113,22 @@ const Navbar = () => {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          <button
-            onClick={() => setIsWaitlistOpen(true)}
-            className="hidden lg:inline-block bg-sqoolr-mint text-[#243665] px-6 py-2 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105 font-bold"
-          >
-            Join Waitlist
-          </button>
+          <div className="hidden lg:flex space-x-4 items-center">
+            <button
+              onClick={() => setIsWaitlistOpen(true)}
+              className="bg-sqoolr-mint text-sqoolr-navy px-6 py-2 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105 font-bold"
+            >
+              Join Waitlist
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg py-4 animate-fade-down">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-6 space-y-4">
               {mainNavLinks.map((link) => (
-                <div key={link.path} className="py-2">
+                <div key={link.path}>
                   {link.dropdownItems ? (
                     <div className="space-y-2">
                       <div className="font-bold text-sqoolr-navy">{link.name}</div>
@@ -153,15 +158,17 @@ const Navbar = () => {
                   )}
                 </div>
               ))}
-              <button
-                onClick={() => {
-                  setIsWaitlistOpen(true);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="block w-full mt-4 bg-sqoolr-mint text-[#243665] px-6 py-2 rounded-full hover:bg-opacity-90 text-center font-bold"
-              >
-                Join Waitlist
-              </button>
+              <div className="flex flex-col space-y-4">
+                <button
+                  onClick={() => {
+                    setIsWaitlistOpen(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="bg-sqoolr-mint text-sqoolr-navy px-6 py-2 rounded-full hover:bg-opacity-90 transition-all font-bold"
+                >
+                  Join Waitlist
+                </button>
+              </div>
             </div>
           </div>
         )}

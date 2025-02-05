@@ -1,23 +1,81 @@
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
+import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
   });
 
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+    };
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+      isValid = false;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+      isValid = false;
+    }
+
+    // Phone validation
+    const phoneRegex = /^\d{11}$/;
+    if (formData.phone && !phoneRegex.test(formData.phone)) {
+      newErrors.phone = "Phone number must be 11 digits";
+      isValid = false;
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    console.log("Form submitted:", formData);
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you within 24 hours.",
-    });
-    setFormData({ name: "", email: "", message: "" });
+    if (validateForm()) {
+      console.log("Form submitted:", formData);
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you within 24 hours.",
+      });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    }
   };
 
   const handleChange = (
@@ -25,20 +83,11 @@ const Contact = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name as keyof typeof errors]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
-
-  const faqs = [
-    {
-      question: "What is Sqoolr?",
-      answer:
-        "Sqoolr is an all-in-one platform that simplifies school management, from attendance tracking to staff records.",
-    },
-    {
-      question: "How do I sign up for the waitlist?",
-      answer:
-        "Simply fill out the form on our homepage to get early access to the platform.",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-sqoolr-light">
@@ -69,7 +118,7 @@ const Contact = () => {
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Name
+                    Name*
                   </label>
                   <input
                     type="text"
@@ -77,16 +126,20 @@ const Contact = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
+                    className={`w-full px-4 py-2 border rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint ${
+                      errors.name ? "border-red-500" : "border-gray-300"
+                    }`}
                   />
+                  {errors.name && (
+                    <p className="mt-1 text-red-500 text-sm">{errors.name}</p>
+                  )}
                 </div>
                 <div>
                   <label
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Email
+                    Email*
                   </label>
                   <input
                     type="email"
@@ -94,30 +147,59 @@ const Contact = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
+                    className={`w-full px-4 py-2 border rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint ${
+                      errors.email ? "border-red-500" : "border-gray-300"
+                    }`}
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-red-500 text-sm">{errors.email}</p>
+                  )}
+                </div>
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className={`w-full px-4 py-2 border rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint ${
+                      errors.phone ? "border-red-500" : "border-gray-300"
+                    }`}
+                  />
+                  {errors.phone && (
+                    <p className="mt-1 text-red-500 text-sm">{errors.phone}</p>
+                  )}
                 </div>
                 <div>
                   <label
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Message
+                    Message*
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    required
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
+                    className={`w-full px-4 py-2 border rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint ${
+                      errors.message ? "border-red-500" : "border-gray-300"
+                    }`}
                   />
+                  {errors.message && (
+                    <p className="mt-1 text-red-500 text-sm">{errors.message}</p>
+                  )}
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-sqoolr-mint text-white px-6 py-3 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105"
+                  className="w-full bg-sqoolr-mint text-sqoolr-navy px-6 py-3 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105 font-bold"
                 >
                   Send Message
                 </button>
@@ -131,41 +213,49 @@ const Contact = () => {
               className="space-y-8"
             >
               <div className="bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">
+                <h2 className="text
+
+-2xl font-semibold text-sqoolr-navy mb-4">
                   Contact Information
                 </h2>
                 <p className="text-gray-600 mb-4">
-                  Email: support@sqoolr.com
+                  Email:{" "}
+                  <a
+                    href="mailto:hello@sqoolr.ng"
+                    className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
+                  >
+                    hello@sqoolr.ng
+                  </a>
                 </p>
-                <div className="flex space-x-4">
+                <div className="flex space-x-6">
                   <a
                     href="#"
                     className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
+                    aria-label="Twitter"
                   >
-                    Twitter
+                    <Twitter size={24} />
                   </a>
                   <a
                     href="#"
                     className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
+                    aria-label="LinkedIn"
                   >
-                    LinkedIn
+                    <Linkedin size={24} />
                   </a>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text-2xl font-semibold text-sqoolr-navy mb-6">
-                  FAQ
-                </h2>
-                <div className="space-y-6">
-                  {faqs.map((faq, index) => (
-                    <div key={index}>
-                      <h3 className="font-semibold text-sqoolr-navy mb-2">
-                        {faq.question}
-                      </h3>
-                      <p className="text-gray-600">{faq.answer}</p>
-                    </div>
-                  ))}
+                  <a
+                    href="#"
+                    className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
+                    aria-label="Instagram"
+                  >
+                    <Instagram size={24} />
+                  </a>
+                  <a
+                    href="#"
+                    className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
+                    aria-label="Facebook"
+                  >
+                    <Facebook size={24} />
+                  </a>
                 </div>
               </div>
             </motion.div>
