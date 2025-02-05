@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
@@ -9,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { WaitlistForm } from "@/components/WaitlistForm";
+import WaitlistForm from "@/components/WaitlistForm";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
