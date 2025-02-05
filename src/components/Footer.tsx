@@ -51,6 +51,14 @@ const Footer = () => {
                   Terms of Service
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/faq"
+                  className="text-gray-300 hover:text-sqoolr-mint transition-colors"
+                >
+                  FAQ
+                </Link>
+              </li>
             </ul>
           </div>
           <div>

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
@@ -8,10 +9,12 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { WaitlistForm } from "@/components/WaitlistForm";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -25,10 +28,15 @@ const Navbar = () => {
 
   const mainNavLinks = [
     { name: "Home", path: "/" },
-    { name: "About", path: "/about", dropdownItems: [
-      { name: "Community", path: "/community" },
-      { name: "Partnerships", path: "/partnerships" },
-    ]},
+    { 
+      name: "About", 
+      path: "/about", 
+      dropdownItems: [
+        { name: "About Sqoolr", path: "/about" },
+        { name: "Partnerships", path: "/partnerships" },
+        { name: "Community", path: "/community" },
+      ]
+    },
     { name: "Pricing", path: "/pricing" },
     { name: "FAQ", path: "/faq" },
     { name: "Contact", path: "/contact" },
@@ -46,9 +54,12 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <Link
             to="/"
-            className="text-2xl font-bold text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
+            className="flex items-center space-x-2"
           >
-            Sqoolr
+            <img src="/logo.png" alt="Sqoolr Logo" className="h-8 w-auto" />
+            <span className="text-2xl font-bold text-sqoolr-navy hover:text-sqoolr-mint transition-colors">
+              Sqoolr
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -100,12 +111,12 @@ const Navbar = () => {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          <Link
-            to="/contact"
-            className="hidden lg:inline-block bg-sqoolr-mint text-[#243665] px-6 py-2 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105"
+          <button
+            onClick={() => setIsWaitlistOpen(true)}
+            className="hidden lg:inline-block bg-sqoolr-mint text-[#243665] px-6 py-2 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105 font-bold"
           >
             Join Waitlist
-          </Link>
+          </button>
         </div>
 
         {/* Mobile Menu */}
@@ -143,17 +154,20 @@ const Navbar = () => {
                   )}
                 </div>
               ))}
-              <Link
-                to="/contact"
-                className="block mt-4 bg-sqoolr-mint text-[#243665] px-6 py-2 rounded-full hover:bg-opacity-90 text-center"
-                onClick={() => setIsMobileMenuOpen(false)}
+              <button
+                onClick={() => {
+                  setIsWaitlistOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="block w-full mt-4 bg-sqoolr-mint text-[#243665] px-6 py-2 rounded-full hover:bg-opacity-90 text-center font-bold"
               >
                 Join Waitlist
-              </Link>
+              </button>
             </div>
           </div>
         )}
       </div>
+      <WaitlistForm isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} type="waitlist" />
     </nav>
   );
 };
