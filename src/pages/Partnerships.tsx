@@ -1,4 +1,6 @@
+
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Partnerships = () => {
   return (
@@ -21,9 +23,12 @@ const Partnerships = () => {
             <p className="text-gray-600 mb-6">
               Are you an EdTech company, a school network, or an organization looking to partner with Sqoolr? Let's work together to bring the best solutions to schools worldwide.
             </p>
-            <button className="bg-sqoolr-mint text-[#243665] px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+            <Link 
+              to="/contact"
+              className="inline-block bg-sqoolr-mint text-sqoolr-navy px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
+            >
               Contact Us
-            </button>
+            </Link>
           </div>
         </motion.div>
       </div>

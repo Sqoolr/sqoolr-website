@@ -6,12 +6,17 @@ import WaitlistForm from "@/components/WaitlistForm";
 const Home = () => {
   const [tagline, setTagline] = useState("Better Learning Outcomes");
   const [displayText, setDisplayText] = useState("Better Learning Outcomes");
-  const [isDeleting, setIsDeleting] = useState(false);
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [isPartnerFormOpen, setIsPartnerFormOpen] = useState(false);
 
   useEffect(() => {
-    const texts = ["Better Learning Outcomes", "Efficient School Management"];
+    const texts = [
+      "Smarter School Management, Powered by AI",
+      "From Administration to Innovation – Meet the Future of Schools",
+      "Predict. Improve. Succeed – AI for Better Learning",
+      "Simplify School Management. Amplify Learning",
+      "Enabling Better Learning Outcomes"
+    ];
     let currentIndex = 0;
     let currentText = "";
     let isDeleting = false;
@@ -30,7 +35,7 @@ const Home = () => {
       let typeSpeed = isDeleting ? 50 : 100;
 
       if (!isDeleting && currentText === fullText) {
-        typeSpeed = 2000; // Pause at the end
+        typeSpeed = 2000;
         isDeleting = true;
       } else if (isDeleting && currentText === "") {
         isDeleting = false;
@@ -47,12 +52,6 @@ const Home = () => {
     };
   }, []);
 
-  const companyLogos = [
-    { src: "/aws-logo.png", alt: "AWS Services" },
-    { src: "/go54-logo.png", alt: "Go54" },
-    { src: "/google-cloud-logo.png", alt: "Google Cloud" },
-  ];
-
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -64,47 +63,31 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-4xl md:text-6xl font-bold text-sqoolr-navy mb-6">
-              Enabling{" "}
-              <span className="text-sqoolr-mint min-h-[1.5em] inline-block">
-                {displayText}
-              </span>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <span className="text-sqoolr-navy">{displayText.split(",")[0]}</span>
+              {displayText.includes(",") && (
+                <span className="text-sqoolr-mint">{", " + displayText.split(",")[1]}</span>
+              )}
             </h1>
             <p className="text-xl text-gray-600 mb-8">
               Sqoolr is the all-in-one solution to streamline school
               administration, attendance tracking, and student management.
             </p>
-            <div className="space-x-4">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
               <button
                 onClick={() => setIsWaitlistOpen(true)}
-                className="inline-block bg-sqoolr-mint text-[#243665] px-8 py-4 rounded-full text-lg font-bold hover:bg-opacity-90 transition-all transform hover:scale-105"
+                className="w-full md:w-auto bg-sqoolr-mint text-[#243665] px-8 py-4 rounded-full text-lg font-bold hover:bg-opacity-90 transition-all transform hover:scale-105"
               >
                 Join the Waitlist
               </button>
               <button
                 onClick={() => setIsPartnerFormOpen(true)}
-                className="inline-block border-2 border-sqoolr-navy text-sqoolr-navy px-8 py-4 rounded-full text-lg font-bold hover:bg-sqoolr-navy hover:text-white transition-all transform hover:scale-105"
+                className="w-full md:w-auto border-2 border-sqoolr-navy text-sqoolr-navy px-8 py-4 rounded-full text-lg font-bold hover:bg-sqoolr-navy hover:text-white transition-all transform hover:scale-105"
               >
                 Become a Partner School
               </button>
             </div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Company Logos Section */}
-      <section className="py-12 bg-white overflow-hidden">
-        <div className="container mx-auto px-6">
-          <div className="flex space-x-12 animate-slide">
-            {companyLogos.map((logo, index) => (
-              <img
-                key={index}
-                src={logo.src}
-                alt={logo.alt}
-                className="h-12 w-auto grayscale hover:grayscale-0 transition-all"
-              />
-            ))}
-          </div>
         </div>
       </section>
 
@@ -126,43 +109,22 @@ const Home = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-                >
-                  <h3 className="text-xl font-semibold text-sqoolr-navy mb-4">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600">{feature.description}</p>
-                </motion.div>
-              ))}
-            </div>
-            <div className="relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {features.map((feature, index) => (
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="relative"
+                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
               >
-                <img
-                  src="/feature-image.jpg"
-                  alt="School Management"
-                  className="rounded-2xl shadow-2xl relative z-10"
-                />
-                {/* Decorative elements */}
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-sqoolr-mint rounded-full opacity-20 animate-float"></div>
-                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-sqoolr-navy rounded-full opacity-20 animate-float-delayed"></div>
-                <div className="absolute top-1/2 -right-8 w-12 h-12 bg-sqoolr-mint rounded-full opacity-20 animate-float"></div>
+                <h3 className="text-xl font-semibold text-sqoolr-navy mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600">{feature.description}</p>
               </motion.div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

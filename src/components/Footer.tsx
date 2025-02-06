@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
@@ -74,34 +73,31 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div>
-            <h4 className="font-semibold mb-4">Follow Us</h4>
-            <div className="flex space-x-4">
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center hover:opacity-90 transition-opacity"
-              >
-                <Instagram size={20} className="text-white" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center hover:opacity-90 transition-opacity"
-              >
-                <Facebook size={20} className="text-white" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center hover:opacity-90 transition-opacity"
-              >
-                <Linkedin size={20} className="text-white" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-black flex items-center justify-center hover:opacity-90 transition-opacity"
-              >
-                <Twitter size={20} className="text-white" />
-              </a>
-            </div>
+          <div className="flex space-x-4">
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full bg-sqoolr-mint flex items-center justify-center hover:opacity-90 transition-opacity"
+            >
+              <Instagram size={20} className="text-sqoolr-navy" />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full bg-sqoolr-mint flex items-center justify-center hover:opacity-90 transition-opacity"
+            >
+              <Facebook size={20} className="text-sqoolr-navy" />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full bg-sqoolr-mint flex items-center justify-center hover:opacity-90 transition-opacity"
+            >
+              <Linkedin size={20} className="text-sqoolr-navy" />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full bg-sqoolr-mint flex items-center justify-center hover:opacity-90 transition-opacity"
+            >
+              <Twitter size={20} className="text-sqoolr-navy" />
+            </a>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-300">
