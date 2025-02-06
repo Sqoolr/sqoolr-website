@@ -203,11 +203,10 @@ const AmbassadorForm = () => {
         type="submit"
         className="w-full bg-sqoolr-mint text-sqoolr-navy font-bold px-6 py-3 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105"
       >
-        Join as an Ambassador
+        Submit Application
       </button>
     </form>
   );
 };
 
 export default AmbassadorForm;
-
