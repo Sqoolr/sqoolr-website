@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
@@ -103,8 +102,8 @@ const TechnologyPartners = () => {
               Join Us as a Technology Partner
             </h2>
             <p className="text-gray-600 mb-8">
-              Enhance School Operations with Sqoolr. We're looking to expand our capabilities
-              through strategic integrations with cutting-edge technology solutions.
+              Sqoolr is always looking to expand its capabilities through strategic integrations with cutting-edge technology solutions.
+              If you’re a tech company, EdTech startup, or software provider, let's collaborate to provide smarter, more efficient tools for school management.
             </p>
 
             <div className="mb-8">
@@ -114,20 +113,31 @@ const TechnologyPartners = () => {
               <ul className="space-y-2 text-gray-600">
                 <li className="flex items-center">
                   <span className="mr-2">🔗</span>
-                  <span>API Integrations: Seamlessly integrate your product with Sqoolr</span>
+                  <span>API Integrations: Seamlessly integrate your product with Sqoolr to enhance school operations.</span>
                 </li>
                 <li className="flex items-center">
                   <span className="mr-2">⚡</span>
-                  <span>Innovative Features: Work with us to bring new technologies</span>
+                  <span>Innovative Features: Work with us to bring new technologies like AI, cloud solutions, and data analytics to the education sector.</span>
                 </li>
                 <li className="flex items-center">
                   <span className="mr-2">🌐</span>
-                  <span>Network Expansion: Reach new customers within K-12 education</span>
+                  <span>Network Expansion: Reach new customers within the K-12 education market.</span>
                 </li>
                 <li className="flex items-center">
                   <span className="mr-2">📈</span>
-                  <span>Collaborative Innovation: Help build the future of education</span>
+                  <span>Collaborative Innovation: Help us build the future of school management with your technology expertise.</span>
                 </li>
+              </ul>
+            </div>
+
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold text-sqoolr-navy mb-4">
+                Areas of Partnership
+              </h3>
+              <ul className="space-y-2 text-gray-600 list-disc pl-5">
+                <li>AI and Data Analytics: Enhance school insights and performance predictions.</li>
+                <li>Learning Management Systems (LMS): Integrate LMS for holistic educational support.</li>
+                <li>Cloud & SaaS Solutions: Provide seamless cloud-based services for scalable school management.</li>
               </ul>
             </div>
 

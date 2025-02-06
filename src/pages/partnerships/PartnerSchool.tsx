@@ -161,6 +161,17 @@ const PartnerSchool = () => {
               </ul>
             </div>
 
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold text-sqoolr-navy mb-4">
+                Requirements to Become a Partner School
+              </h3>
+              <ul className="space-y-2 text-gray-600 list-disc pl-5">
+                <li>Must be a K-12 school or institution.</li>
+                <li>Willing to provide feedback on new features and the platform.</li>
+                <li>Available for participation in testing and pilot programs.</li>
+              </ul>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -336,3 +347,4 @@ const PartnerSchool = () => {
 };
 
 export default PartnerSchool;
+
