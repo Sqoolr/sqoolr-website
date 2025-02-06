@@ -222,3 +222,26 @@ const AmbassadorProgram = () => {
                   }
                   rows={4}
                   className={`w-full px-4 py-2 border rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint ${
+                    errors.whyGreatAmbassador ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.whyGreatAmbassador && (
+                  <p className="mt-1 text-red-500 text-sm">{errors.whyGreatAmbassador}</p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-sqoolr-mint text-sqoolr-navy font-bold px-6 py-3 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105"
+              >
+                Submit Application
+              </button>
+            </form>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+export default AmbassadorProgram;
