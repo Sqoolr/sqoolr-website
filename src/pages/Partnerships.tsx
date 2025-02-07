@@ -16,19 +16,66 @@ const Partnerships = () => {
             Partner with Sqoolr
           </h1>
 
-          <div className="bg-white rounded-xl shadow-lg p-8 mb-12">
-            <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">
-              Partnership Opportunities
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Are you an EdTech company, a school network, or an organization looking to partner with Sqoolr? Let's work together to bring the best solutions to schools worldwide.
-            </p>
-            <Link 
-              to="/contact"
-              className="inline-block bg-sqoolr-mint text-sqoolr-navy px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
-            >
-              Contact Us
-            </Link>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-xl shadow-lg p-8">
+              <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">
+                Partner School
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Join our exclusive group of partner schools and get early access to features.
+              </p>
+              <Link 
+                to="/partnerships/school"
+                className="inline-block bg-sqoolr-mint text-sqoolr-navy px-6 py-3 rounded-full font-medium hover:opacity-90 transition-opacity"
+              >
+                Learn More
+              </Link>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-8">
+              <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">
+                Technology Partners
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Collaborate with us to enhance school operations with your technology.
+              </p>
+              <Link 
+                to="/partnerships/tech"
+                className="inline-block bg-sqoolr-mint text-sqoolr-navy px-6 py-3 rounded-full font-medium hover:opacity-90 transition-opacity"
+              >
+                Learn More
+              </Link>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-8">
+              <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">
+                Ambassador Program
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Become an advocate for the future of education with Sqoolr.
+              </p>
+              <Link 
+                to="/partnerships/ambassador"
+                className="inline-block bg-sqoolr-mint text-sqoolr-navy px-6 py-3 rounded-full font-medium hover:opacity-90 transition-opacity"
+              >
+                Learn More
+              </Link>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-8">
+              <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">
+                Investor & Corporate
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Partner with us to empower the future of education through investment.
+              </p>
+              <Link 
+                to="/partnerships/investor"
+                className="inline-block bg-sqoolr-mint text-sqoolr-navy px-6 py-3 rounded-full font-medium hover:opacity-90 transition-opacity"
+              >
+                Learn More
+              </Link>
+            </div>
           </div>
         </motion.div>
       </div>
