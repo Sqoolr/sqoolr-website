@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -16,6 +17,8 @@ import Pricing from "./pages/Pricing";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
+import PartnerSchool from "./pages/partnerships/PartnerSchool";
+import TechnologyPartners from "./pages/partnerships/TechnologyPartners";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +36,8 @@ const App = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/demo" element={<Demo />} />
                 <Route path="/partnerships" element={<Partnerships />} />
+                <Route path="/partnerships/school" element={<PartnerSchool />} />
+                <Route path="/partnerships/tech" element={<TechnologyPartners />} />
                 <Route path="/community" element={<Community />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/pricing" element={<Pricing />} />
