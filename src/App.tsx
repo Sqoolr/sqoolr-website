@@ -19,6 +19,8 @@ import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 import PartnerSchool from "./pages/partnerships/PartnerSchool";
 import TechnologyPartners from "./pages/partnerships/TechnologyPartners";
+import AmbassadorProgram from "./pages/partnerships/AmbassadorProgram";
+import InvestorPartnership from "./pages/partnerships/InvestorPartnership";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +40,8 @@ const App = () => {
                 <Route path="/partnerships" element={<Partnerships />} />
                 <Route path="/partnerships/school" element={<PartnerSchool />} />
                 <Route path="/partnerships/tech" element={<TechnologyPartners />} />
+                <Route path="/partnerships/ambassador" element={<AmbassadorProgram />} />
+                <Route path="/partnerships/investor" element={<InvestorPartnership />} />
                 <Route path="/community" element={<Community />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/pricing" element={<Pricing />} />
