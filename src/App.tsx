@@ -21,6 +21,7 @@ import PartnerSchool from "./pages/partnerships/PartnerSchool";
 import TechnologyPartners from "./pages/partnerships/TechnologyPartners";
 import AmbassadorProgram from "./pages/partnerships/AmbassadorProgram";
 import InvestorPartnership from "./pages/partnerships/InvestorPartnership";
+import HelpCenter from "./pages/HelpCenter";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => {
                 <Route path="/community" element={<Community />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/pricing" element={<Pricing />} />
+                <Route path="/help" element={<HelpCenter />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
                 <Route path="*" element={<NotFound />} />
