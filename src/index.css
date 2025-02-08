@@ -93,7 +93,19 @@
   body {
     @apply bg-background text-foreground;
   }
+}
 
+@layer components {
+  .hero-text {
+    @apply pt-8 md:pt-12;
+  }
+  
+  .partnerships-dropdown {
+    @apply hover:text-sqoolr-mint transition-colors;
+  }
+}
+
+@layer base {
   .bg-sqoolr-mint {
     @apply text-[#243665];
   }

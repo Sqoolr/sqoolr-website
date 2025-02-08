@@ -1,5 +1,12 @@
-
 import { motion } from "framer-motion";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Accordion,
   AccordionContent,
@@ -7,24 +14,55 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Mail, Phone, FileText } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const HelpCenter = () => {
   const { toast } = useToast();
+  const [isTicketDialogOpen, setIsTicketDialogOpen] = useState(false);
+  const [isNewsletterDialogOpen, setIsNewsletterDialogOpen] = useState(false);
+  const [ticketForm, setTicketForm] = useState({
+    category: "",
+    fullName: "",
+    email: "",
+    phone: "",
+    description: "",
+    priority: "",
+  });
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [agreeToEmails, setAgreeToEmails] = useState(false);
 
-  const handleSubscribe = () => {
+  const handleTicketSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     toast({
-      title: "Success!",
-      description: "You've been subscribed to our newsletter.",
+      title: "Ticket Submitted Successfully!",
+      description: "Our support team will get back to you within 24 hours.",
+    });
+    setIsTicketDialogOpen(false);
+    setTicketForm({
+      category: "",
+      fullName: "",
+      email: "",
+      phone: "",
+      description: "",
+      priority: "",
     });
   };
 
-  const handleSubmitTicket = () => {
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     toast({
-      title: "Ticket Submitted",
-      description: "We'll get back to you as soon as possible.",
+      title: "Subscription Successful!",
+      description: "You've been subscribed to our newsletter.",
     });
+    setIsNewsletterDialogOpen(false);
+    setNewsletterEmail("");
+    setAgreeToEmails(false);
   };
 
   return (
@@ -165,14 +203,162 @@ const HelpCenter = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button onClick={handleSubmitTicket} className="flex items-center gap-2">
-                <FileText size={20} />
-                Submit a Ticket
-              </Button>
-              <Button onClick={handleSubscribe} variant="outline" className="flex items-center gap-2">
-                <Mail size={20} />
-                Subscribe to Newsletter
-              </Button>
+              <Dialog open={isTicketDialogOpen} onOpenChange={setIsTicketDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="flex items-center gap-2">
+                    <FileText size={20} />
+                    Submit a Ticket
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[500px]">
+                  <DialogHeader>
+                    <DialogTitle>Submit Support Ticket</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleTicketSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Category*</Label>
+                      <RadioGroup
+                        required
+                        value={ticketForm.category}
+                        onValueChange={(value) =>
+                          setTicketForm({ ...ticketForm, category: value })
+                        }
+                      >
+                        {[
+                          "Technical Issues",
+                          "Billing & Payments",
+                          "Account Management",
+                          "General Inquiry",
+                          "Other",
+                        ].map((category) => (
+                          <div className="flex items-center space-x-2" key={category}>
+                            <RadioGroupItem value={category} id={category} />
+                            <Label htmlFor={category}>{category}</Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="fullName">Full Name*</Label>
+                      <Input
+                        id="fullName"
+                        required
+                        value={ticketForm.fullName}
+                        onChange={(e) =>
+                          setTicketForm({ ...ticketForm, fullName: e.target.value })
+                        }
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email Address*</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        required
+                        value={ticketForm.email}
+                        onChange={(e) =>
+                          setTicketForm({ ...ticketForm, email: e.target.value })
+                        }
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number (Optional)</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        value={ticketForm.phone}
+                        onChange={(e) =>
+                          setTicketForm({ ...ticketForm, phone: e.target.value })
+                        }
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="description">Issue Description*</Label>
+                      <Textarea
+                        id="description"
+                        required
+                        placeholder="Please describe your issue in detail. Include any error messages, screenshots, or steps to reproduce the problem."
+                        value={ticketForm.description}
+                        onChange={(e) =>
+                          setTicketForm({ ...ticketForm, description: e.target.value })
+                        }
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Priority Level*</Label>
+                      <RadioGroup
+                        required
+                        value={ticketForm.priority}
+                        onValueChange={(value) =>
+                          setTicketForm({ ...ticketForm, priority: value })
+                        }
+                      >
+                        {[
+                          { value: "low", label: "Low (General question, no rush)" },
+                          { value: "medium", label: "Medium (Needs attention but not urgent)" },
+                          { value: "high", label: "High (Blocking work or urgent issue)" },
+                        ].map((priority) => (
+                          <div className="flex items-center space-x-2" key={priority.value}>
+                            <RadioGroupItem value={priority.value} id={priority.value} />
+                            <Label htmlFor={priority.value}>{priority.label}</Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </div>
+
+                    <Button type="submit" className="w-full">
+                      Submit Ticket
+                    </Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog open={isNewsletterDialogOpen} onOpenChange={setIsNewsletterDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <Mail size={20} />
+                    Subscribe to Newsletter
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[400px]">
+                  <DialogHeader>
+                    <DialogTitle>Subscribe to Our Newsletter</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleNewsletterSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="newsletter-email">Email Address*</Label>
+                      <Input
+                        id="newsletter-email"
+                        type="email"
+                        required
+                        placeholder="Enter your email address"
+                        value={newsletterEmail}
+                        onChange={(e) => setNewsletterEmail(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="agree-emails"
+                        checked={agreeToEmails}
+                        onCheckedChange={(checked) => setAgreeToEmails(checked as boolean)}
+                      />
+                      <Label htmlFor="agree-emails">
+                        I agree to receive emails about Sqoolr updates, features, and promotions.
+                      </Label>
+                    </div>
+
+                    <Button type="submit" className="w-full">
+                      Subscribe
+                    </Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </motion.div>

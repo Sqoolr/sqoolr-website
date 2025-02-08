@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
@@ -41,6 +40,7 @@ const Navbar = () => {
       ]
     },
     { name: "Contact", path: "/contact" },
+    { name: "FAQ", path: "/faq" },
     { name: "Help Centre", path: "/help" },
   ];
 
@@ -71,7 +71,7 @@ const Navbar = () => {
                 {mainNavLinks.map((link) => (
                   <NavigationMenuItem key={link.path}>
                     {link.dropdownItems ? (
-                      <NavigationMenuTrigger className="text-lg font-bold text-sqoolr-navy hover:text-sqoolr-mint">
+                      <NavigationMenuTrigger className="text-lg font-medium font-montserrat text-sqoolr-navy hover:text-sqoolr-mint">
                         {link.name}
                         <NavigationMenuContent>
                           <div className="p-4 w-64">
@@ -90,7 +90,7 @@ const Navbar = () => {
                     ) : (
                       <Link
                         to={link.path}
-                        className={`text-lg font-bold transition-colors hover:text-sqoolr-mint ${
+                        className={`text-lg font-medium font-montserrat transition-colors hover:text-sqoolr-mint ${
                           location.pathname === link.path
                             ? "text-sqoolr-mint"
                             : "text-sqoolr-navy"
@@ -131,12 +131,12 @@ const Navbar = () => {
                 <div key={link.path}>
                   {link.dropdownItems ? (
                     <div className="space-y-2">
-                      <div className="font-bold text-sqoolr-navy">{link.name}</div>
+                      <div className="font-medium font-montserrat text-sqoolr-navy">{link.name}</div>
                       {link.dropdownItems.map((item) => (
                         <Link
                           key={item.path}
                           to={item.path}
-                          className="block pl-4 py-2 text-sqoolr-navy hover:text-sqoolr-mint"
+                          className="block pl-4 py-2 text-sqoolr-navy hover:text-sqoolr-mint font-medium font-montserrat"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
                           {item.name}
@@ -146,7 +146,7 @@ const Navbar = () => {
                   ) : (
                     <Link
                       to={link.path}
-                      className={`block font-bold ${
+                      className={`block font-medium font-montserrat ${
                         location.pathname === link.path
                           ? "text-sqoolr-mint"
                           : "text-sqoolr-navy"

@@ -36,6 +36,14 @@ const Footer = () => {
               </li>
               <li>
                 <Link
+                  to="/pricing"
+                  className="text-gray-300 hover:text-sqoolr-mint transition-colors"
+                >
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/privacy-policy"
                   className="text-gray-300 hover:text-sqoolr-mint transition-colors"
                 >
@@ -69,6 +77,14 @@ const Footer = () => {
                   className="text-gray-300 hover:text-sqoolr-mint transition-colors"
                 >
                   hello@sqoolr.ng
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="tel:+2349161410089"
+                  className="text-gray-300 hover:text-sqoolr-mint transition-colors"
+                >
+                  +234 916 141 0089
                 </a>
               </li>
             </ul>
