@@ -1,94 +1,258 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone } from "lucide-react";
+import { Check, Mail, Phone } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
+
+type Feature = {
+  name: string;
+  included: boolean;
+};
+
+type PricingPlan = {
+  name: string;
+  description: string;
+  maxStudents: number;
+  pricePerTerm: string;
+  annualPrice: string;
+  monthlyPrice?: string;
+  extraStudentCharge?: string;
+  buttonText: string;
+  bgClass: string;
+  features: Feature[];
+  earlyAdopterDiscount?: string;
+  extraStudentsBonus?: string;
+};
+
+const plans: PricingPlan[] = [
+  {
+    name: "Free Trial",
+    description: "Best for small schools or those exploring Sqoolr",
+    maxStudents: 20,
+    pricePerTerm: "Free",
+    annualPrice: "N/A",
+    buttonText: "Start Free Trial",
+    bgClass: "bg-gradient-to-br from-gray-50 to-gray-100 hover:shadow-xl",
+    features: [
+      { name: "Real-time Notifications", included: true },
+      { name: "Student Information Management", included: true },
+      { name: "Staff Information Management", included: true },
+      { name: "Class Management", included: true },
+      { name: "Events & Calendar Management", included: false },
+      { name: "Guardians Module", included: false },
+      // ... add all features
+    ],
+  },
+  {
+    name: "Basic",
+    description: "For schools with a smaller student body looking for foundational tools",
+    maxStudents: 50,
+    pricePerTerm: "₦120,000",
+    annualPrice: "₦324,000",
+    monthlyPrice: "₦45,000",
+    buttonText: "Choose Basic Plan",
+    bgClass: "bg-gradient-to-br from-green-50 to-emerald-100 hover:shadow-xl",
+    earlyAdopterDiscount: "₦100,000",
+    extraStudentsBonus: "60 students",
+    features: [
+      { name: "Real-time Notifications", included: true },
+      { name: "Student Information Management", included: true },
+      { name: "Staff Information Management", included: true },
+      { name: "Class Management", included: true },
+      { name: "Events & Calendar Management", included: false },
+      { name: "Guardians Module", included: false },
+      // ... add all features
+    ],
+  },
+  {
+    name: "Standard",
+    description: "For schools growing in size, looking for more features and flexibility",
+    maxStudents: 150,
+    pricePerTerm: "₦300,000",
+    annualPrice: "₦810,000",
+    monthlyPrice: "₦110,000",
+    buttonText: "Choose Standard Plan",
+    bgClass: "bg-gradient-to-br from-blue-50 to-indigo-100 hover:shadow-xl",
+    earlyAdopterDiscount: "₦250,000",
+    extraStudentsBonus: "180 students",
+    features: [
+      { name: "Real-time Notifications", included: true },
+      { name: "Student Information Management", included: true },
+      { name: "Staff Information Management", included: true },
+      { name: "Class Management", included: true },
+      { name: "Events & Calendar Management", included: true },
+      { name: "Guardians Module", included: true },
+      // ... add all features
+    ],
+  },
+  {
+    name: "Premium",
+    description: "For large institutions or multi-campus schools needing advanced features",
+    maxStudents: 500,
+    pricePerTerm: "₦800,000",
+    annualPrice: "₦2,160,000",
+    monthlyPrice: "₦280,000",
+    extraStudentCharge: "₦1,500",
+    buttonText: "Choose Premium Plan",
+    bgClass: "bg-gradient-to-br from-purple-50 to-purple-100 hover:shadow-xl",
+    earlyAdopterDiscount: "₦650,000",
+    extraStudentsBonus: "600 students",
+    features: [
+      { name: "Real-time Notifications", included: true },
+      { name: "Student Information Management", included: true },
+      { name: "Staff Information Management", included: true },
+      { name: "Class Management", included: true },
+      { name: "Events & Calendar Management", included: true },
+      { name: "Guardians Module", included: true },
+      // ... add all features
+    ],
+  },
+  {
+    name: "Flex Plan",
+    description: "For schools with flexible needs and varying student numbers",
+    maxStudents: 50,
+    pricePerTerm: "Custom",
+    annualPrice: "Custom",
+    buttonText: "Contact Us for a Custom Plan",
+    bgClass: "bg-gradient-to-br from-orange-50 to-amber-100 hover:shadow-xl",
+    features: [
+      { name: "Real-time Notifications", included: true },
+      { name: "Student Information Management", included: true },
+      { name: "Staff Information Management", included: true },
+      { name: "Class Management", included: true },
+      { name: "Events & Calendar Management", included: true },
+      { name: "Guardians Module", included: true },
+      // ... add all features
+    ],
+  },
+];
 
 const Pricing = () => {
   const { toast } = useToast();
 
-  const joinWaitlist = () => {
+  const handlePlanSelection = (plan: string) => {
     toast({
-      title: "Success!",
-      description: "You've been added to our waitlist. We'll notify you when pricing is available.",
+      title: "Plan Selected",
+      description: `You've selected the ${plan} plan. We'll contact you soon with more details.`,
     });
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-sqoolr-light">
-      <div className="container mx-auto px-6 py-24">
+      <div className="container mx-auto px-4 py-16 md:py-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto"
+          className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-sqoolr-navy mb-8 text-center">
-            Pricing – Coming Soon
+          <h1 className="text-4xl md:text-5xl font-bold text-sqoolr-navy mb-6">
+            Choose Your Plan
           </h1>
-
-          <div className="bg-white rounded-xl shadow-lg p-8 mb-12 space-y-8">
-            <p className="text-gray-600">
-              At Sqoolr, we're committed to providing exceptional value through our comprehensive school management platform. We understand that pricing is a crucial factor, and we're working on designing flexible and transparent pricing plans that fit the needs of all schools—whether small or large, public or private.
-            </p>
-
-            <div>
-              <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">What to Expect</h2>
-              <p className="text-gray-600">
-                Our pricing model will be designed to offer the best value based on your school's size, needs, and features required. Sqoolr aims to make school management affordable, accessible, and scalable for every institution.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">Key Features (Coming Soon to Pricing Plans)</h2>
-              <ul className="list-disc list-inside space-y-2 text-gray-600">
-                <li>Student & Staff Management: Easily manage student records, attendance, and grades.</li>
-                <li>Assessment & Grading: Automated grading and reporting for transparent student performance insights.</li>
-                <li>Attendance Tracking: Real-time tracking of student attendance, with automated alerts for absences.</li>
-                <li>Finance Management: Track and manage school finances, including tuition, fees, and expenses.</li>
-                <li>Communication Tools: Streamlined communication between teachers, students, and parents.</li>
-                <li>AI Insights & Performance Predictions: AI-driven analytics to help improve student outcomes and operational efficiency.</li>
-                <li>Seamless Integration: Future integrations with other tools and platforms for enhanced functionality.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">Why Sqoolr?</h2>
-              <ul className="list-disc list-inside space-y-2 text-gray-600">
-                <li>User-Centric Design: Our intuitive interface ensures that everyone, from administrators to teachers and parents, can easily navigate the platform.</li>
-                <li>Comprehensive Support: Get the support you need through tutorials, a help center, and dedicated customer service.</li>
-                <li>Scalable Solutions: As your school grows, Sqoolr grows with you, offering solutions that expand with your needs.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">Stay Informed</h2>
-              <p className="text-gray-600 mb-6">
-                We're working on our pricing plans and will be launching them soon. To ensure you don't miss out on updates, join our waitlist today and get early access to Sqoolr's features, exclusive offers, and pricing details.
-              </p>
-              <Button onClick={joinWaitlist} className="bg-sqoolr-mint text-sqoolr-navy hover:bg-opacity-90">
-                Join Waitlist
-              </Button>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">Have Questions?</h2>
-              <p className="text-gray-600 mb-6">
-                If you have any questions about Sqoolr's features or pricing, feel free to reach out to our team. We'll be happy to discuss how Sqoolr can work for your school.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a href="mailto:hello@sqoolr.ng" className="flex items-center gap-2 text-sqoolr-navy hover:text-sqoolr-mint">
-                  <Mail size={20} />
-                  hello@sqoolr.ng
-                </a>
-                <a href="tel:+2349161410089" className="flex items-center gap-2 text-sqoolr-navy hover:text-sqoolr-mint">
-                  <Phone size={20} />
-                  +2349161410089
-                </a>
-              </div>
-            </div>
-          </div>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Select the perfect plan for your school. All plans include access to our core features.
+          </p>
         </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={plan.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={cn(
+                "rounded-2xl p-6 shadow-lg transition-all duration-300",
+                plan.bgClass
+              )}
+            >
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-sqoolr-navy mb-2">{plan.name}</h3>
+                <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
+                <div className="mb-4">
+                  <p className="text-3xl font-bold text-sqoolr-navy">{plan.pricePerTerm}</p>
+                  <p className="text-sm text-gray-500">per term</p>
+                </div>
+                {plan.annualPrice !== "N/A" && (
+                  <div className="mb-4">
+                    <p className="text-sm font-semibold text-gray-600">Annual: {plan.annualPrice}</p>
+                    {plan.monthlyPrice && (
+                      <p className="text-sm text-gray-500">Monthly: {plan.monthlyPrice}</p>
+                    )}
+                  </div>
+                )}
+                {plan.extraStudentCharge && (
+                  <p className="text-sm text-gray-500 mb-4">
+                    Extra student: {plan.extraStudentCharge}
+                  </p>
+                )}
+                <div className="mb-6">
+                  <p className="text-sm font-semibold text-gray-600">
+                    Up to {plan.maxStudents} students
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-3 mb-6">
+                {plan.features.map((feature, index) => (
+                  <div key={index} className="flex items-center text-sm">
+                    {feature.included ? (
+                      <Check className="h-4 w-4 text-green-500 mr-2" />
+                    ) : (
+                      <span className="h-4 w-4 text-gray-300 mr-2">✕</span>
+                    )}
+                    <span className={feature.included ? "text-gray-700" : "text-gray-400"}>
+                      {feature.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {(plan.earlyAdopterDiscount || plan.extraStudentsBonus) && (
+                <div className="bg-white bg-opacity-50 rounded-lg p-4 mb-6">
+                  <p className="text-sm font-semibold text-sqoolr-navy mb-2">Early Adopter Benefits:</p>
+                  {plan.earlyAdopterDiscount && (
+                    <p className="text-sm text-gray-600">First term: {plan.earlyAdopterDiscount}</p>
+                  )}
+                  {plan.extraStudentsBonus && (
+                    <p className="text-sm text-gray-600">Up to {plan.extraStudentsBonus}</p>
+                  )}
+                </div>
+              )}
+
+              <Button
+                onClick={() => handlePlanSelection(plan.name)}
+                className="w-full bg-sqoolr-navy text-white hover:bg-opacity-90"
+              >
+                {plan.buttonText}
+              </Button>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <h2 className="text-2xl font-bold text-sqoolr-navy mb-6">Have Questions?</h2>
+          <p className="text-gray-600 mb-8">
+            Our team is here to help you choose the right plan for your school.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="mailto:hello@sqoolr.ng"
+              className="flex items-center justify-center gap-2 text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
+            >
+              <Mail size={20} />
+              hello@sqoolr.ng
+            </a>
+            <a
+              href="tel:+2349161410089"
+              className="flex items-center justify-center gap-2 text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
+            >
+              <Phone size={20} />
+              +2349161410089
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
