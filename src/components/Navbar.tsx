@@ -131,26 +131,33 @@ const Navbar = () => {
                 <div key={link.path}>
                   {link.dropdownItems ? (
                     <div className="space-y-2">
-                      <div className="font-medium font-montserrat text-sqoolr-navy">{link.name}</div>
-                      {link.dropdownItems.map((item) => (
-                        <Link
-                          key={item.path}
-                          to={item.path}
-                          className="block pl-4 py-2 text-sqoolr-navy hover:text-sqoolr-mint font-medium font-montserrat"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
+                      <button
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="w-full text-left font-medium font-montserrat text-sqoolr-navy hover:bg-sqoolr-mint hover:text-white px-4 py-2 rounded-md transition-colors"
+                      >
+                        {link.name}
+                      </button>
+                      <div className="pl-4 space-y-2">
+                        {link.dropdownItems.map((item) => (
+                          <Link
+                            key={item.path}
+                            to={item.path}
+                            className="block py-2 px-4 text-sqoolr-navy hover:bg-sqoolr-mint hover:text-white rounded-md font-medium font-montserrat transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   ) : (
                     <Link
                       to={link.path}
-                      className={`block font-medium font-montserrat ${
+                      className={`block font-medium font-montserrat hover:bg-sqoolr-mint hover:text-white px-4 py-2 rounded-md transition-colors ${
                         location.pathname === link.path
                           ? "text-sqoolr-mint"
                           : "text-sqoolr-navy"
-                      } hover:text-sqoolr-mint`}
+                      }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {link.name}

@@ -4,45 +4,37 @@ import { useState, useEffect } from "react";
 import WaitlistForm from "@/components/WaitlistForm";
 
 const Home = () => {
-  const [tagline, setTagline] = useState("Better Learning Outcomes");
-  const [displayText, setDisplayText] = useState("Better Learning Outcomes");
+  const [tagline, setTagline] = useState("Smarter");
+  const [displayText, setDisplayText] = useState("Smarter");
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [isPartnerFormOpen, setIsPartnerFormOpen] = useState(false);
 
   useEffect(() => {
-    const texts = [
-      "Smarter School Management, Powered by AI",
-      "From Administration to Innovation – Meet the Future of Schools",
-      "Predict. Improve. Succeed – AI for Better Learning",
-      "Simplify School Management. Amplify Learning",
-      "Enabling Better Learning Outcomes"
-    ];
+    const words = ["Smarter", "Efficient", "Effective"];
     let currentIndex = 0;
-    let currentText = "";
     let isDeleting = false;
+    let currentWord = words[currentIndex];
+    let typingSpeed = 100;
 
     const type = () => {
-      const fullText = texts[currentIndex];
-      
       if (isDeleting) {
-        currentText = fullText.substring(0, currentText.length - 1);
+        setDisplayText(currentWord.substring(0, displayText.length - 1));
+        typingSpeed = 50;
       } else {
-        currentText = fullText.substring(0, currentText.length + 1);
+        setDisplayText(currentWord.substring(0, displayText.length + 1));
+        typingSpeed = 100;
       }
 
-      setDisplayText(currentText);
-
-      let typeSpeed = isDeleting ? 50 : 100;
-
-      if (!isDeleting && currentText === fullText) {
-        typeSpeed = 2000;
+      if (!isDeleting && displayText === currentWord) {
+        typingSpeed = 2000;
         isDeleting = true;
-      } else if (isDeleting && currentText === "") {
+      } else if (isDeleting && displayText === "") {
         isDeleting = false;
-        currentIndex = (currentIndex + 1) % texts.length;
+        currentIndex = (currentIndex + 1) % words.length;
+        currentWord = words[currentIndex];
       }
 
-      setTimeout(type, typeSpeed);
+      setTimeout(type, typingSpeed);
     };
 
     type();
@@ -50,12 +42,12 @@ const Home = () => {
     return () => {
       // Cleanup if needed
     };
-  }, []);
+  }, [displayText]);
 
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="min-h-[80vh] flex items-start justify-center bg-gradient-to-br from-white to-sqoolr-light relative overflow-hidden pt-32">
+      <section className="min-h-[80vh] flex items-start justify-center bg-gradient-to-br from-white to-sqoolr-light relative overflow-hidden pt-20 md:pt-24">
         <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -64,10 +56,9 @@ const Home = () => {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <span className="text-sqoolr-navy">{displayText.split(",")[0]}</span>
-              {displayText.includes(",") && (
-                <span className="text-sqoolr-mint">{", " + displayText.split(",")[1]}</span>
-              )}
+              <span className="text-sqoolr-mint">{displayText}</span>
+              <span className="text-sqoolr-navy"> School Management - powered by </span>
+              <span className="text-sqoolr-mint">AI</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8">
               Sqoolr is the all-in-one solution to streamline school
@@ -110,7 +101,38 @@ const Home = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {features.map((feature, index) => (
+            {[
+              {
+                title: "Student Records Management",
+                description:
+                  "Easily manage student profiles, track progress, and store academic records all in one place.",
+              },
+              {
+                title: "Staff Records Management",
+                description:
+                  "Simplify staff management with seamless records tracking, performance assessments, and communications.",
+              },
+              {
+                title: "Admission Management",
+                description:
+                  "Streamline the admissions process with automated workflows and instant access to essential student information.",
+              },
+              {
+                title: "Automated Workflows",
+                description:
+                  "Automate routine tasks and processes to save time and reduce manual effort across all school operations.",
+              },
+              {
+                title: "Finance Management",
+                description:
+                  "Efficiently manage school finances, including fees collection, expenses tracking, and financial reporting.",
+              },
+              {
+                title: "Attendance Tracking",
+                description:
+                  "Automated attendance tracking system for both students and staff with real-time reporting and analytics.",
+              },
+            ].map((feature, index) => (
               <motion.div
                 key={feature.title}
                 initial={{ opacity: 0, y: 20 }}

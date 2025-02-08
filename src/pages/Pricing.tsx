@@ -28,11 +28,11 @@ type PricingPlan = {
 const plans: PricingPlan[] = [
   {
     name: "Free Trial",
-    description: "Best for small schools or those exploring Sqoolr",
+    description: "Best for small schools or those exploring Sqoolr (2-week trial)",
     maxStudents: 20,
     pricePerTerm: "Free",
     annualPrice: "N/A",
-    buttonText: "Start Free Trial",
+    buttonText: "Start 2-Week Trial",
     bgClass: "bg-gradient-to-br from-gray-50 to-gray-100 hover:shadow-xl",
     features: [
       { name: "Real-time Notifications", included: true },
@@ -41,7 +41,18 @@ const plans: PricingPlan[] = [
       { name: "Class Management", included: true },
       { name: "Events & Calendar Management", included: false },
       { name: "Guardians Module", included: false },
-      // ... add all features
+      { name: "Students Module", included: false },
+      { name: "Subjects Management", included: false },
+      { name: "Timetable Management", included: false },
+      { name: "Attendance Module", included: false },
+      { name: "Teachers Module", included: false },
+      { name: "User-Defined Roles", included: false },
+      { name: "AI-Powered Insights", included: false },
+      { name: "Finance Management", included: false },
+      { name: "Admissions Module", included: false },
+      { name: "Multi-Schools Support", included: false },
+      { name: "Reports and Analytics", included: false },
+      { name: "Extra Students", included: false },
     ],
   },
   {
@@ -62,7 +73,18 @@ const plans: PricingPlan[] = [
       { name: "Class Management", included: true },
       { name: "Events & Calendar Management", included: false },
       { name: "Guardians Module", included: false },
-      // ... add all features
+      { name: "Students Module", included: false },
+      { name: "Subjects Management", included: false },
+      { name: "Timetable Management", included: false },
+      { name: "Attendance Module", included: false },
+      { name: "Teachers Module", included: false },
+      { name: "User-Defined Roles", included: false },
+      { name: "AI-Powered Insights", included: false },
+      { name: "Finance Management", included: false },
+      { name: "Admissions Module", included: false },
+      { name: "Multi-Schools Support", included: false },
+      { name: "Reports and Analytics", included: false },
+      { name: "Extra Students", included: false },
     ],
   },
   {
@@ -73,7 +95,7 @@ const plans: PricingPlan[] = [
     annualPrice: "₦810,000",
     monthlyPrice: "₦110,000",
     buttonText: "Choose Standard Plan",
-    bgClass: "bg-gradient-to-br from-blue-50 to-indigo-100 hover:shadow-xl",
+    bgClass: "bg-gradient-to-br from-blue-50 to-indigo-100 hover:shadow-xl border-2 border-sqoolr-mint",
     earlyAdopterDiscount: "₦250,000",
     extraStudentsBonus: "180 students",
     features: [
@@ -83,7 +105,18 @@ const plans: PricingPlan[] = [
       { name: "Class Management", included: true },
       { name: "Events & Calendar Management", included: true },
       { name: "Guardians Module", included: true },
-      // ... add all features
+      { name: "Students Module", included: true },
+      { name: "Subjects Management", included: true },
+      { name: "Timetable Management", included: true },
+      { name: "Attendance Module", included: true },
+      { name: "Teachers Module", included: true },
+      { name: "User-Defined Roles", included: true },
+      { name: "AI-Powered Insights", included: false },
+      { name: "Finance Management", included: false },
+      { name: "Admissions Module", included: false },
+      { name: "Multi-Schools Support", included: false },
+      { name: "Reports and Analytics", included: false },
+      { name: "Extra Students", included: false },
     ],
   },
   {
@@ -93,7 +126,7 @@ const plans: PricingPlan[] = [
     pricePerTerm: "₦800,000",
     annualPrice: "₦2,160,000",
     monthlyPrice: "₦280,000",
-    extraStudentCharge: "₦1,500",
+    extraStudentCharge: "₦1,500 per extra student above 500 (or 600 with early adopter bonus)",
     buttonText: "Choose Premium Plan",
     bgClass: "bg-gradient-to-br from-purple-50 to-purple-100 hover:shadow-xl",
     earlyAdopterDiscount: "₦650,000",
@@ -105,12 +138,23 @@ const plans: PricingPlan[] = [
       { name: "Class Management", included: true },
       { name: "Events & Calendar Management", included: true },
       { name: "Guardians Module", included: true },
-      // ... add all features
+      { name: "Students Module", included: true },
+      { name: "Subjects Management", included: true },
+      { name: "Timetable Management", included: true },
+      { name: "Attendance Module", included: true },
+      { name: "Teachers Module", included: true },
+      { name: "User-Defined Roles", included: true },
+      { name: "AI-Powered Insights", included: true },
+      { name: "Finance Management", included: true },
+      { name: "Admissions Module", included: true },
+      { name: "Multi-Schools Support", included: true },
+      { name: "Reports and Analytics", included: true },
+      { name: "Extra Students", included: true },
     ],
   },
   {
     name: "Flex Plan",
-    description: "For schools with flexible needs and varying student numbers",
+    description: "For schools with flexible needs and varying student numbers (minimum 2 months subscription)",
     maxStudents: 50,
     pricePerTerm: "Custom",
     annualPrice: "Custom",
@@ -123,13 +167,25 @@ const plans: PricingPlan[] = [
       { name: "Class Management", included: true },
       { name: "Events & Calendar Management", included: true },
       { name: "Guardians Module", included: true },
-      // ... add all features
+      { name: "Students Module", included: false },
+      { name: "Subjects Management", included: false },
+      { name: "Timetable Management", included: false },
+      { name: "Attendance Module", included: false },
+      { name: "Teachers Module", included: false },
+      { name: "User-Defined Roles", included: false },
+      { name: "AI-Powered Insights", included: false },
+      { name: "Finance Management", included: false },
+      { name: "Admissions Module", included: false },
+      { name: "Multi-Schools Support", included: false },
+      { name: "Reports and Analytics", included: false },
+      { name: "Extra Students", included: false },
     ],
   },
 ];
 
 const Pricing = () => {
   const { toast } = useToast();
+  const [selectedBillingType, setSelectedBillingType] = useState<'term' | 'annual'>('term');
 
   const handlePlanSelection = (plan: string) => {
     toast({
@@ -164,27 +220,67 @@ const Pricing = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={cn(
                 "rounded-2xl p-6 shadow-lg transition-all duration-300",
-                plan.bgClass
+                plan.bgClass,
+                plan.name === "Standard" && "transform scale-105 ring-2 ring-sqoolr-mint"
               )}
             >
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-sqoolr-navy mb-2">{plan.name}</h3>
                 <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
                 <div className="mb-4">
-                  <p className="text-3xl font-bold text-sqoolr-navy">{plan.pricePerTerm}</p>
-                  <p className="text-sm text-gray-500">per term</p>
+                  {plan.pricePerTerm !== "Free" && plan.pricePerTerm !== "Custom" ? (
+                    <>
+                      <div className="flex justify-center items-center gap-2 mb-2">
+                        <button
+                          onClick={() => setSelectedBillingType('term')}
+                          className={`px-3 py-1 rounded-full text-sm ${
+                            selectedBillingType === 'term'
+                              ? 'bg-sqoolr-navy text-white'
+                              : 'bg-gray-200'
+                          }`}
+                        >
+                          Per Term
+                        </button>
+                        <button
+                          onClick={() => setSelectedBillingType('annual')}
+                          className={`px-3 py-1 rounded-full text-sm ${
+                            selectedBillingType === 'annual'
+                              ? 'bg-sqoolr-navy text-white'
+                              : 'bg-gray-200'
+                          }`}
+                        >
+                          Annual
+                        </button>
+                      </div>
+                      <p className="text-3xl font-bold text-sqoolr-navy">
+                        {selectedBillingType === 'term' ? (
+                          <>
+                            <span className="line-through text-gray-400">{plan.pricePerTerm}</span>
+                            <br />
+                            <span className="text-sqoolr-mint">{plan.earlyAdopterDiscount}</span>
+                          </>
+                        ) : (
+                          plan.annualPrice
+                        )}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-3xl font-bold text-sqoolr-navy">{plan.pricePerTerm}</p>
+                  )}
+                  <p className="text-sm text-gray-500">
+                    {plan.pricePerTerm !== "Free" && plan.pricePerTerm !== "Custom"
+                      ? selectedBillingType === 'term' 
+                        ? 'per term'
+                        : 'per year (10% savings)'
+                      : ''}
+                  </p>
                 </div>
-                {plan.annualPrice !== "N/A" && (
-                  <div className="mb-4">
-                    <p className="text-sm font-semibold text-gray-600">Annual: {plan.annualPrice}</p>
-                    {plan.monthlyPrice && (
-                      <p className="text-sm text-gray-500">Monthly: {plan.monthlyPrice}</p>
-                    )}
-                  </div>
+                {plan.monthlyPrice && (
+                  <p className="text-sm text-gray-500 mb-4">Monthly: {plan.monthlyPrice}</p>
                 )}
                 {plan.extraStudentCharge && (
                   <p className="text-sm text-gray-500 mb-4">
-                    Extra student: {plan.extraStudentCharge}
+                    {plan.extraStudentCharge}
                   </p>
                 )}
                 <div className="mb-6">
@@ -200,7 +296,7 @@ const Pricing = () => {
                     {feature.included ? (
                       <Check className="h-4 w-4 text-green-500 mr-2" />
                     ) : (
-                      <span className="h-4 w-4 text-gray-300 mr-2">✕</span>
+                      <span className="h-4 w-4 text-red-300 mr-2">✕</span>
                     )}
                     <span className={feature.included ? "text-gray-700" : "text-gray-400"}>
                       {feature.name}
