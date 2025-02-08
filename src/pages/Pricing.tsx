@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 type Feature = {
   name: string;
@@ -223,10 +226,63 @@ const questions: Question[] = [
   }
 ];
 
+const determinePackage = (
+  numStudents: number, 
+  numCampuses: number, 
+  advancedFeatures: boolean, 
+  realTimeComm: string, 
+  expansionPlan: boolean
+) => {
+  if (numStudents <= 50 && numCampuses <= 1 && !advancedFeatures && realTimeComm === "Basic" && !expansionPlan) {
+    return "Basic";
+  } else if (numStudents <= 150 && numCampuses <= 1 && !advancedFeatures && realTimeComm === "Moderate" && !expansionPlan) {
+    return "Standard";
+  } else if (numStudents > 150 || numCampuses > 1 || advancedFeatures || realTimeComm === "Advanced" || expansionPlan) {
+    return "Premium";
+  }
+  return "Standard"; // Default fallback
+};
+
 const Pricing = () => {
   const { toast } = useToast();
   const [selectedBillingType, setSelectedBillingType] = useState<'term' | 'annual'>('term');
   const [openFeatures, setOpenFeatures] = useState<{ [key: string]: boolean }>({});
+  const [flexMonths, setFlexMonths] = useState<number>(2);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [recommendedPlan, setRecommendedPlan] = useState<string | null>(null);
+  const [quizAnswers, setQuizAnswers] = useState({
+    students: "",
+    campuses: "",
+    advancedTools: "",
+    communication: "",
+    growth: "",
+  });
+
+  const handleQuizAnswer = (field: string, value: string) => {
+    setQuizAnswers(prev => ({ ...prev, [field]: value }));
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(prev => prev + 1);
+    } else {
+      // Calculate recommendation
+      const recommendation = determinePackage(
+        Number(quizAnswers.students),
+        Number(quizAnswers.campuses),
+        quizAnswers.advancedTools === "yes",
+        quizAnswers.communication,
+        quizAnswers.growth === "yes"
+      );
+      setRecommendedPlan(recommendation);
+    }
+  };
+
+  const calculateFlexPrice = (months: number) => {
+    return months * 45000;
+  };
+
+  const handleFlexMonthsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value) || 2;
+    setFlexMonths(Math.max(2, value));
+  };
 
   const handlePlanSelection = (plan: string) => {
     toast({
@@ -275,145 +331,131 @@ const Pricing = () => {
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-sqoolr-navy mb-2">{plan.name}</h3>
                 <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
-                <div className="mb-4">
-                  {plan.name !== "Free Trial" && plan.name !== "Flex Plan" ? (
-                    <>
-                      <div className="flex justify-center items-center gap-2 mb-2">
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <button
-                                onClick={() => setSelectedBillingType('term')}
-                                className={`px-3 py-1 rounded-full text-sm ${
-                                  selectedBillingType === 'term'
-                                    ? 'bg-sqoolr-navy text-white'
-                                    : 'bg-gray-200'
-                                }`}
-                              >
-                                Per Term
-                              </button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>1st term: Sept to Dec</p>
-                              <p>2nd term: Jan to April</p>
-                              <p>3rd term: May to Aug</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                        <button
-                          onClick={() => setSelectedBillingType('annual')}
-                          className={`px-3 py-1 rounded-full text-sm ${
-                            selectedBillingType === 'annual'
-                              ? 'bg-sqoolr-navy text-white'
-                              : 'bg-gray-200'
-                          }`}
-                        >
-                          Annual
-                        </button>
-                      </div>
-                      <p className="text-3xl font-bold text-sqoolr-navy">
-                        {selectedBillingType === 'term' ? (
-                          <>
-                            <span className="line-through text-gray-400">{plan.pricePerTerm}</span>
-                            <br />
-                            <span className="text-sqoolr-navy">{plan.earlyAdopterDiscount}</span>
-                          </>
-                        ) : (
-                          plan.annualPrice
-                        )}
-                      </p>
-                    </>
-                  ) : plan.name === "Flex Plan" ? (
-                    <p className="text-3xl font-bold text-sqoolr-navy">
-                      {plan.pricePerTerm}
-                      <span className="text-sm block mt-1">{plan.annualPrice}</span>
-                      <span className="text-sm block mt-1">(minimum 2 months)</span>
-                    </p>
-                  ) : (
-                    <p className="text-3xl font-bold text-sqoolr-navy">{plan.pricePerTerm}</p>
-                  )}
-                </div>
-
-                <div className="mb-6">
-                  {plan.name === "Basic" && (
-                    <p className="text-sm font-semibold text-gray-600">
-                      <span className="line-through">Up to 50 students</span>
-                      <br />
-                      Up to 60 students
-                    </p>
-                  )}
-                  {plan.name === "Standard" && (
-                    <p className="text-sm font-semibold text-gray-600">
-                      <span className="line-through">Up to 150 students</span>
-                      <br />
-                      Up to 180 students
-                    </p>
-                  )}
-                  {plan.name === "Premium" && (
-                    <p className="text-sm font-semibold text-gray-600">
-                      <span className="line-through">Up to 500 students</span>
-                      <br />
-                      Up to 600 students
-                    </p>
-                  )}
-                  {plan.name === "Free Trial" && (
-                    <p className="text-sm font-semibold text-gray-600">
-                      Up to {plan.maxStudents} students
-                    </p>
-                  )}
-                  {plan.name === "Flex Plan" && (
-                    <p className="text-sm font-semibold text-gray-600">
-                      Up to {plan.maxStudents} students
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <Collapsible
-                open={openFeatures[plan.name]}
-                onOpenChange={() => toggleFeatures(plan.name)}
-                className="mb-6"
-              >
-                <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-semibold text-sqoolr-navy mb-2">
-                  Features
-                  {openFeatures[plan.name] ? (
-                    <ChevronUp className="h-4 w-4" />
-                  ) : (
-                    <ChevronDown className="h-4 w-4" />
-                  )}
-                </CollapsibleTrigger>
-                <CollapsibleContent className="space-y-3">
-                  {plan.features.map((feature, index) => (
-                    <div key={index} className="flex items-center text-sm">
-                      {feature.included ? (
-                        <Check className="h-4 w-4 text-green-500 mr-2" />
-                      ) : (
-                        <span className="h-4 w-4 text-red-300 mr-2">✕</span>
-                      )}
-                      <span className={feature.included ? "text-gray-700" : "text-gray-400"}>
-                        {feature.name}
-                      </span>
+                
+                {plan.name === "Flex Plan" ? (
+                  <div>
+                    <p className="text-3xl font-bold text-sqoolr-navy">₦{calculateFlexPrice(flexMonths).toLocaleString()}</p>
+                    <div className="mt-4">
+                      <label className="text-sm text-gray-600">Number of months (minimum 2):</label>
+                      <input
+                        type="number"
+                        min="2"
+                        value={flexMonths}
+                        onChange={handleFlexMonthsChange}
+                        className="w-full mt-2 p-2 border rounded"
+                      />
                     </div>
-                  ))}
-                </CollapsibleContent>
-              </Collapsible>
+                  </div>
+                ) : (
+                  <>
+                    <div className="mb-4">
+                      {plan.name !== "Free Trial" && plan.name !== "Flex Plan" ? (
+                        <>
+                          <div className="flex justify-center items-center gap-2 mb-2">
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <button
+                                    onClick={() => setSelectedBillingType('term')}
+                                    className={`px-3 py-1 rounded-full text-sm ${
+                                      selectedBillingType === 'term'
+                                        ? 'bg-sqoolr-navy text-white'
+                                        : 'bg-gray-200'
+                                    }`}
+                                  >
+                                    Per Term
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>1st term: Sept to Dec</p>
+                                  <p>2nd term: Jan to April</p>
+                                  <p>3rd term: May to Aug</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                            <button
+                              onClick={() => setSelectedBillingType('annual')}
+                              className={`px-3 py-1 rounded-full text-sm ${
+                                selectedBillingType === 'annual'
+                                  ? 'bg-sqoolr-navy text-white'
+                                  : 'bg-gray-200'
+                              }`}
+                            >
+                              Annual
+                            </button>
+                          </div>
+                          <p className="text-3xl font-bold text-sqoolr-navy">
+                            {selectedBillingType === 'term' ? (
+                              <>
+                                <span className="line-through text-gray-400">{plan.pricePerTerm}</span>
+                                <br />
+                                <span className="text-sqoolr-navy">{plan.earlyAdopterDiscount}</span>
+                              </>
+                            ) : (
+                              plan.annualPrice
+                            )}
+                          </p>
+                        </>
+                      ) : plan.name === "Flex Plan" ? (
+                        <p className="text-3xl font-bold text-sqoolr-navy">
+                          {plan.pricePerTerm}
+                          <span className="text-sm block mt-1">{plan.annualPrice}</span>
+                          <span className="text-sm block mt-1">(minimum 2 months)</span>
+                        </p>
+                      ) : (
+                        <p className="text-3xl font-bold text-sqoolr-navy">{plan.pricePerTerm}</p>
+                      )}
+                    </div>
+                  </>
+                )}
 
-              {plan.earlyAdopterDiscount && (
-                <div className="bg-white bg-opacity-50 rounded-lg p-4 mb-6">
-                  <p className="text-sm font-semibold text-sqoolr-navy mb-2">Early Adopter Benefits:</p>
-                  <p className="text-sm text-gray-600">Initial signup term: {plan.earlyAdopterDiscount}</p>
-                  {plan.extraStudentsBonus && (
-                    <p className="text-sm text-gray-600">Up to {plan.extraStudentsBonus}</p>
-                  )}
-                </div>
-              )}
+                <Collapsible
+                  open={openFeatures[plan.name]}
+                  onOpenChange={() => toggleFeatures(plan.name)}
+                  className="mb-6"
+                >
+                  <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-semibold text-sqoolr-navy mb-2">
+                    Features
+                    {openFeatures[plan.name] ? (
+                      <ChevronUp className="h-4 w-4" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4" />
+                    )}
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="space-y-3">
+                    {plan.features.map((feature, index) => (
+                      <div key={index} className="flex items-center text-sm">
+                        {feature.included ? (
+                          <Check className="h-4 w-4 text-green-500 mr-2" />
+                        ) : (
+                          <span className="h-4 w-4 text-red-300 mr-2">✕</span>
+                        )}
+                        <span className={feature.included ? "text-gray-700" : "text-gray-400"}>
+                          {feature.name}
+                        </span>
+                      </div>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
 
-              <Button
-                onClick={() => handlePlanSelection(plan.name)}
-                className="w-full bg-sqoolr-navy text-white hover:bg-opacity-90"
-              >
-                {plan.buttonText}
-              </Button>
+                {plan.earlyAdopterDiscount && (
+                  <div className="bg-white bg-opacity-50 rounded-lg p-4 mb-6">
+                    <p className="text-sm font-semibold text-sqoolr-navy mb-2">Early Adopter Benefits:</p>
+                    <p className="text-sm text-gray-600">Initial signup term: {plan.earlyAdopterDiscount}</p>
+                    {plan.extraStudentsBonus && (
+                      <p className="text-sm text-gray-600">Up to {plan.extraStudentsBonus}</p>
+                    )}
+                  </div>
+                )}
+
+                <Button
+                  onClick={() => handlePlanSelection(plan.name)}
+                  className="w-full bg-sqoolr-navy text-white hover:bg-opacity-90"
+                  disabled={plan.name === "Flex Plan" && flexMonths < 2}
+                >
+                  {plan.name === "Flex Plan" ? "Choose Flex Plan" : plan.buttonText}
+                </Button>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -422,43 +464,102 @@ const Pricing = () => {
           <h2 className="text-3xl font-bold text-sqoolr-navy text-center mb-12">
             Find Your Perfect Plan
           </h2>
-          <div className="space-y-8">
-            {questions.map((question) => (
-              <div
-                key={question.id}
-                className="bg-white rounded-lg p-6 shadow-md"
-              >
-                <h3 className="text-xl font-semibold text-sqoolr-navy mb-2">
-                  {question.text}
-                </h3>
-                <p className="text-gray-600 mb-4">{question.description}</p>
-                {question.options ? (
-                  <div className="space-y-2">
-                    {question.options.map((option) => (
-                      <div
-                        key={option.value}
-                        className="flex items-center space-x-2 p-2 rounded hover:bg-gray-50"
-                      >
-                        <input
-                          type="radio"
-                          name={question.id}
-                          value={option.value}
-                          className="text-sqoolr-navy"
-                        />
-                        <label className="text-gray-700">{option.label}</label>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <input
-                    type="text"
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-sqoolr-mint focus:border-transparent"
-                    placeholder="Your answer"
-                  />
-                )}
+          {recommendedPlan ? (
+            <div className="text-center bg-white p-8 rounded-lg shadow-md">
+              <h3 className="text-2xl font-bold text-sqoolr-navy mb-4">
+                We Recommend the {recommendedPlan} Plan
+              </h3>
+              <p className="mb-6">Based on your answers, we think this plan best suits your needs.</p>
+              <div className="space-x-4">
+                <Button
+                  onClick={() => {
+                    const element = document.querySelector(`#${recommendedPlan.toLowerCase()}-plan`);
+                    element?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="bg-sqoolr-navy text-white"
+                >
+                  View {recommendedPlan} Plan
+                </Button>
+                <Button
+                  onClick={() => {
+                    setRecommendedPlan(null);
+                    setCurrentQuestionIndex(0);
+                    setQuizAnswers({
+                      students: "",
+                      campuses: "",
+                      advancedTools: "",
+                      communication: "",
+                      growth: "",
+                    });
+                  }}
+                  variant="outline"
+                >
+                  Start Over
+                </Button>
               </div>
-            ))}
-          </div>
+            </div>
+          ) : (
+            <div className="space-y-8">
+              {questions.map((question, index) => (
+                <div
+                  key={question.id}
+                  className={cn(
+                    "bg-white rounded-lg p-6 shadow-md transition-opacity duration-300",
+                    index === currentQuestionIndex ? "opacity-100" : "opacity-0 hidden"
+                  )}
+                >
+                  <h3 className="text-xl font-semibold text-sqoolr-navy mb-4">
+                    {question.text}
+                  </h3>
+                  {question.id === "students" || question.id === "campuses" ? (
+                    <Input
+                      type="number"
+                      min="0"
+                      value={quizAnswers[question.id]}
+                      onChange={(e) => handleQuizAnswer(question.id, e.target.value)}
+                      className="w-full"
+                    />
+                  ) : question.id === "communication" ? (
+                    <RadioGroup
+                      value={quizAnswers[question.id]}
+                      onValueChange={(value) => handleQuizAnswer(question.id, value)}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="Basic" id="basic" />
+                          <Label htmlFor="basic">Basic Communication</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="Moderate" id="moderate" />
+                          <Label htmlFor="moderate">Moderate Communication</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="Advanced" id="advanced" />
+                          <Label htmlFor="advanced">Advanced Communication</Label>
+                        </div>
+                      </div>
+                    </RadioGroup>
+                  ) : (
+                    <RadioGroup
+                      value={quizAnswers[question.id]}
+                      onValueChange={(value) => handleQuizAnswer(question.id, value)}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="yes" id={`${question.id}-yes`} />
+                          <Label htmlFor={`${question.id}-yes`}>Yes</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="no" id={`${question.id}-no`} />
+                          <Label htmlFor={`${question.id}-no`}>No</Label>
+                        </div>
+                      </div>
+                    </RadioGroup>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="mt-16 text-center">
