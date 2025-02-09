@@ -9,6 +9,8 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import WaitlistForm from "@/components/WaitlistForm";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "flowbite-react";
+import { ChevronDown } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -130,33 +132,33 @@ const Navbar = () => {
               {mainNavLinks.map((link) => (
                 <div key={link.path}>
                   {link.dropdownItems ? (
-                    <div className="space-y-2">
-                      <button
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="w-full text-left font-medium font-montserrat text-sqoolr-navy hover:bg-sqoolr-mint hover:text-white px-4 py-2 rounded-md transition-colors"
-                      >
+                    <Collapsible>
+                      <CollapsibleTrigger className="w-full text-left font-medium font-montserrat text-sqoolr-navy hover:text-sqoolr-navy px-4 py-2 rounded-md transition-colors flex items-center justify-between">
                         {link.name}
-                      </button>
-                      <div className="pl-4 space-y-2">
-                        {link.dropdownItems.map((item) => (
-                          <Link
-                            key={item.path}
-                            to={item.path}
-                            className="block py-2 px-4 text-sqoolr-navy hover:bg-sqoolr-mint hover:text-white rounded-md font-medium font-montserrat transition-colors"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                          >
-                            {item.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
+                        <ChevronDown className="h-4 w-4" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="pl-4 space-y-2">
+                          {link.dropdownItems.map((item) => (
+                            <Link
+                              key={item.path}
+                              to={item.path}
+                              className="block py-2 px-4 text-gray-600 hover:text-sqoolr-navy rounded-md font-medium font-montserrat transition-colors"
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              {item.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
                   ) : (
                     <Link
                       to={link.path}
-                      className={`block font-medium font-montserrat hover:bg-sqoolr-mint hover:text-white px-4 py-2 rounded-md transition-colors ${
+                      className={`block font-medium font-montserrat hover:text-sqoolr-navy px-4 py-2 rounded-md transition-colors ${
                         location.pathname === link.path
                           ? "text-sqoolr-mint"
-                          : "text-sqoolr-navy"
+                          : "text-gray-600"
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >

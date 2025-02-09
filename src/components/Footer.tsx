@@ -91,7 +91,9 @@ const Footer = () => {
           </div>
           <div className="flex space-x-4">
             <a
-              href="#"
+              href="https://www.instagram.com/sqoolr.ng/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-sqoolr-mint flex items-center justify-center hover:opacity-90 transition-opacity"
             >
               <Instagram size={20} className="text-sqoolr-navy" />
@@ -103,7 +105,9 @@ const Footer = () => {
               <Facebook size={20} className="text-sqoolr-navy" />
             </a>
             <a
-              href="#"
+              href="https://linkedin.com/company/sqoolr"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-sqoolr-mint flex items-center justify-center hover:opacity-90 transition-opacity"
             >
               <Linkedin size={20} className="text-sqoolr-navy" />
