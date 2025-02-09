@@ -1,13 +1,14 @@
+
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import WaitlistForm from "@/components/WaitlistForm";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Home = () => {
-  const [tagline, setTagline] = useState("Smarter");
   const [displayText, setDisplayText] = useState("Smarter");
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [isPartnerFormOpen, setIsPartnerFormOpen] = useState(false);
+  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
 
   useEffect(() => {
     const words = ["Smarter", "Efficient", "Effective"];
@@ -44,6 +45,14 @@ const Home = () => {
     };
   }, [displayText]);
 
+  const nextTestimonial = () => {
+    setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -61,15 +70,14 @@ const Home = () => {
               <span className="text-sqoolr-mint">AI</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8">
-              Sqoolr is the all-in-one solution to streamline school
-              administration, attendance tracking, and student management.
+              AI-powered solutions for smarter school management—streamline administration, enhance collaboration, and enable better learning outcomes.
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
               <button
                 onClick={() => setIsWaitlistOpen(true)}
                 className="w-full md:w-auto bg-sqoolr-mint text-[#243665] px-8 py-4 rounded-full text-lg font-bold hover:bg-opacity-90 transition-all transform hover:scale-105"
               >
-                Join the Waitlist
+                Get Early Access
               </button>
               <button
                 onClick={() => setIsPartnerFormOpen(true)}
@@ -101,38 +109,7 @@ const Home = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                title: "Student Records Management",
-                description:
-                  "Easily manage student profiles, track progress, and store academic records all in one place.",
-              },
-              {
-                title: "Staff Records Management",
-                description:
-                  "Simplify staff management with seamless records tracking, performance assessments, and communications.",
-              },
-              {
-                title: "Admission Management",
-                description:
-                  "Streamline the admissions process with automated workflows and instant access to essential student information.",
-              },
-              {
-                title: "Automated Workflows",
-                description:
-                  "Automate routine tasks and processes to save time and reduce manual effort across all school operations.",
-              },
-              {
-                title: "Finance Management",
-                description:
-                  "Efficiently manage school finances, including fees collection, expenses tracking, and financial reporting.",
-              },
-              {
-                title: "Attendance Tracking",
-                description:
-                  "Automated attendance tracking system for both students and staff with real-time reporting and analytics.",
-              },
-            ].map((feature, index) => (
+            {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
                 initial={{ opacity: 0, y: 20 }}
@@ -162,7 +139,7 @@ const Home = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-sqoolr-navy mb-4">
-              How It Works
+              A Simple, Streamlined Process
             </h2>
           </motion.div>
 
@@ -186,13 +163,84 @@ const Home = () => {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="text-center">
+      {/* Early Access Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center max-w-4xl mx-auto"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-sqoolr-navy mb-6">
+              Be the First to Experience Sqoolr
+            </h2>
+            <p className="text-xl text-gray-600 mb-8">
+              As an early adopter, you'll receive exclusive benefits, including significant discounts, priority support, and a first look at all new features. Don't miss out on this limited-time opportunity to revolutionize your school management with Sqoolr.
+            </p>
             <button
               onClick={() => setIsWaitlistOpen(true)}
-              className="inline-block bg-sqoolr-mint text-[#243665] px-8 py-4 rounded-full text-lg font-bold hover:bg-opacity-90 transition-all transform hover:scale-105"
+              className="bg-sqoolr-mint text-[#243665] px-8 py-4 rounded-full text-lg font-bold hover:bg-opacity-90 transition-all transform hover:scale-105"
             >
-              Join the Waitlist
+              Get Early Access
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-24 bg-sqoolr-light">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-sqoolr-navy mb-4">
+              What Our Users Say
+            </h2>
+          </motion.div>
+
+          <div className="max-w-4xl mx-auto relative">
+            <motion.div
+              key={currentTestimonialIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white p-8 rounded-2xl shadow-lg"
+            >
+              <p className="text-xl text-gray-700 italic mb-6">
+                "{testimonials[currentTestimonialIndex].message}"
+              </p>
+              <div className="flex items-center justify-center">
+                <p className="text-sqoolr-navy font-semibold">
+                  {testimonials[currentTestimonialIndex].name}
+                </p>
+                <span className="mx-2">—</span>
+                <p className="text-gray-600">
+                  {testimonials[currentTestimonialIndex].role}
+                </p>
+              </div>
+            </motion.div>
+
+            <button
+              onClick={prevTestimonial}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 bg-white p-2 rounded-full shadow-lg hover:bg-sqoolr-mint transition-colors"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={nextTestimonial}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 bg-white p-2 rounded-full shadow-lg hover:bg-sqoolr-mint transition-colors"
+            >
+              <ChevronRight className="w-6 h-6" />
             </button>
           </div>
         </div>
@@ -216,41 +264,69 @@ const features = [
       "Simplify staff management with seamless records tracking, performance assessments, and communications.",
   },
   {
-    title: "Admission Management",
+    title: "Automated Workflows",
     description:
-      "Streamline the admissions process with automated workflows and instant access to essential student information.",
+      "Streamline school operations by eliminating repetitive tasks, improving efficiency, and allowing staff to focus on what matters most—student success.",
   },
   {
-    title: "Class Management",
+    title: "AI-Powered Insights",
     description:
-      "Plan, organize, and manage classes effortlessly, from schedules to attendance, in real time.",
+      "Make informed decisions with advanced data analytics that help improve learning outcomes and operational efficiency.",
   },
   {
-    title: "Finance Management",
+    title: "Real-Time Notifications",
     description:
-      "Efficiently manage school finances, including fees collection, expenses tracking, and financial reporting.",
+      "Stay updated with instant alerts for school activities, assignments, and more.",
   },
   {
     title: "Attendance Tracking",
     description:
-      "Automated attendance tracking system for both students and staff with real-time reporting and analytics.",
+      "Efficiently record and manage attendance for students and staff with real-time reporting and insightful analytics.",
   },
 ];
 
 const steps = [
   {
-    title: "Sign Up",
-    description: "Join our waitlist and be the first to experience Sqoolr!",
+    title: "Sign Up & Onboard",
+    description: "Join the waitlist to be the first to try Sqoolr and experience its seamless school management features.",
   },
   {
-    title: "Onboard Easily",
+    title: "Set Up Your School",
     description:
-      "Our user-friendly platform makes it simple to set up and manage your school's records and operations.",
+      "Our platform's easy setup guide will help you configure your school, classes, and students in just a few steps.",
   },
   {
-    title: "Improve Efficiency",
+    title: "Manage Your School Smarter",
     description:
-      "Save time, reduce errors, and foster better communication with our comprehensive management tools.",
+      "Once you're set up, use our intuitive dashboard and AI-powered tools to enhance school operations and foster better learning outcomes.",
+  },
+];
+
+const testimonials = [
+  {
+    name: "Mr. Adekunle O.",
+    role: "Principal",
+    message: "Sqoolr is exactly what we need! Managing student records and staff information in one place will make our work so much easier.",
+  },
+  {
+    name: "Mrs. Ngozi E.",
+    role: "School Administrator",
+    message: "A smart school management system like Sqoolr is long overdue. I'm excited to see how the AI-powered insights will help us improve learning outcomes.",
+  },
+  {
+    name: "Mr. Chidi A.",
+    role: "Head of Academics",
+    message: "We've struggled with inefficient school processes for too long. Sqoolr looks like the perfect solution to simplify administration and communication.",
+  },
+  {
+    name: "Mrs. Funmi T.",
+    role: "School Proprietor",
+    message: "The ability to manage multiple campuses under one platform is a game-changer for us. We can't wait to get started with Sqoolr!",
+  },
+  {
+    name: "Mr. Ibrahim B.",
+    role: "Teacher",
+    message: "With Sqoolr, teachers like me can finally focus more on teaching and less on admin work. The automation and analytics will help us work smarter.",
   },
 ];
 
