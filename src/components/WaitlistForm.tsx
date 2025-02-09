@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Dialog,
@@ -6,6 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface WaitlistFormProps {
   isOpen: boolean;
@@ -23,25 +25,45 @@ const WaitlistForm = ({ isOpen, onClose, type }: WaitlistFormProps) => {
     location: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    console.log("Form submitted:", formData);
-    toast({
-      title: "Success!",
-      description: type === "waitlist" 
-        ? "You've been added to our waitlist."
-        : "Your partner school application has been received.",
-    });
-    onClose();
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      schoolName: "",
-      role: "",
-      location: "",
-    });
+    
+    try {
+      const { error } = await supabase.from('waitlist_entries').insert({
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        school_name: formData.schoolName,
+        role: formData.role,
+        location: formData.location,
+        type: type
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success!",
+        description: type === "waitlist" 
+          ? "You've been added to our early access list."
+          : "Your partner school application has been received.",
+      });
+      onClose();
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        schoolName: "",
+        role: "",
+        location: "",
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error",
+        description: "There was an error submitting your form. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleChange = (
@@ -56,7 +78,7 @@ const WaitlistForm = ({ isOpen, onClose, type }: WaitlistFormProps) => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-sqoolr-navy">
-            {type === "waitlist" ? "Join Our Waitlist" : "Become a Partner School"}
+            {type === "waitlist" ? "Get Early Access" : "Become a Partner School"}
           </DialogTitle>
         </DialogHeader>
         {type === "partner" && (
@@ -159,7 +181,7 @@ const WaitlistForm = ({ isOpen, onClose, type }: WaitlistFormProps) => {
             type="submit"
             className="w-full bg-sqoolr-mint text-sqoolr-navy font-bold px-6 py-3 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105"
           >
-            {type === "waitlist" ? "Join Waitlist" : "Submit Application"}
+            {type === "waitlist" ? "Get Early Access" : "Submit Application"}
           </button>
         </form>
       </DialogContent>
