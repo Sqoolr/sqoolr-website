@@ -10,6 +10,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { ChevronRight } from "lucide-react";
 
 type Feature = {
   name: string;
@@ -470,7 +471,7 @@ const Pricing = () => {
                   className="w-full bg-sqoolr-navy text-white hover:bg-opacity-90"
                   disabled={plan.name === "Flex Plan" && flexMonths < 2}
                 >
-                  {plan.name === "Flex Plan" ? "Choose Flex Plan" : plan.buttonText}
+                  {plan.name === "Flex Plan" ? "Get Early Access" : plan.buttonText}
                 </Button>
               </div>
             </motion.div>

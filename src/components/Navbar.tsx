@@ -9,7 +9,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import WaitlistForm from "@/components/WaitlistForm";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "flowbite-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
 
 const Navbar = () => {
@@ -120,7 +120,7 @@ const Navbar = () => {
               onClick={() => setIsWaitlistOpen(true)}
               className="bg-sqoolr-mint text-sqoolr-navy px-6 py-2 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105 font-bold"
             >
-              Join Waitlist
+              Get Early Access
             </button>
           </div>
         </div>
@@ -175,7 +175,7 @@ const Navbar = () => {
                   }}
                   className="bg-sqoolr-mint text-sqoolr-navy px-6 py-2 rounded-full hover:bg-opacity-90 transition-all font-bold"
                 >
-                  Join Waitlist
+                  Get Early Access
                 </button>
               </div>
             </div>

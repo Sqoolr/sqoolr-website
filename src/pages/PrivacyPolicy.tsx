@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 
 const PrivacyPolicy = () => {
@@ -77,10 +78,7 @@ const PrivacyPolicy = () => {
             <h2 className="text-2xl font-semibold text-sqoolr-navy mt-8 mb-4">6. Third-Party Links</h2>
             <p className="mb-6">Our website may contain links to third-party websites or services that are not owned or controlled by Sqoolr. We are not responsible for the privacy practices of these third-party sites. We encourage you to review their privacy policies before providing any personal information.</p>
 
-            <h2 className="text-2xl font-semibold text-sqoolr-navy mt-8 mb-4">7. Children's Privacy</h2>
-            <p className="mb-6">Our website and services are not intended for children under the age of 13. We do not knowingly collect personal information from children. If we become aware that we have collected personal information from a child under the age of 13, we will take steps to delete that information.</p>
-
-            <h2 className="text-2xl font-semibold text-sqoolr-navy mt-8 mb-4">8. Changes to This Privacy Policy</h2>
+            <h2 className="text-2xl font-semibold text-sqoolr-navy mt-8 mb-4">7. Changes to This Privacy Policy</h2>
             <p className="mb-6">We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the date of the most recent update will be indicated at the top. By continuing to use our website and services after the updates, you agree to the changes.</p>
 
             <hr className="my-8 border-gray-200" />
