@@ -260,6 +260,9 @@ const Pricing = () => {
 
   const handleQuizAnswer = (field: string, value: string) => {
     setQuizAnswers(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
     } else {
@@ -301,7 +304,12 @@ const Pricing = () => {
   const scrollToRecommendedPlan = (planName: string) => {
     const element = document.getElementById(`${planName.toLowerCase()}-plan`);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Add a highlight effect
+      element.classList.add('ring-4', 'ring-sqoolr-mint', 'ring-opacity-50');
+      setTimeout(() => {
+        element.classList.remove('ring-4', 'ring-sqoolr-mint', 'ring-opacity-50');
+      }, 2000);
     }
   };
 
@@ -326,13 +334,15 @@ const Pricing = () => {
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
+              id={`${plan.name.toLowerCase()}-plan`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={cn(
                 "rounded-2xl p-6 shadow-lg transition-all duration-300",
                 plan.bgClass,
-                plan.name === "Standard" && "transform scale-105 ring-2 ring-sqoolr-mint"
+                plan.name === "Standard" && "transform scale-105 ring-2 ring-sqoolr-mint",
+                recommendedPlan === plan.name && "ring-4 ring-sqoolr-mint ring-opacity-50"
               )}
             >
               <div className="text-center mb-6">
@@ -472,7 +482,7 @@ const Pricing = () => {
             Find Your Perfect Plan
           </h2>
           <p className="text-center text-gray-600 mb-12">
-            Answer a few questions about your school, and we'll help you find the plan that best suits your needs.
+            Answer a few questions about your school's needs and size, and we'll help you find the plan that best fits your requirements. Our recommendation engine considers factors like student count, campus locations, and desired features.
           </p>
           
           {recommendedPlan ? (
@@ -520,6 +530,8 @@ const Pricing = () => {
                     {question.text}
                   </h3>
                   
+                  <p className="text-gray-600 mb-6">{question.description}</p>
+                  
                   {question.id === "students" || question.id === "campuses" ? (
                     <div className="space-y-4">
                       <Input
@@ -528,70 +540,52 @@ const Pricing = () => {
                         value={quizAnswers[question.id]}
                         onChange={(e) => handleQuizAnswer(question.id, e.target.value)}
                         className="w-full"
+                        placeholder="Enter a number"
                       />
-                      {currentQuestionIndex < questions.length - 1 && (
-                        <Button
-                          onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
-                          className="bg-sqoolr-navy text-white mt-4"
-                          disabled={!quizAnswers[question.id]}
-                        >
-                          Next Question <ChevronRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      )}
                     </div>
                   ) : question.id === "communication" ? (
-                    <div className="space-y-4">
-                      <RadioGroup
-                        value={quizAnswers[question.id]}
-                        onValueChange={(value) => handleQuizAnswer(question.id, value)}
-                      >
-                        <div className="space-y-2">
-                          {question.options?.map((option) => (
-                            <div key={option.value} className="flex items-center space-x-2">
-                              <RadioGroupItem value={option.value} id={option.value} />
-                              <Label htmlFor={option.value}>{option.label}</Label>
-                            </div>
-                          ))}
+                    <RadioGroup
+                      value={quizAnswers[question.id]}
+                      onValueChange={(value) => handleQuizAnswer(question.id, value)}
+                      className="space-y-4"
+                    >
+                      {question.options?.map((option) => (
+                        <div key={option.value} className="flex items-center space-x-2">
+                          <RadioGroupItem value={option.value} id={option.value} />
+                          <Label htmlFor={option.value}>{option.label}</Label>
                         </div>
-                      </RadioGroup>
-                      {currentQuestionIndex < questions.length - 1 && (
-                        <Button
-                          onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
-                          className="bg-sqoolr-navy text-white mt-4"
-                          disabled={!quizAnswers[question.id]}
-                        >
-                          Next Question <ChevronRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
+                      ))}
+                    </RadioGroup>
                   ) : (
-                    <div className="space-y-4">
-                      <RadioGroup
-                        value={quizAnswers[question.id]}
-                        onValueChange={(value) => handleQuizAnswer(question.id, value)}
-                      >
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="yes" id={`${question.id}-yes`} />
-                            <Label htmlFor={`${question.id}-yes`}>Yes</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="no" id={`${question.id}-no`} />
-                            <Label htmlFor={`${question.id}-no`}>No</Label>
-                          </div>
-                        </div>
-                      </RadioGroup>
-                      {currentQuestionIndex < questions.length - 1 && (
-                        <Button
-                          onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
-                          className="bg-sqoolr-navy text-white mt-4"
-                          disabled={!quizAnswers[question.id]}
-                        >
-                          Next Question <ChevronRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
+                    <RadioGroup
+                      value={quizAnswers[question.id]}
+                      onValueChange={(value) => handleQuizAnswer(question.id, value)}
+                      className="space-y-4"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="yes" id={`${question.id}-yes`} />
+                        <Label htmlFor={`${question.id}-yes`}>Yes</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="no" id={`${question.id}-no`} />
+                        <Label htmlFor={`${question.id}-no`}>No</Label>
+                      </div>
+                    </RadioGroup>
                   )}
+                  
+                  <Button
+                    onClick={handleNextQuestion}
+                    className="bg-sqoolr-navy text-white mt-6 w-full sm:w-auto"
+                    disabled={!quizAnswers[question.id]}
+                  >
+                    {currentQuestionIndex === questions.length - 1 ? (
+                      "Get Recommendation"
+                    ) : (
+                      <>
+                        Next Question <ChevronRight className="ml-2 h-4 w-4" />
+                      </>
+                    )}
+                  </Button>
                 </div>
               ))}
             </div>

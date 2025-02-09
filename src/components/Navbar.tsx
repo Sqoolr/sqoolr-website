@@ -133,7 +133,7 @@ const Navbar = () => {
                 <div key={link.path}>
                   {link.dropdownItems ? (
                     <Collapsible>
-                      <CollapsibleTrigger className="w-full text-left font-medium font-montserrat text-sqoolr-navy hover:text-sqoolr-navy px-4 py-2 rounded-md transition-colors flex items-center justify-between">
+                      <CollapsibleTrigger className="w-full text-left font-medium font-montserrat text-gray-600 hover:text-sqoolr-navy px-4 py-2 rounded-md transition-colors flex items-center justify-between">
                         {link.name}
                         <ChevronDown className="h-4 w-4" />
                       </CollapsibleTrigger>

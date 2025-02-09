@@ -9,7 +9,125 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      payment_history: {
+        Row: {
+          amount: number
+          created_at: string | null
+          id: string
+          payment_date: string | null
+          payment_reference: string | null
+          payment_status: string
+          subscription_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          id?: string
+          payment_date?: string | null
+          payment_reference?: string | null
+          payment_status: string
+          subscription_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          payment_date?: string | null
+          payment_reference?: string | null
+          payment_status?: string
+          subscription_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_history_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      schools: {
+        Row: {
+          address: string | null
+          campus_count: number | null
+          contact_email: string
+          contact_phone: string | null
+          created_at: string | null
+          id: string
+          name: string
+          student_count: number
+          updated_at: string | null
+        }
+        Insert: {
+          address?: string | null
+          campus_count?: number | null
+          contact_email: string
+          contact_phone?: string | null
+          created_at?: string | null
+          id?: string
+          name: string
+          student_count: number
+          updated_at?: string | null
+        }
+        Update: {
+          address?: string | null
+          campus_count?: number | null
+          contact_email?: string
+          contact_phone?: string | null
+          created_at?: string | null
+          id?: string
+          name?: string
+          student_count?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          amount_paid: number | null
+          created_at: string | null
+          end_date: string | null
+          extra_students_count: number | null
+          id: string
+          number_of_months: number | null
+          plan_type: Database["public"]["Enums"]["plan_type"]
+          school_id: string
+          start_date: string | null
+          status: Database["public"]["Enums"]["subscription_status"]
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_paid?: number | null
+          created_at?: string | null
+          end_date?: string | null
+          extra_students_count?: number | null
+          id?: string
+          number_of_months?: number | null
+          plan_type: Database["public"]["Enums"]["plan_type"]
+          school_id: string
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["subscription_status"]
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_paid?: number | null
+          created_at?: string | null
+          end_date?: string | null
+          extra_students_count?: number | null
+          id?: string
+          number_of_months?: number | null
+          plan_type?: Database["public"]["Enums"]["plan_type"]
+          school_id?: string
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["subscription_status"]
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +136,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      plan_type: "free_trial" | "basic" | "standard" | "premium" | "flex"
+      subscription_status: "active" | "cancelled" | "expired" | "pending"
     }
     CompositeTypes: {
       [_ in never]: never
