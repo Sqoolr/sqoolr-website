@@ -1,18 +1,16 @@
-import { motion } from "framer-motion";
+
 import { useState, useRef } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Mail, Phone, FileText } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/lib/supabase";
 import { useNavigate } from "react-router-dom";
@@ -90,7 +88,6 @@ const HelpCenter = () => {
       return;
     }
 
-    // Send confirmation email using the edge function
     await supabase.functions.invoke('send-ticket-confirmation', {
       body: {
         ticketNumber,
@@ -120,124 +117,139 @@ const HelpCenter = () => {
   };
 
   return (
-    <Dialog open={isTicketDialogOpen} onOpenChange={setIsTicketDialogOpen}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>Submit Support Ticket</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleTicketSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="category">Category*</Label>
-            <select
-              id="category"
-              name="category"
-              required
-              className="w-full p-2 border rounded"
-              value={ticketForm.category}
-              onChange={(e) => setTicketForm(prev => ({ ...prev, category: e.target.value }))}
-            >
-              <option value="">Select a category</option>
-              <option value="technical">Technical Issue</option>
-              <option value="billing">Billing</option>
-              <option value="feature">Feature Request</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-white to-sqoolr-light py-24">
+      <div className="container mx-auto px-6">
+        <div className="max-w-4xl mx-auto text-center mb-12">
+          <h1 className="text-4xl font-bold text-sqoolr-navy mb-6">Help Center</h1>
+          <p className="text-lg text-gray-600 mb-8">
+            Need assistance? We're here to help! Submit a support ticket and our team will get back to you shortly.
+          </p>
+          <Button 
+            onClick={() => setIsTicketDialogOpen(true)}
+            className="bg-sqoolr-mint text-sqoolr-navy hover:bg-opacity-90"
+          >
+            Submit Support Ticket
+          </Button>
+        </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="description">Issue Description*</Label>
-            <Textarea
-              id="description"
-              required
-              value={ticketForm.description}
-              onChange={(e) => setTicketForm(prev => ({ ...prev, description: e.target.value }))}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="attachments">Attachments (Optional)</Label>
-            <Input
-              id="attachments"
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              accept=".jpg,.jpeg,.png,.pdf"
-              multiple
-              className="cursor-pointer"
-            />
-            <p className="text-sm text-gray-500">
-              Accepted formats: JPEG, PNG, PDF
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="fullName">Full Name*</Label>
-            <Input
-              type="text"
-              id="fullName"
-              required
-              value={ticketForm.fullName}
-              onChange={(e) => setTicketForm(prev => ({ ...prev, fullName: e.target.value }))}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="email">Email*</Label>
-            <Input
-              type="email"
-              id="email"
-              required
-              value={ticketForm.email}
-              onChange={(e) => setTicketForm(prev => ({ ...prev, email: e.target.value }))}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number</Label>
-            <Input
-              type="tel"
-              id="phone"
-              value={ticketForm.phone}
-              onChange={(e) => setTicketForm(prev => ({ ...prev, phone: e.target.value }))}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="priority">Priority</Label>
-            <RadioGroup
-              defaultValue="low"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="low" id="r1" />
-                <Label htmlFor="r1">Low</Label>
+        <Dialog open={isTicketDialogOpen} onOpenChange={setIsTicketDialogOpen}>
+          <DialogContent className="sm:max-w-[500px]">
+            <DialogHeader>
+              <DialogTitle>Submit Support Ticket</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleTicketSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="category">Category*</Label>
+                <select
+                  id="category"
+                  name="category"
+                  required
+                  className="w-full p-2 border rounded"
+                  value={ticketForm.category}
+                  onChange={(e) => setTicketForm(prev => ({ ...prev, category: e.target.value }))}
+                >
+                  <option value="">Select a category</option>
+                  <option value="technical">Technical Issue</option>
+                  <option value="billing">Billing</option>
+                  <option value="feature">Feature Request</option>
+                  <option value="other">Other</option>
+                </select>
               </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="medium" id="r2" />
-                <Label htmlFor="r2">Medium</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="high" id="r3" />
-                <Label htmlFor="r3">High</Label>
-              </div>
-            </RadioGroup>
-          </div>
 
-          <div className="space-x-2">
-            <Button type="submit">Submit Ticket</Button>
-            <Button 
-              type="button" 
-              variant="outline"
-              onClick={() => {
-                setIsTicketDialogOpen(false);
-                navigate('/help');
-              }}
-            >
-              Return to Help Centre
-            </Button>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
+              <div className="space-y-2">
+                <Label htmlFor="description">Issue Description*</Label>
+                <Textarea
+                  id="description"
+                  required
+                  value={ticketForm.description}
+                  onChange={(e) => setTicketForm(prev => ({ ...prev, description: e.target.value }))}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="attachments">Attachments (Optional)</Label>
+                <Input
+                  id="attachments"
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept=".jpg,.jpeg,.png,.pdf"
+                  multiple
+                  className="cursor-pointer"
+                />
+                <p className="text-sm text-gray-500">
+                  Accepted formats: JPEG, PNG, PDF
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="fullName">Full Name*</Label>
+                <Input
+                  type="text"
+                  id="fullName"
+                  required
+                  value={ticketForm.fullName}
+                  onChange={(e) => setTicketForm(prev => ({ ...prev, fullName: e.target.value }))}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="email">Email*</Label>
+                <Input
+                  type="email"
+                  id="email"
+                  required
+                  value={ticketForm.email}
+                  onChange={(e) => setTicketForm(prev => ({ ...prev, email: e.target.value }))}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input
+                  type="tel"
+                  id="phone"
+                  value={ticketForm.phone}
+                  onChange={(e) => setTicketForm(prev => ({ ...prev, phone: e.target.value }))}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Priority</Label>
+                <RadioGroup
+                  value={ticketForm.priority}
+                  onValueChange={(value) => setTicketForm(prev => ({ ...prev, priority: value }))}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="low" id="r1" />
+                    <Label htmlFor="r1">Low</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="medium" id="r2" />
+                    <Label htmlFor="r2">Medium</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="high" id="r3" />
+                    <Label htmlFor="r3">High</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
+              <div className="space-x-2">
+                <Button type="submit">Submit Ticket</Button>
+                <Button 
+                  type="button" 
+                  variant="outline"
+                  onClick={() => setIsTicketDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
   );
 };
 
