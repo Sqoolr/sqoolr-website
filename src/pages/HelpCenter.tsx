@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
 import {
@@ -124,7 +123,7 @@ const HelpCenter = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.SUPABASE_ANON_KEY}`
+          'Authorization': `Bearer ${supabaseAnonKey}`
         },
         body: JSON.stringify({
           ticketNumber: ticketData.ticket_number,
