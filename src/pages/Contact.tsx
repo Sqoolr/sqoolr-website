@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
@@ -213,46 +212,39 @@ const Contact = () => {
               className="space-y-8"
             >
               <div className="bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text
-
--2xl font-semibold text-sqoolr-navy mb-4">
-                  Contact Information
+                <h2 className="text-2xl font-semibold text-sqoolr-navy mb-4">
+                  Connect With Us
                 </h2>
-                <p className="text-gray-600 mb-4">
-                  Email:{" "}
-                  <a
-                    href="mailto:hello@sqoolr.ng"
-                    className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-                  >
-                    hello@sqoolr.ng
-                  </a>
-                </p>
                 <div className="flex space-x-6">
                   <a
-                    href="#"
+                    href="https://x.com/sqoolr_ng"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-                    aria-label="Twitter"
                   >
                     <Twitter size={24} />
                   </a>
                   <a
-                    href="#"
+                    href="https://linkedin.com/company/sqoolr"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-                    aria-label="LinkedIn"
                   >
                     <Linkedin size={24} />
                   </a>
                   <a
-                    href="#"
+                    href="https://www.instagram.com/sqoolr.ng/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-                    aria-label="Instagram"
                   >
                     <Instagram size={24} />
                   </a>
                   <a
-                    href="#"
+                    href="https://web.facebook.com/profile.php?id=61573153497159"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-                    aria-label="Facebook"
                   >
                     <Facebook size={24} />
                   </a>

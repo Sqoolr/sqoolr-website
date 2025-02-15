@@ -21,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Mail, Phone, FileText } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/lib/supabase";
 
 const HelpCenter = () => {
   const { toast } = useToast();
@@ -36,13 +37,111 @@ const HelpCenter = () => {
   });
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [agreeToEmails, setAgreeToEmails] = useState(false);
+  const [files, setFiles] = useState<FileList | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleTicketSubmit = (e: React.FormEvent) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = e.target.files;
+    if (selectedFiles) {
+      const validFiles = Array.from(selectedFiles).every(file => {
+        const fileType = file.type;
+        return fileType === 'image/jpeg' || fileType === 'image/png' || fileType === 'application/pdf';
+      });
+
+      if (!validFiles) {
+        toast({
+          title: "Invalid file format",
+          description: "Please upload only JPEG, PNG, or PDF files.",
+          variant: "destructive"
+        });
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        return;
+      }
+
+      setFiles(selectedFiles);
+    }
+  };
+
+  const handleTicketSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Upload files to Supabase storage
+    const fileUrls = [];
+    if (files) {
+      for (const file of Array.from(files)) {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${crypto.randomUUID()}.${fileExt}`;
+        const { data, error } = await supabase.storage
+          .from('support_attachments')
+          .upload(fileName, file);
+
+        if (error) {
+          toast({
+            title: "File upload failed",
+            description: error.message,
+            variant: "destructive"
+          });
+          return;
+        }
+
+        fileUrls.push(data.path);
+      }
+    }
+
+    // Save ticket to database
+    const { data: ticketData, error: ticketError } = await supabase
+      .from('support_tickets')
+      .insert([
+        {
+          category: ticketForm.category,
+          full_name: ticketForm.fullName,
+          email: ticketForm.email,
+          phone: ticketForm.phone,
+          description: ticketForm.description,
+          priority: ticketForm.priority,
+          attachments: fileUrls
+        }
+      ])
+      .select()
+      .single();
+
+    if (ticketError) {
+      toast({
+        title: "Error submitting ticket",
+        description: ticketError.message,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Send confirmation email
+    const emailResponse = await fetch(
+      'https://eextrvidcxsgzjpbryvw.supabase.co/functions/v1/send-ticket-confirmation',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.SUPABASE_ANON_KEY}`
+        },
+        body: JSON.stringify({
+          ticketNumber: ticketData.ticket_number,
+          name: ticketData.full_name,
+          email: ticketData.email
+        })
+      }
+    );
+
+    if (!emailResponse.ok) {
+      console.error('Failed to send confirmation email');
+    }
+
     toast({
-      title: "Ticket Submitted Successfully!",
-      description: "Our support team will get back to you within 24 hours.",
+      title: "Thank you for reaching out!",
+      description: "Your ticket has been submitted successfully. Our support team will get back to you soon.",
     });
+
     setIsTicketDialogOpen(false);
     setTicketForm({
       category: "",
@@ -52,10 +151,22 @@ const HelpCenter = () => {
       description: "",
       priority: "",
     });
+    setFiles(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!agreeToEmails) {
+      toast({
+        title: "Agreement Required",
+        description: "Please agree to receive emails before subscribing.",
+        variant: "destructive"
+      });
+      return;
+    }
     toast({
       title: "Subscription Successful!",
       description: "You've been subscribed to our newsletter.",
@@ -309,6 +420,22 @@ const HelpCenter = () => {
                           </div>
                         ))}
                       </RadioGroup>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="attachments">Attachments (Optional)</Label>
+                      <Input
+                        id="attachments"
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        accept=".jpg,.jpeg,.png,.pdf"
+                        multiple
+                        className="cursor-pointer"
+                      />
+                      <p className="text-sm text-gray-500">
+                        Accepted formats: JPEG, PNG, PDF
+                      </p>
                     </div>
 
                     <Button type="submit" className="w-full">

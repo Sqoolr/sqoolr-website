@@ -1,11 +1,10 @@
-
 import { AnimatePresence, motion } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import WaitlistForm from "@/components/WaitlistForm";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Home = () => {
-  const words = ["Smarter", "Efficient", "Effective"];
+  const words = ["Smarter", "Affordable", "Seamless", "Efficient"];
   const [currentWord, setCurrentWord] = useState(0);
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [isPartnerFormOpen, setIsPartnerFormOpen] = useState(false);
@@ -14,9 +13,6 @@ const Home = () => {
   const [autoScroll, setAutoScroll] = useState(true);
   const autoScrollRef = useRef(null);
 
- 
-
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentWord((prev) => (prev + 1) % words.length);
@@ -24,7 +20,6 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Auto-scrolling testimonials
   useEffect(() => {
     if (autoScroll) {
       autoScrollRef.current = setInterval(() => {
@@ -34,16 +29,13 @@ const Home = () => {
     return () => clearInterval(autoScrollRef.current);
   }, [autoScroll]);
 
-  // Pause auto-scroll on hover
   const handleTestimonialHover = (isHovering) => {
     setAutoScroll(!isHovering);
   };
 
   return (
     <div className="w-full">
-      {/* Hero Section */}
-   
-      <section className="min-h-[80vh] flex items-start justify-center bg-gradient-to-br from-white to-sqoolr-light relative overflow-hidden pt-20 md:pt-24">
+      <section className="min-h-[70vh] flex items-start justify-center bg-gradient-to-br from-white to-sqoolr-light relative overflow-hidden pt-20 md:pt-24">
         <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -59,7 +51,7 @@ const Home = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5 }}
-                  className="text-sqoolr-mint inline-block"
+                  className="bg-gradient-to-r from-sqoolr-navy via-sqoolr-mint to-sqoolr-navy bg-clip-text text-transparent inline-block"
                 >
                   {words[currentWord]}
                 </motion.span>
@@ -74,7 +66,7 @@ const Home = () => {
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6, type: "spring" }}
-                className="text-sqoolr-mint"
+                className="bg-gradient-to-r from-sqoolr-navy via-sqoolr-mint to-sqoolr-navy bg-clip-text text-transparent"
               >AI</motion.span>
             </h1>
             <motion.p
@@ -111,7 +103,6 @@ const Home = () => {
           </motion.div>
         </div>
 
-        {/* Background decoration */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.1 }}
@@ -126,12 +117,7 @@ const Home = () => {
         />
       </section>
 
-
-
- 
-
-      {/* Features Section */}
-      <section className="py-24 bg-white">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -177,75 +163,91 @@ const Home = () => {
         </div>
       </section>
 
-  
-
-      {/* How It Works Section */}
-      <section className="py-24 bg-sqoolr-light">
-  <div className="container mx-auto px-4 sm:px-6">
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: true }}
-      className="text-center mb-16"
-    >
-      <h2 className="text-3xl md:text-4xl font-bold text-sqoolr-navy mb-4">
-        A Simple, Streamlined Process
-      </h2>
-    </motion.div>
-
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-      {steps.map((step, index) => (
-        <motion.div
-          key={step.title}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ 
-            opacity: 1, 
-            y: 0,
-            transition: {
-              duration: 0.5,
-              delay: index * 0.2
-            }
-          }}
-          viewport={{ once: true }}
-          whileHover={{ scale: 1.05 }}
-          onClick={() => setActiveStep(index)}
-          className="text-center cursor-pointer relative"
-        >
+      <section className="py-16 bg-gradient-to-br from-white to-sqoolr-light">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div
-            animate={{
-              scale: activeStep === index ? 1.1 : 1,
-              backgroundColor: activeStep === index ? '#2dd4bf' : '#4fd1c5'
-            }}
-            className="w-16 h-16 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="max-w-6xl mx-auto"
           >
-            <span>{index + 1}</span>
+            <img
+              src="/dashboard-preview.png"
+              alt="Sqoolr Dashboard"
+              className="w-full rounded-lg shadow-2xl transform hover:scale-[1.02] transition-transform duration-300"
+              style={{
+                boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
+              }}
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-sqoolr-light">
+        <div className="container mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-sqoolr-navy mb-4">
+              A Simple, Streamlined Process
+            </h2>
           </motion.div>
 
-          <motion.h3
-            animate={{
-              color: activeStep === index ? '#1e40af' : '#1e3a8a'
-            }}
-            className="text-xl font-semibold mb-4"
-          >
-            {step.title}
-          </motion.h3>
-          <motion.p
-            animate={{
-              opacity: activeStep === index ? 1 : 0.7
-            }}
-            className="text-gray-600"
-          >
-            {step.description}
-          </motion.p>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
- 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {steps.map((step, index) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    delay: index * 0.2
+                  }
+                }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05 }}
+                onClick={() => setActiveStep(index)}
+                className="text-center cursor-pointer relative"
+              >
+                <motion.div
+                  animate={{
+                    scale: activeStep === index ? 1.1 : 1,
+                    backgroundColor: activeStep === index ? '#2dd4bf' : '#4fd1c5'
+                  }}
+                  className="w-16 h-16 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6"
+                >
+                  <span>{index + 1}</span>
+                </motion.div>
 
-      {/* Early Access Section */}
+                <motion.h3
+                  animate={{
+                    color: activeStep === index ? '#1e40af' : '#1e3a8a'
+                  }}
+                  className="text-xl font-semibold mb-4"
+                >
+                  {step.title}
+                </motion.h3>
+                <motion.p
+                  animate={{
+                    opacity: activeStep === index ? 1 : 0.7
+                  }}
+                  className="text-gray-600"
+                >
+                  {step.description}
+                </motion.p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <motion.div
@@ -273,120 +275,108 @@ const Home = () => {
         </div>
       </section>
 
-
-    
-
-      {/* Testimonials Section */}
       <section className="py-24 bg-sqoolr-light">
-  <div className="container mx-auto px-4 sm:px-6">
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: true }}
-      className="text-center mb-16"
-    >
-      <h2 className="text-3xl md:text-4xl font-bold text-sqoolr-navy mb-4">
-        What Our Users Say
-      </h2>
-    </motion.div>
-
-    <div 
-      className="max-w-4xl mx-auto relative"
-      onMouseEnter={() => handleTestimonialHover(true)}
-      onMouseLeave={() => handleTestimonialHover(false)}
-    >
-      <div className="relative h-[300px] md:h-[250px] overflow-hidden rounded-2xl">
-        <AnimatePresence mode="wait" initial={false}>
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div
-            key={currentTestimonialIndex}
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 30
-            }}
-            className="absolute w-full h-full bg-white p-6 md:p-8 rounded-2xl shadow-lg"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
           >
-            <div className="h-full flex flex-col justify-center">
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-lg md:text-xl text-gray-700 italic mb-6"
-              >
-                "{testimonials[currentTestimonialIndex].message}"
-              </motion.p>
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="flex items-center justify-center flex-wrap gap-2"
-              >
-                <p className="text-sqoolr-navy font-semibold">
-                  {testimonials[currentTestimonialIndex].name}
-                </p>
-                <span className="mx-2">—</span>
-                <p className="text-gray-600">
-                  {testimonials[currentTestimonialIndex].role}
-                </p>
-              </motion.div>
-            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-sqoolr-navy mb-4">
+              What Our Users Say
+            </h2>
           </motion.div>
-        </AnimatePresence>
 
-      
-     
-      </div>
+          <div 
+            className="max-w-4xl mx-auto relative"
+            onMouseEnter={() => handleTestimonialHover(true)}
+            onMouseLeave={() => handleTestimonialHover(false)}
+          >
+            <div className="relative h-[300px] md:h-[250px] overflow-hidden rounded-2xl">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={currentTestimonialIndex}
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30
+                  }}
+                  className="absolute w-full h-full bg-white p-6 md:p-8 rounded-2xl shadow-lg"
+                >
+                  <div className="h-full flex flex-col justify-center">
+                    <motion.p 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 }}
+                      className="text-lg md:text-xl text-gray-700 italic mb-6"
+                    >
+                      "{testimonials[currentTestimonialIndex].message}"
+                    </motion.p>
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                      className="flex items-center justify-center flex-wrap gap-2"
+                    >
+                      <p className="text-sqoolr-navy font-semibold">
+                        {testimonials[currentTestimonialIndex].name}
+                      </p>
+                      <span className="mx-2">—</span>
+                      <p className="text-gray-600">
+                        {testimonials[currentTestimonialIndex].role}
+                      </p>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
-      {/* Arrow Navigation */}
-      <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => {
-          setCurrentTestimonialIndex((prev) => 
-            prev === 0 ? testimonials.length - 1 : prev - 1
-          );
-        }}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-12 bg-white p-2 rounded-full shadow-lg hover:bg-sqoolr-mint hover:text-white transition-colors z-10"
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </motion.button>
-      <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => {
-          setCurrentTestimonialIndex((prev) => 
-            (prev + 1) % testimonials.length
-          );
-        }}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-12 bg-white p-2 rounded-full shadow-lg hover:bg-sqoolr-mint hover:text-white transition-colors z-10"
-      >
-        <ChevronRight className="w-6 h-6" />
-      </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                setCurrentTestimonialIndex((prev) => 
+                  prev === 0 ? testimonials.length - 1 : prev - 1
+                );
+              }}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-12 bg-white p-2 rounded-full shadow-lg hover:bg-sqoolr-mint hover:text-white transition-colors z-10"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                setCurrentTestimonialIndex((prev) => 
+                  (prev + 1) % testimonials.length
+                );
+              }}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-12 bg-white p-2 rounded-full shadow-lg hover:bg-sqoolr-mint hover:text-white transition-colors z-10"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </motion.button>
 
-      {/* Navigation dots */}
-      <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {testimonials.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentTestimonialIndex(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              currentTestimonialIndex === index
-                ? 'bg-sqoolr-mint w-4'
-                : 'bg-gray-300'
-            }`}
-          />
-        ))}
-      </div>
-    </div>
-  </div>
-</section>
-
-
-   
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTestimonialIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    currentTestimonialIndex === index
+                      ? 'bg-sqoolr-mint w-4'
+                      : 'bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <WaitlistForm isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} type="waitlist" />
       <WaitlistForm isOpen={isPartnerFormOpen} onClose={() => setIsPartnerFormOpen(false)} type="partner" />

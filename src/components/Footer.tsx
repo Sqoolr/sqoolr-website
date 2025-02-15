@@ -3,7 +3,7 @@ import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-sqoolr-navy text-white py-12">
+    <footer className="bg-[#192133] text-white py-12">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
@@ -99,7 +99,9 @@ const Footer = () => {
               <Instagram size={20} className="text-sqoolr-navy" />
             </a>
             <a
-              href="#"
+              href="https://web.facebook.com/profile.php?id=61573153497159"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-sqoolr-mint flex items-center justify-center hover:opacity-90 transition-opacity"
             >
               <Facebook size={20} className="text-sqoolr-navy" />
@@ -113,7 +115,9 @@ const Footer = () => {
               <Linkedin size={20} className="text-sqoolr-navy" />
             </a>
             <a
-              href="#"
+              href="https://x.com/sqoolr_ng"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-sqoolr-mint flex items-center justify-center hover:opacity-90 transition-opacity"
             >
               <Twitter size={20} className="text-sqoolr-navy" />
