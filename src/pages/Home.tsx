@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import WaitlistForm from "@/components/WaitlistForm";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
