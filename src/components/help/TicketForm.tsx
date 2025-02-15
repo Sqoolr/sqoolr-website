@@ -5,8 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface TicketFormProps {
   onSuccess: () => void;
@@ -35,17 +35,23 @@ const TicketForm = ({ onSuccess }: TicketFormProps) => {
     setIsSubmitting(true);
     
     try {
-      const fileUrls = [];
-      if (files) {
+      const fileUrls: string[] = [];
+      if (files && files.length > 0) {
         for (const file of Array.from(files)) {
           const fileExt = file.name.split('.').pop();
           const fileName = `${crypto.randomUUID()}.${fileExt}`;
-          const { data, error } = await supabase.storage
+          const { data: uploadData, error: uploadError } = await supabase.storage
             .from('support_attachments')
             .upload(fileName, file);
 
-          if (error) throw error;
-          fileUrls.push(data.path);
+          if (uploadError) {
+            console.error('Upload error:', uploadError);
+            throw uploadError;
+          }
+
+          if (uploadData) {
+            fileUrls.push(uploadData.path);
+          }
         }
       }
 
@@ -54,19 +60,32 @@ const TicketForm = ({ onSuccess }: TicketFormProps) => {
         .from('support_tickets')
         .insert([{
           ticket_number: ticketNumber,
-          ...formData,
+          category: formData.category,
+          full_name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          description: formData.description,
+          priority: formData.priority,
           attachments: fileUrls
         }]);
 
-      if (ticketError) throw ticketError;
+      if (ticketError) {
+        console.error('Ticket creation error:', ticketError);
+        throw ticketError;
+      }
 
-      await supabase.functions.invoke('send-ticket-confirmation', {
+      // Send confirmation email
+      const { error: emailError } = await supabase.functions.invoke('send-ticket-confirmation', {
         body: {
           ticketNumber,
           name: formData.fullName,
           email: formData.email
         }
       });
+
+      if (emailError) {
+        console.error('Email sending error:', emailError);
+      }
 
       toast({
         title: "Thank you for reaching out!",
@@ -76,9 +95,10 @@ const TicketForm = ({ onSuccess }: TicketFormProps) => {
       onSuccess();
       
     } catch (error: any) {
+      console.error('Form submission error:', error);
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message || "An error occurred while submitting your ticket. Please try again.",
         variant: "destructive"
       });
     } finally {
