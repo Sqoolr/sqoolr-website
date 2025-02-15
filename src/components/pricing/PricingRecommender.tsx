@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 
 interface RecommenderProps {
   onRecommendationComplete: (plan: string) => void;
@@ -74,6 +75,12 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
       onRecommendationComplete(recommended);
     } else {
       setCurrentQuestion(prev => prev + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(prev => prev - 1);
     }
   };
 
@@ -189,12 +196,23 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
           </div>
         )}
 
-        <Button 
-          onClick={handleNext}
-          className="mt-6 w-full bg-sqoolr-navy text-white"
-        >
-          {currentQuestion === questions.length - 1 ? "Get Recommendation" : "Next"}
-        </Button>
+        <div className="flex justify-between mt-6">
+          <Button 
+            onClick={handlePrevious}
+            variant="outline"
+            disabled={currentQuestion === 0}
+            className="w-12 h-12 rounded-full"
+          >
+            <ArrowLeftIcon className="w-5 h-5" />
+          </Button>
+          <Button 
+            onClick={handleNext}
+            disabled={!Object.values(answers)[currentQuestion]}
+            className="w-12 h-12 rounded-full bg-sqoolr-navy"
+          >
+            <ArrowRightIcon className="w-5 h-5" />
+          </Button>
+        </div>
       </motion.div>
     </motion.div>
   );

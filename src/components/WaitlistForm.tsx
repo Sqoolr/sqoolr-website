@@ -157,7 +157,7 @@ const WaitlistForm = ({ isOpen, onClose, type }: WaitlistFormProps) => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
             >
               <option value="">Select a role</option>
-              <option value="owner">School owner/Principal/Proprietor</option>
+              <option value="owner">Owner/Administrator</option>
               <option value="teacher">Teacher</option>
               <option value="other">Others</option>
             </select>
