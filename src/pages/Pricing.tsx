@@ -35,6 +35,10 @@ const Pricing = () => {
       billingPeriod: billingPeriod === "term" ? "per term" : "per year",
       maxStudents: "Up to 60 students",
       originalMaxStudents: "Up to 50 students",
+      extraStudentBlocks: [
+        { count: 25, termPrice: 62500, yearPrice: 187500 },
+        { count: 50, termPrice: 125000, yearPrice: 375000 }
+      ],
       features: [
         { name: "Real-time Notifications", available: true },
         { name: "Student Information Management", available: true },
@@ -53,13 +57,14 @@ const Pricing = () => {
         { name: "Admissions Module", available: false },
         { name: "Multi-Schools Support", available: false },
         { name: "Reports and Analytics", available: false },
-        { name: "Extra Students", available: false }
+        { name: "Extra Students", available: true }
       ],
       earlyAdopterBenefits: {
         price: "₦100,000",
         students: "Up to 60 students"
       },
       bgClass: "bg-gradient-to-br from-white to-blue-50",
+      recommended: recommendedPlan === "Basic"
     },
     {
       name: "Standard",
@@ -70,6 +75,10 @@ const Pricing = () => {
       billingPeriod: billingPeriod === "term" ? "per term" : "per year",
       maxStudents: "Up to 180 students",
       originalMaxStudents: "Up to 150 students",
+      extraStudentBlocks: [
+        { count: 50, termPrice: 125000, yearPrice: 375000 },
+        { count: 100, termPrice: 250000, yearPrice: 750000 }
+      ],
       features: [
         { name: "Real-time Notifications", available: true },
         { name: "Student Information Management", available: true },
@@ -88,13 +97,14 @@ const Pricing = () => {
         { name: "Admissions Module", available: false },
         { name: "Multi-Schools Support", available: false },
         { name: "Reports and Analytics", available: false },
-        { name: "Extra Students", available: false }
+        { name: "Extra Students", available: true }
       ],
       earlyAdopterBenefits: {
         price: "₦250,000",
         students: "Up to 180 students"
       },
       bgClass: "bg-gradient-to-br from-white to-purple-50",
+      recommended: recommendedPlan === "Standard"
     },
     {
       name: "Premium",
@@ -105,9 +115,24 @@ const Pricing = () => {
       billingPeriod: billingPeriod === "term" ? "per term" : "per year",
       maxStudents: "Up to 600 students",
       originalMaxStudents: "Up to 500 students",
-      extraStudentFee: "₦1,500 per extra student",
+      extraStudentBlocks: [
+        { count: 50, termPrice: 125000, yearPrice: 375000 },
+        { count: 100, termPrice: 250000, yearPrice: 750000 },
+        { count: 150, termPrice: 375000, yearPrice: 1125000 }
+      ],
       features: [
-        { name: "All Standard Features", available: true },
+        { name: "Real-time Notifications", available: true },
+        { name: "Student Information Management", available: true },
+        { name: "Staff Information Management", available: true },
+        { name: "Class Management", available: true },
+        { name: "Events & Calendar Management", available: true },
+        { name: "Guardians Module", available: true },
+        { name: "Students Module", available: true },
+        { name: "Subjects Management", available: true },
+        { name: "Timetable Management", available: true },
+        { name: "Attendance Module", available: true },
+        { name: "Teachers Module", available: true },
+        { name: "User-Defined Roles", available: true },
         { name: "AI-Powered Insights", available: true },
         { name: "Finance Management", available: true },
         { name: "Admissions Module", available: true },
@@ -120,6 +145,7 @@ const Pricing = () => {
         students: "Up to 600 students"
       },
       bgClass: "bg-gradient-to-br from-white to-amber-50",
+      recommended: recommendedPlan === "Premium"
     },
     {
       name: "Flex",
@@ -127,6 +153,7 @@ const Pricing = () => {
       price: "₦45,000",
       billingPeriod: "per month (min. 2 months)",
       maxStudents: "Up to 50 students",
+      isFlexPlan: true,
       features: [
         { name: "Real-time Notifications", available: true },
         { name: "Student Information Management", available: true },
@@ -137,7 +164,7 @@ const Pricing = () => {
         { name: "Students Module", available: true },
         { name: "Subjects Management", available: true },
         { name: "Timetable Management", available: true },
-        { name: "Attendance Module", available: true },
+        { name: "Attendance Module", available: false },
         { name: "Teachers Module", available: false },
         { name: "User-Defined Roles", available: false },
         { name: "AI-Powered Insights", available: false },
@@ -148,6 +175,7 @@ const Pricing = () => {
         { name: "Extra Students", available: false }
       ],
       bgClass: "bg-gradient-to-br from-white to-green-50",
+      recommended: recommendedPlan === "Flex"
     }
   ];
 
@@ -171,12 +199,12 @@ const Pricing = () => {
             <div
               key={plan.name}
               ref={recommendedPlan === plan.name ? recommendedPlanRef : null}
-              className={`relative ${recommendedPlan === plan.name ? "ring-4 ring-sqoolr-mint" : ""}`}
             >
               <PlanCard
                 plan={plan}
                 onPlanSelect={handlePlanSelection}
                 isHighlighted={plan.name === "Standard"}
+                billingPeriod={billingPeriod}
               />
             </div>
           ))}
