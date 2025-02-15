@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckIcon, XMarkIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
@@ -118,12 +119,12 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
           <p className="text-gray-600 text-lg">{plan.maxStudents}</p>
         </div>
 
-        {plan.extraStudentBlocks && (
+        {plan.extraStudentBlocks && !plan.isFlexPlan && plan.name !== "Premium" && (
           <div className="mt-4">
             <p className="text-sm text-gray-600 mb-2">Add extra students</p>
             <Select 
-              onValueChange={(value) => setSelectedExtraStudents(Number(value))}
-              value={selectedExtraStudents.toString()}
+              onValueChange={(value) => setExtraStudents(Number(value))}
+              value={extraStudents.toString()}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select extra students" />
@@ -142,6 +143,27 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
           </div>
         )}
 
+        {plan.name === "Premium" && (
+          <div className="mt-4">
+            <p className="text-sm text-gray-600 mb-2">Add extra students (in blocks of 50)</p>
+            <input
+              type="number"
+              min="0"
+              step="50"
+              value={extraStudents}
+              onChange={(e) => handleExtraStudentsChange(Number(e.target.value))}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
+            />
+            {extraStudents > 0 && (
+              <p className="text-sm text-gray-600 mt-2">
+                Additional cost: {billingPeriod === "term" ? 
+                  `₦${((extraStudents / 50) * 125000).toLocaleString()}` : 
+                  `₦${((extraStudents / 50) * 375000).toLocaleString()}`}
+              </p>
+            )}
+          </div>
+        )}
+
         {plan.isFlexPlan && (
           <div className="mt-4">
             <p className="text-sm text-gray-600 mb-2">Select number of months (min. 2)</p>
@@ -156,20 +178,6 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
           </div>
         )}
       </div>
-
-      {plan.name === "Premium" && (
-        <div className="mt-4">
-          <p className="text-sm text-gray-600 mb-2">Add extra students (in blocks of 50)</p>
-          <input
-            type="number"
-            min="0"
-            step="50"
-            value={extraStudents}
-            onChange={(e) => handleExtraStudentsChange(Number(e.target.value))}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
-          />
-        </div>
-      )}
 
       <Button
         variant="ghost"
