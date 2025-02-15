@@ -4,11 +4,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CheckIcon, XMarkIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Slider } from "@/components/ui/slider";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface PlanFeature {
   name: string;
   available: boolean;
+}
+
+interface ExtraStudentBlock {
+  count: number;
+  termPrice: number;
+  yearPrice: number;
 }
 
 interface PlanProps {
@@ -30,6 +36,8 @@ interface PlanProps {
     };
     isFlexPlan?: boolean;
     minMonths?: number;
+    extraStudentBlocks?: ExtraStudentBlock[];
+    recommended?: boolean;
   };
   onPlanSelect: (planName: string) => void;
   isHighlighted?: boolean;
@@ -39,25 +47,24 @@ interface PlanProps {
 const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [flexMonths, setFlexMonths] = useState(2);
-  const [extraStudents, setExtraStudents] = useState(0);
+  const [selectedExtraStudents, setSelectedExtraStudents] = useState<number>(0);
 
-  const calculatePremiumPrice = (basePrice: number) => {
-    if (plan.name !== "Premium" || extraStudents <= 0) return basePrice;
-    const extraStudentFee = 1500 * extraStudents;
-    return basePrice + (billingPeriod === "year" ? extraStudentFee * 3 : extraStudentFee);
+  const calculateExtraStudentPrice = () => {
+    if (!plan.extraStudentBlocks) return 0;
+    const selectedBlock = plan.extraStudentBlocks.find(block => block.count === selectedExtraStudents);
+    if (!selectedBlock) return 0;
+    return billingPeriod === "term" ? selectedBlock.termPrice : selectedBlock.yearPrice;
   };
 
   const formatPrice = (price: string | undefined) => {
     if (!price) return "";
     if (!price.includes("₦")) return price;
     const numericPrice = parseInt(price.replace(/[^0-9]/g, ""));
-    if (plan.name === "Premium" && extraStudents > 0) {
-      return `₦${calculatePremiumPrice(numericPrice).toLocaleString()}`;
-    }
     if (plan.isFlexPlan) {
       return `₦${(numericPrice * flexMonths).toLocaleString()}`;
     }
-    return price;
+    const extraStudentPrice = calculateExtraStudentPrice();
+    return `₦${(numericPrice + extraStudentPrice).toLocaleString()}`;
   };
 
   return (
@@ -66,11 +73,10 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         "rounded-2xl p-6 shadow-lg transition-all duration-300 flex flex-col h-full relative",
-        plan.bgClass,
-        isHighlighted && "transform scale-105"
+        plan.bgClass
       )}
     >
-      {plan.isRecommended && (
+      {plan.recommended && (
         <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-sqoolr-mint text-sqoolr-navy px-4 py-1 rounded-full text-sm font-semibold">
           Recommended
         </div>
@@ -88,6 +94,7 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
           </div>
           <p className="text-gray-500 text-sm">{plan.billingPeriod}</p>
         </div>
+
         <div className="relative mb-4">
           {plan.originalMaxStudents && (
             <span className="text-gray-400 line-through text-lg block">{plan.originalMaxStudents}</span>
@@ -95,17 +102,27 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
           <p className="text-gray-600 text-lg">{plan.maxStudents}</p>
         </div>
 
-        {plan.name === "Premium" && (
+        {plan.extraStudentBlocks && (
           <div className="mt-4">
-            <p className="text-sm text-gray-600 mb-2">Add extra students (₦1,500 per student per term)</p>
-            <input
-              type="number"
-              min="0"
-              max="1000"
-              value={extraStudents}
-              onChange={(e) => setExtraStudents(Number(e.target.value))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
-            />
+            <p className="text-sm text-gray-600 mb-2">Add extra students</p>
+            <Select 
+              onValueChange={(value) => setSelectedExtraStudents(Number(value))}
+              value={selectedExtraStudents.toString()}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select extra students" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0">No extra students</SelectItem>
+                {plan.extraStudentBlocks.map((block) => (
+                  <SelectItem key={block.count} value={block.count.toString()}>
+                    {block.count} students (+{billingPeriod === "term" ? 
+                      `₦${block.termPrice.toLocaleString()}` : 
+                      `₦${block.yearPrice.toLocaleString()}`})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         )}
 
@@ -117,7 +134,7 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
               min="2"
               max="12"
               value={flexMonths}
-              onChange={(e) => setFlexMonths(Number(e.target.value))}
+              onChange={(e) => setFlexMonths(Math.max(2, Math.min(12, Number(e.target.value))))}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
             />
           </div>

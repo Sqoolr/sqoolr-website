@@ -7,7 +7,7 @@ interface HeroProps {
 
 const Hero = ({ words, currentWord }: HeroProps) => {
   return (
-    <section className="min-h-[70vh] flex items-start justify-center bg-gradient-to-br from-white to-sqoolr-light relative overflow-hidden pt-20 pb-20">
+    <section className="min-h-[70vh] flex items-start justify-center bg-gradient-to-br from-white to-sqoolr-light relative overflow-hidden py-20">
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

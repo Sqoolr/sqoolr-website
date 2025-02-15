@@ -34,12 +34,15 @@ const testimonials = [
 
 const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
 
   const handlePrevious = () => {
+    setDirection(-1);
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
+    setDirection(1);
     setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
   };
 
@@ -49,12 +52,13 @@ const Testimonials = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-sqoolr-navy mb-12 text-center">
           What Our Users Say
         </h2>
-        <div className="max-w-4xl mx-auto relative">
+        <div className="max-w-4xl mx-auto relative overflow-hidden">
           <motion.div
             key={currentIndex}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, x: direction * 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -direction * 100 }}
+            transition={{ duration: 0.3 }}
             className="text-center px-8"
           >
             <p className="text-xl md:text-2xl text-gray-700 mb-6">
