@@ -1,6 +1,6 @@
-
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import WaitlistForm from "@/components/WaitlistForm";
 
 const About = () => {
   return (
@@ -178,12 +178,7 @@ const About = () => {
               <p className="text-xl text-gray-600 mb-8">
                 Join us on this journey toward a better, more connected, and stress-free school experience.
               </p>
-              <Link
-                to="/"
-                className="inline-block bg-sqoolr-mint text-sqoolr-navy px-8 py-4 rounded-full text-lg font-bold hover:bg-opacity-90 transition-all transform hover:scale-105"
-              >
-                Join the Waitlist
-              </Link>
+              <WaitlistForm buttonText="GET EARLY ACCESS" />
             </motion.div>
           </div>
         </motion.div>

@@ -26,20 +26,20 @@ const InvestorPartnership = () => {
               <h2 className="text-2xl font-semibold text-sqoolr-navy mb-6">Why Partner with Sqoolr?</h2>
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <span className="mr-2">🌍</span>
-                  <span><strong>Scalable Market:</strong> Join the growing EdTech industry with a platform that's already transforming schools.</span>
+                  <span className="font-bold mr-2">Scalable Market:</span>
+                  <span>Join the growing EdTech industry with a platform that's already transforming schools.</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2">💡</span>
-                  <span><strong>Innovative Technology:</strong> Invest in a product driven by AI and cutting-edge features for school management.</span>
+                  <span className="font-bold mr-2">Innovative Technology:</span>
+                  <span>Invest in a product driven by AI and cutting-edge features for school management.</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2">📈</span>
-                  <span><strong>Impactful Growth:</strong> Help us expand Sqoolr's reach and provide quality education tools to schools globally.</span>
+                  <span className="font-bold mr-2">Impactful Growth:</span>
+                  <span>Help us expand Sqoolr's reach and provide quality education tools to schools globally.</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2">🤝</span>
-                  <span><strong>Strategic Collaboration:</strong> Work closely with us on product development, marketing, and expansion strategies.</span>
+                  <span className="font-bold mr-2">Strategic Collaboration:</span>
+                  <span>Work closely with us on product development, marketing, and expansion strategies.</span>
                 </li>
               </ul>
             </section>

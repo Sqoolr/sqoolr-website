@@ -27,20 +27,20 @@ const AmbassadorProgram = () => {
               <h2 className="text-2xl font-semibold text-sqoolr-navy mb-6">Benefits of Being an Ambassador</h2>
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <span className="mr-2">🎤</span>
-                  <span><strong>Exclusive Early Access:</strong> Be the first to test new features and share your experience.</span>
+                  <span className="font-bold mr-2">Exclusive Early Access:</span>
+                  <span>Be the first to test new features and share your experience.</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2">📢</span>
-                  <span><strong>Promotion Opportunities:</strong> Share Sqoolr at events, conferences, and webinars.</span>
+                  <span className="font-bold mr-2">Promotion Opportunities:</span>
+                  <span>Share Sqoolr at events, conferences, and webinars.</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2">💼</span>
-                  <span><strong>Networking:</strong> Connect with educators, administrators, and influencers in the education tech space.</span>
+                  <span className="font-bold mr-2">Networking:</span>
+                  <span>Connect with educators, administrators, and influencers in the education tech space.</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2">💡</span>
-                  <span><strong>Thought Leadership:</strong> Share your insights and expertise on education technology.</span>
+                  <span className="font-bold mr-2">Thought Leadership:</span>
+                  <span>Share your insights and expertise on education technology.</span>
                 </li>
               </ul>
             </section>
