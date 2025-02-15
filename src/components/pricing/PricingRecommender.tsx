@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -16,6 +15,8 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
     realTimeComm: "",
     expansionPlan: false
   });
+  const [showRecommendation, setShowRecommendation] = useState(false);
+  const [recommendedPlan, setRecommendedPlan] = useState<string | null>(null);
 
   const questions = [
     {
@@ -59,12 +60,34 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
   };
 
   const handleNext = () => {
+    const isAnswered = Object.values(answers)[currentQuestion] !== "" && 
+                      Object.values(answers)[currentQuestion] !== 0;
+    
+    if (!isAnswered) {
+      return; // Don't proceed if question isn't answered
+    }
+
     if (currentQuestion === questions.length - 1) {
-      const recommendedPlan = determinePackage();
-      onRecommendationComplete(recommendedPlan);
+      const recommended = determinePackage();
+      setRecommendedPlan(recommended);
+      setShowRecommendation(true);
+      onRecommendationComplete(recommended);
     } else {
       setCurrentQuestion(prev => prev + 1);
     }
+  };
+
+  const resetQuestions = () => {
+    setCurrentQuestion(0);
+    setAnswers({
+      students: 0,
+      campuses: 1,
+      advancedFeatures: false,
+      realTimeComm: "",
+      expansionPlan: false
+    });
+    setShowRecommendation(false);
+    setRecommendedPlan(null);
   };
 
   const handleAnswerChange = (value: any) => {
@@ -73,6 +96,38 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
       [Object.keys(answers)[currentQuestion]]: value
     }));
   };
+
+  if (showRecommendation && recommendedPlan) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8 text-center"
+      >
+        <h3 className="text-2xl font-bold text-sqoolr-navy mb-4">
+          We Recommend the {recommendedPlan} Plan
+        </h3>
+        <p className="text-gray-600 mb-6">
+          Based on your responses, we believe the {recommendedPlan} Plan would be the best fit for your school.
+        </p>
+        <div className="space-y-4">
+          <Button 
+            onClick={() => onRecommendationComplete(recommendedPlan)}
+            className="w-full bg-sqoolr-navy text-white"
+          >
+            View {recommendedPlan} Plan
+          </Button>
+          <Button 
+            onClick={resetQuestions}
+            variant="outline"
+            className="w-full"
+          >
+            Start Over
+          </Button>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div 
