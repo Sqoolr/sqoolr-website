@@ -10,8 +10,8 @@ interface PricingToggleProps {
 
 const PricingToggle = ({ billingPeriod, onChange }: PricingToggleProps) => {
   return (
-    <div className="flex flex-col items-center justify-center space-y-4 mb-8">
-      <div className="relative inline-flex items-center">
+    <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
+      <div className="relative inline-flex items-center w-full md:w-auto">
         <Button
           variant={billingPeriod === "term" ? "default" : "outline"}
           onClick={() => onChange("term")}
@@ -32,7 +32,7 @@ const PricingToggle = ({ billingPeriod, onChange }: PricingToggleProps) => {
           </TooltipProvider>
         </Button>
       </div>
-      <div className="relative inline-flex items-center">
+      <div className="relative inline-flex items-center w-full md:w-auto">
         <Button
           variant={billingPeriod === "year" ? "default" : "outline"}
           onClick={() => onChange("year")}

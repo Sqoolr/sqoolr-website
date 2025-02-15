@@ -23,7 +23,6 @@ const Pricing = () => {
 
   const handleRecommendation = (plan: string) => {
     setRecommendedPlan(plan);
-    setTimeout(scrollToRecommendedPlan, 100);
   };
 
   const plans = [
@@ -225,16 +224,16 @@ const Pricing = () => {
         <div className="mt-24 text-center">
           <h2 className="text-2xl font-bold text-sqoolr-navy mb-6">Have Questions?</h2>
           <p className="text-gray-600 mb-4">Our team is here to help you choose the right plan for your school.</p>
-          <div className="space-y-2">
+          <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-8">
             <a 
               href="mailto:hello@sqoolr.ng" 
-              className="block text-lg hover:text-sqoolr-mint transition-colors"
+              className="text-lg hover:text-sqoolr-mint transition-colors"
             >
               hello@sqoolr.ng
             </a>
             <a 
               href="tel:+2349161410089" 
-              className="block text-lg hover:text-sqoolr-mint transition-colors"
+              className="text-lg hover:text-sqoolr-mint transition-colors"
             >
               +2349161410089
             </a>
