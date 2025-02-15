@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckIcon, XMarkIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
@@ -47,11 +46,28 @@ interface PlanProps {
 const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [flexMonths, setFlexMonths] = useState(2);
-  const [selectedExtraStudents, setSelectedExtraStudents] = useState<number>(0);
+  const [extraStudents, setExtraStudents] = useState(0);
+
+  const handleExtraStudentsChange = (value: number) => {
+    if (plan.name === "Premium") {
+      const roundedValue = Math.round(value / 50) * 50;
+      setExtraStudents(roundedValue);
+    } else {
+      setExtraStudents(value);
+    }
+  };
+
+  const orderedFeatures = [...plan.features].sort((a, b) => {
+    if (a.name === "Extra Students") return -1;
+    if (b.name === "Extra Students") return 1;
+    if (a.name === "Class Management") return -1;
+    if (b.name === "Class Management") return 1;
+    return 0;
+  });
 
   const calculateExtraStudentPrice = () => {
     if (!plan.extraStudentBlocks) return 0;
-    const selectedBlock = plan.extraStudentBlocks.find(block => block.count === selectedExtraStudents);
+    const selectedBlock = plan.extraStudentBlocks.find(block => block.count === extraStudents);
     if (!selectedBlock) return 0;
     return billingPeriod === "term" ? selectedBlock.termPrice : selectedBlock.yearPrice;
   };
@@ -141,6 +157,20 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
         )}
       </div>
 
+      {plan.name === "Premium" && (
+        <div className="mt-4">
+          <p className="text-sm text-gray-600 mb-2">Add extra students (in blocks of 50)</p>
+          <input
+            type="number"
+            min="0"
+            step="50"
+            value={extraStudents}
+            onChange={(e) => handleExtraStudentsChange(Number(e.target.value))}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
+          />
+        </div>
+      )}
+
       <Button
         variant="ghost"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -158,7 +188,7 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
             exit={{ height: 0, opacity: 0 }}
             className="space-y-2 mb-6"
           >
-            {plan.features.map((feature, index) => (
+            {orderedFeatures.map((feature, index) => (
               <motion.li
                 key={feature.name}
                 initial={{ opacity: 0, x: -20 }}

@@ -7,6 +7,17 @@ interface RecommenderProps {
   onRecommendationComplete: (plan: string) => void;
 }
 
+function recommendPackage(studentCount: number, campuses: number, requiresAdvancedTools: boolean, communicationLevel: string, expectingGrowth: boolean) {
+  if (studentCount > 300) return "Premium";
+  if (campuses > 1) return "Premium";
+  if (requiresAdvancedTools) return "Premium";
+  if (communicationLevel === "Advanced") return "Premium";
+  if (expectingGrowth) return "Premium";
+  if (studentCount > 100) return "Standard";
+  if (communicationLevel === "Moderate") return "Standard";
+  return "Basic";
+}
+
 const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({
@@ -52,21 +63,15 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
     }
   ];
 
-  const determinePackage = () => {
-    const { students, campuses, advancedFeatures, realTimeComm, expansionPlan } = answers;
-
-    if (students <= 50 && campuses <= 1 && !advancedFeatures && realTimeComm === "Basic" && !expansionPlan) {
-      return "Basic";
-    } else if (students <= 150 && campuses <= 1 && !advancedFeatures && realTimeComm === "Moderate" && !expansionPlan) {
-      return "Standard";
-    } else {
-      return "Premium";
-    }
-  };
-
   const handleNext = () => {
     if (currentQuestion === questions.length - 1) {
-      const recommended = determinePackage();
+      const recommended = recommendPackage(
+        answers.students,
+        answers.campuses,
+        answers.advancedFeatures,
+        answers.realTimeComm,
+        answers.expansionPlan
+      );
       setRecommendedPlan(recommended);
       setShowRecommendation(true);
       onRecommendationComplete(recommended);
@@ -79,7 +84,8 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
     const currentAnswer = Object.values(answers)[currentQuestion];
     if (questions[currentQuestion].type === "boolean") return currentAnswer !== null;
     if (questions[currentQuestion].type === "select") return Boolean(currentAnswer);
-    return Boolean(currentAnswer);
+    if (questions[currentQuestion].type === "number") return currentAnswer > 0;
+    return false;
   };
 
   const handlePrevious = () => {
@@ -157,13 +163,20 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
         <h4 className="text-xl font-semibold text-sqoolr-navy">{questions[currentQuestion].question}</h4>
         <p className="text-gray-600 mb-4">{questions[currentQuestion].subtitle}</p>
 
-        {questions[currentQuestion].type === "number" && (
-          <input
-            type="number"
-            min="0"
-            onChange={(e) => handleAnswerChange(parseInt(e.target.value))}
-            className="w-full p-2 border rounded-md"
-          />
+        {questions[currentQuestion].type === "select" && (
+          <div className="space-y-2">
+            {questions[currentQuestion].options?.map((option) => (
+              <Button
+                key={option.label}
+                onClick={() => handleAnswerChange(option.label)}
+                variant="outline"
+                className={`w-full justify-between ${answers.realTimeComm === option.label ? "bg-sqoolr-mint" : ""}`}
+              >
+                <span>{option.label}</span>
+                <span className="text-sm text-gray-500">({option.description})</span>
+              </Button>
+            ))}
+          </div>
         )}
 
         {questions[currentQuestion].type === "boolean" && (
@@ -185,19 +198,14 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
           </div>
         )}
 
-        {questions[currentQuestion].type === "select" && (
-          <div className="space-y-2">
-            {questions[currentQuestion].options?.map((option) => (
-              <Button
-                key={option.label}
-                onClick={() => handleAnswerChange(option.label)}
-                variant="outline"
-                className={`w-full ${answers[Object.keys(answers)[currentQuestion]] === option.label ? "bg-sqoolr-mint" : ""}`}
-              >
-                {option.label}
-              </Button>
-            ))}
-          </div>
+        {questions[currentQuestion].type === "number" && (
+          <input
+            type="number"
+            min="1"
+            onChange={(e) => handleAnswerChange(parseInt(e.target.value))}
+            className="w-full p-2 border rounded-md"
+            value={Object.values(answers)[currentQuestion] || ""}
+          />
         )}
 
         <div className="flex justify-between mt-6">
