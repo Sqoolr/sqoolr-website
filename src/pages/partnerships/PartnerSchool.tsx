@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const PartnerSchool = () => {
   const [formData, setFormData] = useState({
@@ -88,29 +89,62 @@ const PartnerSchool = () => {
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted:", formData);
-      toast({
-        title: "Application Submitted!",
-        description: "We'll review your application and get back to you soon.",
-      });
-      // Reset form
-      setFormData({
-        firstName: "",
-        lastName: "",
-        schoolName: "",
-        email: "",
-        phone: "",
-        schoolTypes: {
-          kindergarten: false,
-          primary: false,
-          juniorSecondary: false,
-          seniorSecondary: false,
-        },
-        reasonsForApplying: "",
-      });
+      try {
+        // Get the selected school types
+        const selectedTypes = Object.entries(formData.schoolTypes)
+          .filter(([_, value]) => value)
+          .map(([key]) => key)
+          .join(", ");
+
+        // Prepare the data for submission
+        const submissionData = {
+          full_name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          phone: formData.phone,
+          school_name: formData.schoolName,
+          role: "School Administrator", // Default role
+          requirements: formData.reasonsForApplying,
+          school_types: selectedTypes,
+          status: 'pending'
+        };
+
+        const { error } = await supabase
+          .from('partner_schools')
+          .insert([submissionData]);
+
+        if (error) throw error;
+
+        toast({
+          title: "Application Submitted!",
+          description: "We'll review your application and get back to you soon.",
+        });
+
+        // Reset form
+        setFormData({
+          firstName: "",
+          lastName: "",
+          schoolName: "",
+          email: "",
+          phone: "",
+          schoolTypes: {
+            kindergarten: false,
+            primary: false,
+            juniorSecondary: false,
+            seniorSecondary: false,
+          },
+          reasonsForApplying: "",
+        });
+      } catch (error: any) {
+        console.error("Submission error:", error);
+        toast({
+          title: "Error",
+          description: "There was an error submitting your application. Please try again.",
+          variant: "destructive"
+        });
+      }
     }
   };
 
