@@ -421,16 +421,17 @@ const steps = [
   {
     title: "Sign Up & Onboard",
     description: "Join the waitlist to be the first to try Sqoolr and experience its seamless school management features.",
+    titleColor: "text-[#243665]"
   },
   {
     title: "Set Up Your School",
-    description:
-      "Our platform's easy setup guide will help you configure your school, classes, and students in just a few steps.",
+    description: "Our platform's easy setup guide will help you configure your school, classes, and students in just a few steps.",
+    titleColor: "text-[#243665]"
   },
   {
     title: "Manage Your School Smarter",
-    description:
-      "Once you're set up, use our intuitive dashboard and AI-powered tools to enhance school operations and foster better learning outcomes.",
+    description: "Once you're set up, use our intuitive dashboard and AI-powered tools to enhance school operations and foster better learning outcomes.",
+    titleColor: "text-[#243665]"
   },
 ];
 
