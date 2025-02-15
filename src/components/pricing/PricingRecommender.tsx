@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -5,6 +6,14 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 
 interface RecommenderProps {
   onRecommendationComplete: (plan: string) => void;
+}
+
+interface Answers {
+  students: number;
+  campuses: number;
+  advancedFeatures: boolean;
+  realTimeComm: string;
+  expansionPlan: boolean;
 }
 
 function recommendPackage(studentCount: number, campuses: number, requiresAdvancedTools: boolean, communicationLevel: string, expectingGrowth: boolean) {
@@ -20,7 +29,7 @@ function recommendPackage(studentCount: number, campuses: number, requiresAdvanc
 
 const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState({
+  const [answers, setAnswers] = useState<Answers>({
     students: 0,
     campuses: 1,
     advancedFeatures: false,
@@ -81,10 +90,18 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
   };
 
   const isAnswered = () => {
-    const currentAnswer = Object.values(answers)[currentQuestion];
-    if (questions[currentQuestion].type === "boolean") return currentAnswer !== null;
-    if (questions[currentQuestion].type === "select") return Boolean(currentAnswer);
-    if (questions[currentQuestion].type === "number") return currentAnswer > 0;
+    const currentType = questions[currentQuestion].type;
+    if (currentType === "boolean") {
+      const key = Object.keys(answers)[currentQuestion] as keyof Answers;
+      return typeof answers[key] === "boolean";
+    }
+    if (currentType === "select") {
+      return Boolean(answers.realTimeComm);
+    }
+    if (currentType === "number") {
+      const value = Object.values(answers)[currentQuestion];
+      return typeof value === "number" && value > 0;
+    }
     return false;
   };
 
@@ -107,10 +124,15 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
     setRecommendedPlan(null);
   };
 
-  const handleAnswerChange = (value: any) => {
+  const handleAnswerChange = (value: string | number | boolean) => {
+    const key = Object.keys(answers)[currentQuestion] as keyof Answers;
+    const newValue = questions[currentQuestion].type === "number" 
+      ? Number(value)
+      : value;
+    
     setAnswers(prev => ({
       ...prev,
-      [Object.keys(answers)[currentQuestion]]: value
+      [key]: newValue
     }));
   };
 
@@ -184,14 +206,14 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
             <Button
               onClick={() => handleAnswerChange(true)}
               variant="outline"
-              className={answers[Object.keys(answers)[currentQuestion]] ? "bg-sqoolr-mint" : ""}
+              className={answers[Object.keys(answers)[currentQuestion] as keyof Answers] === true ? "bg-sqoolr-mint" : ""}
             >
               Yes
             </Button>
             <Button
               onClick={() => handleAnswerChange(false)}
               variant="outline"
-              className={!answers[Object.keys(answers)[currentQuestion]] ? "bg-sqoolr-mint" : ""}
+              className={answers[Object.keys(answers)[currentQuestion] as keyof Answers] === false ? "bg-sqoolr-mint" : ""}
             >
               No
             </Button>
