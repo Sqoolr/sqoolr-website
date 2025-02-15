@@ -193,11 +193,13 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
                 key={option.label}
                 onClick={() => handleAnswerChange(option.label)}
                 variant="outline"
-                className={`w-full justify-between flex-wrap text-sm sm:text-base ${answers.realTimeComm === option.label ? "bg-sqoolr-mint" : ""}`}
+                className={`w-full min-h-[80px] whitespace-normal px-4 py-3 ${
+                  answers.realTimeComm === option.label ? "bg-sqoolr-mint" : ""
+                }`}
               >
-                <div className="flex flex-col items-start w-full">
-                  <span className="font-medium">{option.label}</span>
-                  <span className="text-xs sm:text-sm text-gray-500">({option.description})</span>
+                <div className="flex flex-col items-start w-full gap-1">
+                  <span className="font-medium text-base">{option.label}</span>
+                  <span className="text-sm text-gray-500 text-left">{option.description}</span>
                 </div>
               </Button>
             ))}

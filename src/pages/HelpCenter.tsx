@@ -29,6 +29,7 @@ const HelpCenter = () => {
     description: "",
     priority: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -40,79 +41,90 @@ const HelpCenter = () => {
 
   const handleTicketSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
-    const fileUrls = [];
-    if (files) {
-      for (const file of Array.from(files)) {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${crypto.randomUUID()}.${fileExt}`;
-        const { data, error } = await supabase.storage
-          .from('support_attachments')
-          .upload(fileName, file);
+    try {
+      const fileUrls = [];
+      if (files) {
+        for (const file of Array.from(files)) {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${crypto.randomUUID()}.${fileExt}`;
+          const { data, error } = await supabase.storage
+            .from('support_attachments')
+            .upload(fileName, file);
 
-        if (error) {
-          toast({
-            title: "File upload failed",
-            description: error.message,
-            variant: "destructive"
-          });
-          return;
+          if (error) {
+            toast({
+              title: "File upload failed",
+              description: error.message,
+              variant: "destructive"
+            });
+            return;
+          }
+
+          fileUrls.push(data.path);
         }
-
-        fileUrls.push(data.path);
       }
-    }
 
-    const ticketNumber = `TKT-${Date.now()}`;
-    const { error: ticketError } = await supabase
-      .from('support_tickets')
-      .insert([
-        {
-          ticket_number: ticketNumber,
-          category: ticketForm.category,
-          full_name: ticketForm.fullName,
-          email: ticketForm.email,
-          phone: ticketForm.phone,
-          description: ticketForm.description,
-          priority: ticketForm.priority,
-          attachments: fileUrls
+      const ticketNumber = `TKT-${Date.now()}`;
+      const { error: ticketError } = await supabase
+        .from('support_tickets')
+        .insert([
+          {
+            ticket_number: ticketNumber,
+            category: ticketForm.category,
+            full_name: ticketForm.fullName,
+            email: ticketForm.email,
+            phone: ticketForm.phone,
+            description: ticketForm.description,
+            priority: ticketForm.priority,
+            attachments: fileUrls
+          }
+        ]);
+
+      if (ticketError) {
+        toast({
+          title: "Error submitting ticket",
+          description: ticketError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      await supabase.functions.invoke('send-ticket-confirmation', {
+        body: {
+          ticketNumber,
+          name: ticketForm.fullName,
+          email: ticketForm.email
         }
-      ]);
+      });
 
-    if (ticketError) {
       toast({
-        title: "Error submitting ticket",
-        description: ticketError.message,
+        title: "Thank you for reaching out!",
+        description: "Your ticket has been submitted successfully. Check your email for the confirmation.",
+      });
+
+      setIsTicketDialogOpen(false);
+      setTicketForm({
+        category: "",
+        fullName: "",
+        email: "",
+        phone: "",
+        description: "",
+        priority: "",
+      });
+      setFiles(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
         variant: "destructive"
       });
-      return;
-    }
-
-    await supabase.functions.invoke('send-ticket-confirmation', {
-      body: {
-        ticketNumber,
-        name: ticketForm.fullName,
-        email: ticketForm.email
-      }
-    });
-
-    toast({
-      title: "Thank you for reaching out!",
-      description: "Your ticket has been submitted successfully. Check your email for the confirmation.",
-    });
-
-    setIsTicketDialogOpen(false);
-    setTicketForm({
-      category: "",
-      fullName: "",
-      email: "",
-      phone: "",
-      description: "",
-      priority: "",
-    });
-    setFiles(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -126,7 +138,7 @@ const HelpCenter = () => {
           </p>
           <Button 
             onClick={() => setIsTicketDialogOpen(true)}
-            className="bg-sqoolr-mint text-sqoolr-navy hover:bg-opacity-90"
+            className="bg-sqoolr-mint text-sqoolr-navy hover:bg-opacity-90 transform transition-transform hover:scale-105"
           >
             Submit Support Ticket
           </Button>
@@ -236,11 +248,14 @@ const HelpCenter = () => {
               </div>
 
               <div className="space-x-2">
-                <Button type="submit">Submit Ticket</Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? "Submitting..." : "Submit Ticket"}
+                </Button>
                 <Button 
                   type="button" 
                   variant="outline"
                   onClick={() => setIsTicketDialogOpen(false)}
+                  disabled={isSubmitting}
                 >
                   Cancel
                 </Button>

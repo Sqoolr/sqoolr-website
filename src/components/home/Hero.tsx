@@ -1,4 +1,9 @@
+
 import { AnimatePresence, motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import WaitlistForm from "@/components/WaitlistForm";
+import { useState } from "react";
 
 interface HeroProps {
   words: string[];
@@ -6,6 +11,8 @@ interface HeroProps {
 }
 
 const Hero = ({ words, currentWord }: HeroProps) => {
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+
   return (
     <section className="min-h-[70vh] flex items-start justify-center bg-gradient-to-br from-white to-sqoolr-light relative overflow-hidden py-20">
       <div className="container mx-auto px-6 relative z-10">
@@ -49,8 +56,30 @@ const Hero = ({ words, currentWord }: HeroProps) => {
           >
             AI-powered solutions for smarter school management—streamline administration, enhance collaboration, and enable better learning outcomes.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Button
+              onClick={() => setIsWaitlistOpen(true)}
+              className="bg-sqoolr-navy text-white hover:bg-opacity-90"
+              size="lg"
+            >
+              Get Early Access
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              asChild
+            >
+              <Link to="/partnerships/school">Become a Partner School</Link>
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
+      <WaitlistForm isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} type="waitlist" />
     </section>
   );
 };
