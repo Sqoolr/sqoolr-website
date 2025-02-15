@@ -1,8 +1,11 @@
+
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import WaitlistForm from "@/components/WaitlistForm";
 
 const About = () => {
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-sqoolr-light">
       <div className="container mx-auto px-6 py-24">
@@ -178,7 +181,17 @@ const About = () => {
               <p className="text-xl text-gray-600 mb-8">
                 Join us on this journey toward a better, more connected, and stress-free school experience.
               </p>
-              <WaitlistForm buttonText="GET EARLY ACCESS" />
+              <button
+                onClick={() => setIsWaitlistOpen(true)}
+                className="bg-sqoolr-mint text-sqoolr-navy font-bold px-6 py-3 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105"
+              >
+                GET EARLY ACCESS
+              </button>
+              <WaitlistForm 
+                isOpen={isWaitlistOpen}
+                onClose={() => setIsWaitlistOpen(false)}
+                type="waitlist"
+              />
             </motion.div>
           </div>
         </motion.div>
