@@ -33,8 +33,8 @@ const Hero = ({ words, currentWord }: HeroProps) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="text-[#5C5470]"
-            > School Management - powered by </motion.span>
+              className="text-[#243665]"
+            > School Management—powered by </motion.span>
             <motion.span
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}

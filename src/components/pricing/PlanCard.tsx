@@ -8,9 +8,13 @@ interface PlanProps {
   plan: {
     name: string;
     description: string;
+    originalPrice: string;
     price: string;
+    earlyPrice: string;
     billingPeriod: string;
-    features: string[];
+    maxStudents: string;
+    originalMaxStudents: string;
+    features: { name: string; available: boolean; }[];
     bgClass: string;
   };
   onPlanSelect: (planName: string) => void;
@@ -31,21 +35,17 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted }: PlanProps) => {
       <div className="text-center mb-6">
         <h3 className="text-2xl font-bold text-sqoolr-navy mb-2">{plan.name}</h3>
         <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
-        <div className="text-4xl font-bold text-sqoolr-navy mb-2">
-          {plan.price}
+        <div className="relative mb-2">
+          <span className="text-gray-400 line-through text-sm">{plan.originalPrice}</span>
+          <div className="text-4xl font-bold text-sqoolr-navy">
+            {plan.price}
+          </div>
+          <p className="text-gray-500 text-sm">{plan.billingPeriod}</p>
         </div>
-        <p className="text-gray-500 text-sm">{plan.billingPeriod}</p>
-      </div>
-
-      <div className="flex-grow">
-        <ul className="space-y-4 mb-8">
-          {plan.features.map((feature, idx) => (
-            <li key={idx} className="flex items-start">
-              <CheckIcon className="h-5 w-5 text-sqoolr-mint mr-2 mt-0.5" />
-              <span className="text-gray-600">{feature}</span>
-            </li>
-          ))}
-        </ul>
+        <div className="relative mb-4">
+          <span className="text-gray-400 line-through text-sm">{plan.originalMaxStudents}</span>
+          <p className="text-gray-600">{plan.maxStudents}</p>
+        </div>
       </div>
 
       <div className="space-y-4 mt-auto">
