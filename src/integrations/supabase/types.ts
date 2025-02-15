@@ -9,6 +9,51 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      ambassador_applications: {
+        Row: {
+          additional_notes: string | null
+          area_of_expertise: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          linkedin_profile: string | null
+          location: string
+          motivation: string
+          occupation: string
+          phone: string | null
+          status: string | null
+        }
+        Insert: {
+          additional_notes?: string | null
+          area_of_expertise: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          linkedin_profile?: string | null
+          location: string
+          motivation: string
+          occupation: string
+          phone?: string | null
+          status?: string | null
+        }
+        Update: {
+          additional_notes?: string | null
+          area_of_expertise?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          linkedin_profile?: string | null
+          location?: string
+          motivation?: string
+          occupation?: string
+          phone?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           created_at: string | null
@@ -36,6 +81,54 @@ export type Database = {
         }
         Relationships: []
       }
+      investor_partners: {
+        Row: {
+          additional_notes: string | null
+          company_name: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          investment_focus: string | null
+          investment_range: string | null
+          investment_timeline: string | null
+          phone: string | null
+          portfolio_companies: string | null
+          role: string
+          status: string | null
+        }
+        Insert: {
+          additional_notes?: string | null
+          company_name: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          investment_focus?: string | null
+          investment_range?: string | null
+          investment_timeline?: string | null
+          phone?: string | null
+          portfolio_companies?: string | null
+          role: string
+          status?: string | null
+        }
+        Update: {
+          additional_notes?: string | null
+          company_name?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          investment_focus?: string | null
+          investment_range?: string | null
+          investment_timeline?: string | null
+          phone?: string | null
+          portfolio_companies?: string | null
+          role?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
       newsletter_subscriptions: {
         Row: {
           created_at: string | null
@@ -51,6 +144,48 @@ export type Database = {
           created_at?: string | null
           email?: string
           id?: string
+        }
+        Relationships: []
+      }
+      partner_schools: {
+        Row: {
+          additional_notes: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          requirements: string | null
+          role: string
+          school_name: string
+          school_types: string | null
+          status: string | null
+        }
+        Insert: {
+          additional_notes?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          phone?: string | null
+          requirements?: string | null
+          role: string
+          school_name: string
+          school_types?: string | null
+          status?: string | null
+        }
+        Update: {
+          additional_notes?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          requirements?: string | null
+          role?: string
+          school_name?: string
+          school_types?: string | null
+          status?: string | null
         }
         Relationships: []
       }
@@ -212,6 +347,51 @@ export type Database = {
           priority?: string | null
           status?: string | null
           ticket_number?: string
+        }
+        Relationships: []
+      }
+      technology_partners: {
+        Row: {
+          additional_notes: string | null
+          company_name: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          integration_description: string | null
+          phone: string | null
+          role: string
+          status: string | null
+          technology_type: string
+          website: string | null
+        }
+        Insert: {
+          additional_notes?: string | null
+          company_name: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          integration_description?: string | null
+          phone?: string | null
+          role: string
+          status?: string | null
+          technology_type: string
+          website?: string | null
+        }
+        Update: {
+          additional_notes?: string | null
+          company_name?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          integration_description?: string | null
+          phone?: string | null
+          role?: string
+          status?: string | null
+          technology_type?: string
+          website?: string | null
         }
         Relationships: []
       }
