@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
@@ -17,12 +16,14 @@ const Pricing = () => {
   };
 
   const scrollToRecommendedPlan = () => {
-    recommendedPlanRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (recommendedPlanRef.current) {
+      recommendedPlanRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   const handleRecommendation = (plan: string) => {
     setRecommendedPlan(plan);
-    scrollToRecommendedPlan();
+    setTimeout(scrollToRecommendedPlan, 100);
   };
 
   const plans = [
