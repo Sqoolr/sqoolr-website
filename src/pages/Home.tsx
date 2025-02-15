@@ -51,7 +51,7 @@ const Home = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5 }}
-                  className="bg-gradient-to-r from-sqoolr-navy via-sqoolr-mint to-sqoolr-navy bg-clip-text text-transparent inline-block"
+                  className="bg-gradient-to-r from-[#FFD166] via-[#5C5470] to-[#FFD166] bg-clip-text text-transparent inline-block"
                 >
                   {words[currentWord]}
                 </motion.span>
@@ -66,7 +66,7 @@ const Home = () => {
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6, type: "spring" }}
-                className="bg-gradient-to-r from-sqoolr-navy via-sqoolr-mint to-sqoolr-navy bg-clip-text text-transparent"
+                className="bg-gradient-to-r from-[#FFD166] via-[#5C5470] to-[#FFD166] bg-clip-text text-transparent"
               >AI</motion.span>
             </h1>
             <motion.p
@@ -193,7 +193,7 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-sqoolr-navy mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#243665] mb-4">
               A Simple, Streamlined Process
             </h2>
           </motion.div>
@@ -227,10 +227,7 @@ const Home = () => {
                 </motion.div>
 
                 <motion.h3
-                  animate={{
-                    color: activeStep === index ? '#1e40af' : '#1e3a8a'
-                  }}
-                  className="text-xl font-semibold mb-4"
+                  className="text-xl font-semibold mb-4 text-[#243665]"
                 >
                   {step.title}
                 </motion.h3>

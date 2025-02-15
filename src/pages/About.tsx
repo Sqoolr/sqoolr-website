@@ -185,7 +185,7 @@ const About = () => {
                 onClick={() => setIsWaitlistOpen(true)}
                 className="bg-sqoolr-mint text-sqoolr-navy font-bold px-6 py-3 rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105"
               >
-                GET EARLY ACCESS
+                Get Early Access
               </button>
               <WaitlistForm 
                 isOpen={isWaitlistOpen}

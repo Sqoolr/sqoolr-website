@@ -11,6 +11,13 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { ChevronRight } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type Feature = {
   name: string;
@@ -229,6 +236,7 @@ const Pricing = () => {
     communication: "",
     growth: "",
   });
+  const [isTicketDialogOpen, setIsTicketDialogOpen] = useState(false);
 
   const handleQuizAnswer = (field: string, value: string) => {
     setQuizAnswers(prev => ({ ...prev, [field]: value }));
@@ -288,40 +296,56 @@ const Pricing = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-sqoolr-light">
       <div className="container mx-auto px-4 py-16 md:py-24">
+        {/* Trial Banner */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="bg-sqoolr-mint/10 border border-sqoolr-mint rounded-lg p-6 mb-12 text-center max-w-4xl mx-auto"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-sqoolr-navy mb-6">
-            Choose Your Plan
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Select the perfect plan for your school. All plans include access to our core features.
-          </p>
+          <h3 className="text-xl font-bold text-sqoolr-navy mb-2">
+            Not ready to commit? Try Sqoolr FREE for 14 days! No credit card required.
+          </h3>
+          <Button 
+            onClick={() => setIsTicketDialogOpen(true)}
+            className="bg-sqoolr-mint text-sqoolr-navy hover:bg-sqoolr-mint/90 mt-4"
+          >
+            Start Your Free Trial
+          </Button>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
-          {plans.map((plan, index) => (
+        {/* Pricing Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {plans.map((plan) => (
             <motion.div
               key={plan.name}
-              id={`${plan.name.toLowerCase()}-plan`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
               className={cn(
                 "rounded-2xl p-6 shadow-lg transition-all duration-300",
                 plan.bgClass,
-                plan.name === "Standard" && "transform scale-105 ring-2 ring-sqoolr-mint",
-                recommendedPlan === plan.name && "ring-4 ring-sqoolr-mint ring-opacity-50"
+                plan.name === "Standard" && "transform scale-105 ring-2 ring-sqoolr-mint"
               )}
             >
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-sqoolr-navy mb-2">{plan.name}</h3>
                 <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
-                
-                {plan.name === "Flex Plan" ? (
+                <div className="space-y-4">
+                  <Button 
+                    onClick={() => handlePlanSelection(plan.name)}
+                    className="w-full bg-sqoolr-navy text-white hover:bg-opacity-90"
+                  >
+                    Choose {plan.name}
+                  </Button>
+                  <Button 
+                    onClick={() => handlePlanSelection(plan.name)}
+                    variant="outline"
+                    className="w-full text-sm"
+                  >
+                    Start Free Trial
+                  </Button>
+                </div>
+              </div>
+              {plan.name === "Flex Plan" ? (
                   <div>
                     <p className="text-3xl font-bold text-sqoolr-navy">₦{calculateFlexPrice(flexMonths).toLocaleString()}</p>
                     <div className="mt-4">
@@ -436,155 +460,8 @@ const Pricing = () => {
                     )}
                   </div>
                 )}
-
-                <Button
-                  onClick={() => handlePlanSelection(plan.name)}
-                  className="w-full bg-sqoolr-navy text-white hover:bg-opacity-90"
-                  disabled={plan.name === "Flex Plan" && flexMonths < 2}
-                >
-                  {plan.name === "Flex Plan" ? "Get Early Access" : plan.buttonText}
-                </Button>
-              </div>
             </motion.div>
           ))}
-        </div>
-
-        <div className="mt-24 max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-sqoolr-navy text-center mb-4">
-            Find Your Perfect Plan
-          </h2>
-          <p className="text-center text-gray-600 mb-12">
-            Answer a few questions about your school's needs and size, and we'll help you find the plan that best fits your requirements. Our recommendation engine considers factors like student count, campus locations, and desired features.
-          </p>
-          
-          {recommendedPlan ? (
-            <div className="text-center bg-white p-8 rounded-lg shadow-md">
-              <h3 className="text-2xl font-bold text-sqoolr-navy mb-4">
-                We Recommend the {recommendedPlan} Plan
-              </h3>
-              <p className="mb-6">Based on your answers, we think this plan best suits your needs.</p>
-              <div className="space-x-4">
-                <Button
-                  onClick={() => scrollToRecommendedPlan(recommendedPlan)}
-                  className="bg-sqoolr-navy text-white"
-                >
-                  View {recommendedPlan} Plan
-                </Button>
-                <Button
-                  onClick={() => {
-                    setRecommendedPlan(null);
-                    setCurrentQuestionIndex(0);
-                    setQuizAnswers({
-                      students: "",
-                      campuses: "",
-                      advancedTools: "",
-                      communication: "",
-                      growth: "",
-                    });
-                  }}
-                  variant="outline"
-                >
-                  Start Over
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-8">
-              {questions.map((question, index) => (
-                <div
-                  key={question.id}
-                  className={cn(
-                    "bg-white rounded-lg p-6 shadow-md transition-all duration-300",
-                    index === currentQuestionIndex ? "opacity-100" : "opacity-0 hidden"
-                  )}
-                >
-                  <h3 className="text-xl font-semibold text-sqoolr-navy mb-4">
-                    {question.text}
-                  </h3>
-                  
-                  <p className="text-gray-600 mb-6">{question.description}</p>
-                  
-                  {question.id === "students" || question.id === "campuses" ? (
-                    <div className="space-y-4">
-                      <Input
-                        type="number"
-                        min="0"
-                        value={quizAnswers[question.id]}
-                        onChange={(e) => handleQuizAnswer(question.id, e.target.value)}
-                        className="w-full"
-                        placeholder="Enter a number"
-                      />
-                    </div>
-                  ) : question.id === "communication" ? (
-                    <RadioGroup
-                      value={quizAnswers[question.id]}
-                      onValueChange={(value) => handleQuizAnswer(question.id, value)}
-                      className="space-y-4"
-                    >
-                      {question.options?.map((option) => (
-                        <div key={option.value} className="flex items-center space-x-2">
-                          <RadioGroupItem value={option.value} id={option.value} />
-                          <Label htmlFor={option.value}>{option.label}</Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  ) : (
-                    <RadioGroup
-                      value={quizAnswers[question.id]}
-                      onValueChange={(value) => handleQuizAnswer(question.id, value)}
-                      className="space-y-4"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="yes" id={`${question.id}-yes`} />
-                        <Label htmlFor={`${question.id}-yes`}>Yes</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="no" id={`${question.id}-no`} />
-                        <Label htmlFor={`${question.id}-no`}>No</Label>
-                      </div>
-                    </RadioGroup>
-                  )}
-                  
-                  <Button
-                    onClick={handleNextQuestion}
-                    className="bg-sqoolr-navy text-white mt-6 w-full sm:w-auto"
-                    disabled={!quizAnswers[question.id]}
-                  >
-                    {currentQuestionIndex === questions.length - 1 ? (
-                      "Get Recommendation"
-                    ) : (
-                      <>
-                        Next Question <ChevronRight className="ml-2 h-4 w-4" />
-                      </>
-                    )}
-                  </Button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="mt-16 text-center">
-          <h2 className="text-2xl font-bold text-sqoolr-navy mb-6">Have Questions?</h2>
-          <p className="text-gray-600 mb-8">
-            Our team is here to help you choose the right plan for your school.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a
-              href="mailto:hello@sqoolr.ng"
-              className="flex items-center justify-center gap-2 text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-            >
-              <Mail size={20} />
-              hello@sqoolr.ng
-            </a>
-            <a
-              href="tel:+2349161410089"
-              className="flex items-center justify-center gap-2 text-sqoolr-navy hover:text-sqoolr-mint transition-colors"
-            >
-              <Phone size={20} />
-              +2349161410089
-            </a>
-          </div>
         </div>
       </div>
     </div>
