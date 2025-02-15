@@ -15,12 +15,12 @@ interface PlanProps {
   plan: {
     name: string;
     description: string;
-    originalPrice: string;
+    originalPrice?: string;
     price: string;
-    earlyPrice: string;
+    earlyPrice?: string;
     billingPeriod: string;
     maxStudents: string;
-    originalMaxStudents: string;
+    originalMaxStudents?: string;
     features: PlanFeature[];
     bgClass: string;
     extraStudentFee?: string;
@@ -47,7 +47,8 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
     return basePrice + (billingPeriod === "year" ? extraStudentFee * 3 : extraStudentFee);
   };
 
-  const formatPrice = (price: string) => {
+  const formatPrice = (price: string | undefined) => {
+    if (!price) return "";
     if (!price.includes("₦")) return price;
     const numericPrice = parseInt(price.replace(/[^0-9]/g, ""));
     if (plan.name === "Premium" && extraStudents > 0) {
@@ -73,14 +74,18 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
         <h3 className="text-2xl font-bold text-sqoolr-navy mb-2">{plan.name}</h3>
         <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
         <div className="relative mb-2">
-          <span className="text-4xl text-gray-400 line-through block">{formatPrice(plan.originalPrice)}</span>
+          {plan.originalPrice && (
+            <span className="text-4xl text-gray-400 line-through block">{formatPrice(plan.originalPrice)}</span>
+          )}
           <div className="text-4xl font-bold text-sqoolr-navy">
             {formatPrice(plan.price)}
           </div>
           <p className="text-gray-500 text-sm">{plan.billingPeriod}</p>
         </div>
         <div className="relative mb-4">
-          <span className="text-gray-400 line-through text-lg block">{plan.originalMaxStudents}</span>
+          {plan.originalMaxStudents && (
+            <span className="text-gray-400 line-through text-lg block">{plan.originalMaxStudents}</span>
+          )}
           <p className="text-gray-600 text-lg">{plan.maxStudents}</p>
         </div>
 
