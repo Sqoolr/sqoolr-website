@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckIcon, XMarkIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
@@ -193,7 +194,7 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
             exit={{ height: 0, opacity: 0 }}
             className="space-y-2 mb-6"
           >
-            {orderedFeatures.map((feature, index) => (
+            {plan.features.map((feature, index) => (
               <motion.li
                 key={feature.name}
                 initial={{ opacity: 0, x: -20 }}
