@@ -173,6 +173,48 @@ export type Database = {
         }
         Relationships: []
       }
+      support_tickets: {
+        Row: {
+          attachments: string[] | null
+          category: string
+          created_at: string
+          description: string
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          priority: string | null
+          status: string | null
+          ticket_number: string
+        }
+        Insert: {
+          attachments?: string[] | null
+          category: string
+          created_at?: string
+          description: string
+          email: string
+          full_name: string
+          id?: string
+          phone?: string | null
+          priority?: string | null
+          status?: string | null
+          ticket_number: string
+        }
+        Update: {
+          attachments?: string[] | null
+          category?: string
+          created_at?: string
+          description?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          priority?: string | null
+          status?: string | null
+          ticket_number?: string
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           created_at: string | null

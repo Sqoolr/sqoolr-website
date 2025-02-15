@@ -51,7 +51,7 @@ const Home = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5 }}
-                  className="bg-gradient-to-r from-[#FFD166] via-[#5C5470] to-[#FFD166] bg-clip-text text-transparent inline-block"
+                  className="bg-gradient-to-r from-[#243665] via-[#8BD8BD] to-[#FFD166] bg-clip-text text-transparent inline-block"
                 >
                   {words[currentWord]}
                 </motion.span>
@@ -60,13 +60,13 @@ const Home = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="text-sqoolr-navy"
+                className="text-[#5C5470]"
               > School Management - powered by </motion.span>
               <motion.span
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6, type: "spring" }}
-                className="bg-gradient-to-r from-[#FFD166] via-[#5C5470] to-[#FFD166] bg-clip-text text-transparent"
+                className="bg-gradient-to-r from-[#243665] via-[#8BD8BD] to-[#FFD166] bg-clip-text text-transparent"
               >AI</motion.span>
             </h1>
             <motion.p
