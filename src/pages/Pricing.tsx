@@ -23,6 +23,7 @@ const Pricing = () => {
 
   const handleRecommendation = (plan: string) => {
     setRecommendedPlan(plan);
+    // The scroll will happen when user clicks the CTA button in PricingRecommender
   };
 
   const plans = [

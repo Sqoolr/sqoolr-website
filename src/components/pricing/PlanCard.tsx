@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckIcon, XMarkIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
@@ -58,16 +57,14 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
     }
   };
 
-  const orderedFeatures = [...plan.features].sort((a, b) => {
-    if (a.name === "Extra Students") return -1;
-    if (b.name === "Extra Students") return 1;
-    if (a.name === "Class Management") return -1;
-    if (b.name === "Class Management") return 1;
-    return 0;
-  });
-
   const calculateExtraStudentPrice = () => {
     if (!plan.extraStudentBlocks) return 0;
+    if (plan.name === "Premium") {
+      const blocksOf50 = extraStudents / 50;
+      return billingPeriod === "term" 
+        ? blocksOf50 * 125000 
+        : blocksOf50 * 375000;
+    }
     const selectedBlock = plan.extraStudentBlocks.find(block => block.count === extraStudents);
     if (!selectedBlock) return 0;
     return billingPeriod === "term" ? selectedBlock.termPrice : selectedBlock.yearPrice;

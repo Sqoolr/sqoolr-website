@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -151,7 +150,9 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
         </p>
         <div className="space-y-4">
           <Button 
-            onClick={() => onRecommendationComplete(recommendedPlan)}
+            onClick={() => {
+              onRecommendationComplete(recommendedPlan);
+            }}
             className="w-full bg-sqoolr-navy text-white"
           >
             View {recommendedPlan} Plan
@@ -194,8 +195,10 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
                 variant="outline"
                 className={`w-full justify-between flex-wrap text-sm sm:text-base ${answers.realTimeComm === option.label ? "bg-sqoolr-mint" : ""}`}
               >
-                <span className="text-left">{option.label}</span>
-                <span className="text-xs sm:text-sm text-gray-500 ml-1">({option.description})</span>
+                <div className="flex flex-col items-start w-full">
+                  <span className="font-medium">{option.label}</span>
+                  <span className="text-xs sm:text-sm text-gray-500">({option.description})</span>
+                </div>
               </Button>
             ))}
           </div>
