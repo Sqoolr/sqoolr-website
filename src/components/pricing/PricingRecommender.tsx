@@ -37,9 +37,13 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
     },
     {
       question: "How important is real-time communication for your school?",
-      subtitle: "Select the level of communication features you need",
+      subtitle: "Select one of the following options:",
       type: "select",
-      options: ["Basic", "Moderate", "Advanced"]
+      options: [
+        { label: "Basic", description: "Notifications" },
+        { label: "Moderate", description: "Events and calendar management" },
+        { label: "Advanced", description: "Real-time notifications, multi-campus coordination" }
+      ]
     },
     {
       question: "Is your school expecting significant growth in student enrollment or additional campuses in the next few years?",
@@ -61,13 +65,6 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
   };
 
   const handleNext = () => {
-    const isAnswered = Object.values(answers)[currentQuestion] !== "" && 
-                      Object.values(answers)[currentQuestion] !== 0;
-    
-    if (!isAnswered) {
-      return; // Don't proceed if question isn't answered
-    }
-
     if (currentQuestion === questions.length - 1) {
       const recommended = determinePackage();
       setRecommendedPlan(recommended);
@@ -76,6 +73,13 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
     } else {
       setCurrentQuestion(prev => prev + 1);
     }
+  };
+
+  const isAnswered = () => {
+    const currentAnswer = Object.values(answers)[currentQuestion];
+    if (questions[currentQuestion].type === "boolean") return currentAnswer !== null;
+    if (questions[currentQuestion].type === "select") return Boolean(currentAnswer);
+    return Boolean(currentAnswer);
   };
 
   const handlePrevious = () => {
@@ -185,12 +189,12 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
           <div className="space-y-2">
             {questions[currentQuestion].options?.map((option) => (
               <Button
-                key={option}
-                onClick={() => handleAnswerChange(option)}
+                key={option.label}
+                onClick={() => handleAnswerChange(option.label)}
                 variant="outline"
-                className={`w-full ${answers[Object.keys(answers)[currentQuestion]] === option ? "bg-sqoolr-mint" : ""}`}
+                className={`w-full ${answers[Object.keys(answers)[currentQuestion]] === option.label ? "bg-sqoolr-mint" : ""}`}
               >
-                {option}
+                {option.label}
               </Button>
             ))}
           </div>
@@ -207,7 +211,7 @@ const PricingRecommender = ({ onRecommendationComplete }: RecommenderProps) => {
           </Button>
           <Button 
             onClick={handleNext}
-            disabled={!Object.values(answers)[currentQuestion]}
+            disabled={!isAnswered()}
             className="w-12 h-12 rounded-full bg-sqoolr-navy"
           >
             <ArrowRightIcon className="w-5 h-5" />

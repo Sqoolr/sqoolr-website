@@ -1,7 +1,10 @@
+
 import { useState, useEffect } from "react";
 import Hero from "@/components/home/Hero";
 import Features from "@/components/home/Features";
 import Process from "@/components/home/Process";
+import EarlyAccess from "@/components/home/EarlyAccess";
+import Testimonials from "@/components/home/Testimonials";
 import WaitlistForm from "@/components/WaitlistForm";
 
 const Home = () => {
@@ -23,7 +26,8 @@ const Home = () => {
       <Hero words={words} currentWord={currentWord} />
       <Features features={features} />
       <Process steps={steps} activeStep={activeStep} setActiveStep={setActiveStep} />
-
+      <EarlyAccess />
+      <Testimonials />
       <WaitlistForm isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} type="waitlist" />
       <WaitlistForm isOpen={isPartnerFormOpen} onClose={() => setIsPartnerFormOpen(false)} type="partner" />
     </div>

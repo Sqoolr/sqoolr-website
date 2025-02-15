@@ -65,16 +65,22 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        "rounded-2xl p-6 shadow-lg transition-all duration-300 flex flex-col h-full",
+        "rounded-2xl p-6 shadow-lg transition-all duration-300 flex flex-col h-full relative",
         plan.bgClass,
-        isHighlighted && "transform scale-105 ring-2 ring-sqoolr-mint"
+        isHighlighted && "transform scale-105"
       )}
     >
+      {plan.isRecommended && (
+        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-sqoolr-mint text-sqoolr-navy px-4 py-1 rounded-full text-sm font-semibold">
+          Recommended
+        </div>
+      )}
+
       <div className="text-center mb-6">
         <h3 className="text-2xl font-bold text-sqoolr-navy mb-2">{plan.name}</h3>
         <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
         <div className="relative mb-2">
-          {plan.originalPrice && (
+          {plan.originalPrice && billingPeriod === "term" && (
             <span className="text-4xl text-gray-400 line-through block">{formatPrice(plan.originalPrice)}</span>
           )}
           <div className="text-4xl font-bold text-sqoolr-navy">
@@ -92,29 +98,28 @@ const PlanCard = ({ plan, onPlanSelect, isHighlighted, billingPeriod }: PlanProp
         {plan.name === "Premium" && (
           <div className="mt-4">
             <p className="text-sm text-gray-600 mb-2">Add extra students (₦1,500 per student per term)</p>
-            <Slider
-              value={[extraStudents]}
-              onValueChange={(values) => setExtraStudents(values[0])}
-              max={1000}
-              step={1}
-              className="w-full"
+            <input
+              type="number"
+              min="0"
+              max="1000"
+              value={extraStudents}
+              onChange={(e) => setExtraStudents(Number(e.target.value))}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
             />
-            <p className="text-sm text-gray-600 mt-1">{extraStudents} extra students</p>
           </div>
         )}
 
         {plan.isFlexPlan && (
           <div className="mt-4">
             <p className="text-sm text-gray-600 mb-2">Select number of months (min. 2)</p>
-            <Slider
-              value={[flexMonths]}
-              onValueChange={(values) => setFlexMonths(values[0])}
-              min={2}
-              max={12}
-              step={1}
-              className="w-full"
+            <input
+              type="number"
+              min="2"
+              max="12"
+              value={flexMonths}
+              onChange={(e) => setFlexMonths(Number(e.target.value))}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sqoolr-mint focus:border-sqoolr-mint"
             />
-            <p className="text-sm text-gray-600 mt-1">{flexMonths} months</p>
           </div>
         )}
       </div>
