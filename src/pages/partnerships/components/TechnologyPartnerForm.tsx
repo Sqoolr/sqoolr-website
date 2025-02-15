@@ -1,26 +1,26 @@
 
 import { useState } from "react";
-import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
-const AmbassadorForm = () => {
+const TechnologyPartnerForm = () => {
   const [formData, setFormData] = useState({
     fullName: "",
+    companyName: "",
     email: "",
     phone: "",
-    location: "",
-    occupation: "",
-    linkedinProfile: "",
-    areaOfExpertise: "",
-    motivation: ""
+    role: "",
+    technologyType: "",
+    website: "",
+    integrationDescription: ""
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.fullName || !formData.email || !formData.location || !formData.occupation || !formData.areaOfExpertise || !formData.motivation) {
+    if (!formData.fullName || !formData.companyName || !formData.email || !formData.technologyType) {
       toast.error("Please fill in all required fields");
       return;
     }
@@ -33,32 +33,32 @@ const AmbassadorForm = () => {
 
     try {
       const { error } = await supabase
-        .from('ambassador_applications')
+        .from('technology_partners')
         .insert([{
           full_name: formData.fullName,
+          company_name: formData.companyName,
           email: formData.email,
           phone: formData.phone,
-          location: formData.location,
-          occupation: formData.occupation,
-          linkedin_profile: formData.linkedinProfile,
-          area_of_expertise: formData.areaOfExpertise,
-          motivation: formData.motivation,
+          role: formData.role,
+          technology_type: formData.technologyType,
+          website: formData.website,
+          integration_description: formData.integrationDescription,
           status: 'pending'
         }]);
 
       if (error) throw error;
 
-      toast.success("Application submitted successfully! We'll review and get back to you soon.");
+      toast.success("Form submitted successfully! We'll be in touch soon.");
       
       setFormData({
         fullName: "",
+        companyName: "",
         email: "",
         phone: "",
-        location: "",
-        occupation: "",
-        linkedinProfile: "",
-        areaOfExpertise: "",
-        motivation: ""
+        role: "",
+        technologyType: "",
+        website: "",
+        integrationDescription: ""
       });
     } catch (error) {
       console.error("Submission error:", error);
@@ -82,6 +82,18 @@ const AmbassadorForm = () => {
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
+          Company Name*
+        </label>
+        <Input
+          type="text"
+          value={formData.companyName}
+          onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+          required
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
           Email*
         </label>
         <Input
@@ -94,7 +106,7 @@ const AmbassadorForm = () => {
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Phone Number
+          Phone
         </label>
         <Input
           type="tel"
@@ -105,60 +117,47 @@ const AmbassadorForm = () => {
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Location*
+          Role in Company
         </label>
         <Input
           type="text"
-          value={formData.location}
-          onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+          value={formData.role}
+          onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Technology Type*
+        </label>
+        <Input
+          type="text"
+          value={formData.technologyType}
+          onChange={(e) => setFormData({ ...formData, technologyType: e.target.value })}
           required
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Occupation*
-        </label>
-        <Input
-          type="text"
-          value={formData.occupation}
-          onChange={(e) => setFormData({ ...formData, occupation: e.target.value })}
-          required
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          LinkedIn Profile
+          Website
         </label>
         <Input
           type="url"
-          value={formData.linkedinProfile}
-          onChange={(e) => setFormData({ ...formData, linkedinProfile: e.target.value })}
-          placeholder="https://linkedin.com/in/..."
+          value={formData.website}
+          onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+          placeholder="https://..."
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Area of Expertise*
-        </label>
-        <Input
-          type="text"
-          value={formData.areaOfExpertise}
-          onChange={(e) => setFormData({ ...formData, areaOfExpertise: e.target.value })}
-          required
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Why You'd Be a Great Ambassador*
+          Integration Description
         </label>
         <Textarea
-          value={formData.motivation}
-          onChange={(e) => setFormData({ ...formData, motivation: e.target.value })}
-          required
+          value={formData.integrationDescription}
+          onChange={(e) => setFormData({ ...formData, integrationDescription: e.target.value })}
+          placeholder="Describe how your technology could integrate with Sqoolr..."
           rows={4}
         />
       </div>
@@ -173,4 +172,4 @@ const AmbassadorForm = () => {
   );
 };
 
-export default AmbassadorForm;
+export default TechnologyPartnerForm;
